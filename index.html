@@ -60,9 +60,8 @@
       margin-bottom: 15px;
     }
 
-    .card button {
-      margin-right: 8px;
-      margin-bottom: 8px;
+    .card h3 {
+      overflow-wrap: anywhere;
     }
 
     #viewer {
@@ -75,13 +74,6 @@
 
     #homeworkTitle {
       overflow-wrap: anywhere;
-    }
-
-    .viewer-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 15px;
     }
 
     #preview {
@@ -127,9 +119,7 @@
     <div id="viewer">
       <h2 id="homeworkTitle"></h2>
 
-      <div class="viewer-buttons">
-        <button onclick="closeViewer()">Close</button>
-      </div>
+      <button onclick="closeViewer()">Close</button>
 
       <p id="message" role="status"></p>
 
@@ -153,10 +143,11 @@
   </div>
 
   <script>
-    // Read source code from this GitHub repository.
+    // GitHub source folder.
     var githubURL =
       "https://raw.githubusercontent.com/Eric2626/web-programming/main/";
 
+    // Homework files.
     var homework = [];
 
     for (var i = 1; i <= 10; i++) {
@@ -202,7 +193,7 @@
     var currentWeek = 2;
     var viewNumber = 0;
 
-    // Create the week buttons.
+    // Create Week 1–10 buttons.
     for (var week = 1; week <= 10; week++) {
       var button = document.createElement("button");
 
@@ -216,7 +207,7 @@
       document.getElementById("weeks").appendChild(button);
     }
 
-    // Create a readable title from the file name.
+    // Create a readable title with a capital T.
     function getTitle(file) {
       var parts = file.split("/");
       var title = parts[1];
@@ -224,11 +215,12 @@
       title = title.replace(".html", "");
       title = title.split("_").join(" ");
       title = title.split("&amp;").join("&");
+      title = title.replace("task", "Task");
 
       return title;
     }
 
-    // Format file names for use in a URL.
+    // Format folder and file names for a URL.
     function getFileURL(file) {
       var parts = file.split("/");
 
@@ -239,7 +231,7 @@
       return parts.join("/");
     }
 
-    // Show homework cards for a week.
+    // Show the selected week's homework.
     function showWeek(week) {
       currentWeek = week;
       closeViewer();
@@ -273,14 +265,6 @@
         var title = document.createElement("h3");
         title.textContent = getTitle(homework[week][i]);
 
-        var homeworkButton = document.createElement("button");
-        homeworkButton.textContent = "View Homework";
-        homeworkButton.value = i;
-
-        homeworkButton.onclick = function () {
-          viewHomework(Number(this.value));
-        };
-
         var codeButton = document.createElement("button");
         codeButton.textContent = "View Code";
         codeButton.value = i;
@@ -290,7 +274,6 @@
         };
 
         card.appendChild(title);
-        card.appendChild(homeworkButton);
         card.appendChild(codeButton);
 
         list.appendChild(card);
@@ -306,7 +289,7 @@
       preview.src = "about:blank";
     }
 
-    // Open the selected homework.
+    // Open the viewer.
     function openViewer(file) {
       viewNumber++;
       clearPreview();
@@ -324,19 +307,7 @@
       document.getElementById("viewer").scrollIntoView();
     }
 
-    // Show the original homework file.
-    function viewHomework(index) {
-      var file = homework[currentWeek][index];
-
-      openViewer(file);
-
-      var preview = document.getElementById("preview");
-
-      preview.src = getFileURL(file);
-      preview.style.display = "block";
-    }
-
-    // Load and display the source code from GitHub.
+    // Load the source code from GitHub.
     function viewCode(index) {
       var file = homework[currentWeek][index];
 
@@ -380,7 +351,7 @@
         });
     }
 
-    // Run exactly the code displayed in the code section.
+    // Preview exactly the code displayed above.
     function previewCode() {
       var code = document.getElementById("codeText").textContent;
 
@@ -396,7 +367,7 @@
       preview.style.display = "block";
 
       document.getElementById("message").textContent =
-        "Preview of the code shown below.";
+        "Preview is shown below the code.";
 
       preview.scrollIntoView();
     }
