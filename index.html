@@ -43,6 +43,11 @@
       background-color: #1e40af;
     }
 
+    button:disabled {
+      background-color: #94a3b8;
+      cursor: default;
+    }
+
     .active {
       background-color: #163274;
     }
@@ -68,11 +73,29 @@
       margin-top: 25px;
     }
 
-    iframe {
+    #homeworkTitle {
+      overflow-wrap: anywhere;
+    }
+
+    .viewer-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+
+    #preview {
+      display: none;
+      box-sizing: border-box;
       width: 100%;
       height: 550px;
       border: 1px solid #ddd;
       margin-top: 15px;
+      background-color: white;
+    }
+
+    #codeBox {
+      display: none;
     }
 
     pre {
@@ -82,6 +105,7 @@
       overflow: auto;
       max-height: 550px;
       line-height: 1.6;
+      border-radius: 6px;
     }
 
     #message {
@@ -102,22 +126,37 @@
 
     <div id="viewer">
       <h2 id="homeworkTitle"></h2>
-      <button onclick="closeViewer()">Close</button>
+
+      <div class="viewer-buttons">
+        <button onclick="closeViewer()">Close</button>
+      </div>
 
       <p id="message" role="status"></p>
+
+      <div id="codeBox">
+        <button
+          id="previewCodeButton"
+          onclick="previewCode()"
+          disabled>
+          Preview
+        </button>
+
+        <pre><code id="codeText"></code></pre>
+      </div>
 
       <iframe
         id="preview"
         title="Homework preview"
         sandbox="allow-scripts allow-forms allow-modals">
       </iframe>
-
-      <pre id="codeBox"><code id="codeText"></code></pre>
     </div>
   </div>
 
   <script>
-    // Homework file names for each week.
+    // Read source code from this GitHub repository.
+    var githubURL =
+      "https://raw.githubusercontent.com/Eric2626/web-programming/main/";
+
     var homework = [];
 
     for (var i = 1; i <= 10; i++) {
@@ -163,7 +202,7 @@
     var currentWeek = 2;
     var viewNumber = 0;
 
-    // Create Week 1–10 buttons.
+    // Create the week buttons.
     for (var week = 1; week <= 10; week++) {
       var button = document.createElement("button");
 
@@ -177,7 +216,7 @@
       document.getElementById("weeks").appendChild(button);
     }
 
-    // Turn a file name into a readable title.
+    // Create a readable title from the file name.
     function getTitle(file) {
       var parts = file.split("/");
       var title = parts[1];
@@ -189,7 +228,18 @@
       return title;
     }
 
-    // Show homework cards for the selected week.
+    // Format file names for use in a URL.
+    function getFileURL(file) {
+      var parts = file.split("/");
+
+      for (var i = 0; i < parts.length; i++) {
+        parts[i] = encodeURIComponent(parts[i]);
+      }
+
+      return parts.join("/");
+    }
+
+    // Show homework cards for a week.
     function showWeek(week) {
       currentWeek = week;
       closeViewer();
@@ -223,11 +273,11 @@
         var title = document.createElement("h3");
         title.textContent = getTitle(homework[week][i]);
 
-        var previewButton = document.createElement("button");
-        previewButton.textContent = "View Homework";
-        previewButton.value = i;
+        var homeworkButton = document.createElement("button");
+        homeworkButton.textContent = "View Homework";
+        homeworkButton.value = i;
 
-        previewButton.onclick = function () {
+        homeworkButton.onclick = function () {
           viewHomework(Number(this.value));
         };
 
@@ -240,38 +290,53 @@
         };
 
         card.appendChild(title);
-        card.appendChild(previewButton);
+        card.appendChild(homeworkButton);
         card.appendChild(codeButton);
+
         list.appendChild(card);
       }
     }
 
-    // Open the viewer and set its title.
+    // Clear the previous preview.
+    function clearPreview() {
+      var preview = document.getElementById("preview");
+
+      preview.style.display = "none";
+      preview.removeAttribute("srcdoc");
+      preview.src = "about:blank";
+    }
+
+    // Open the selected homework.
     function openViewer(file) {
       viewNumber++;
+      clearPreview();
 
       document.getElementById("viewer").style.display = "block";
+
       document.getElementById("homeworkTitle").textContent =
         getTitle(file);
 
       document.getElementById("message").textContent = "";
+      document.getElementById("codeText").textContent = "";
+      document.getElementById("codeBox").style.display = "none";
+      document.getElementById("previewCodeButton").disabled = true;
 
       document.getElementById("viewer").scrollIntoView();
     }
 
-    // Show the working homework page.
+    // Show the original homework file.
     function viewHomework(index) {
       var file = homework[currentWeek][index];
 
       openViewer(file);
 
-      document.getElementById("codeBox").style.display = "none";
-      document.getElementById("preview").style.display = "block";
+      var preview = document.getElementById("preview");
 
-      document.getElementById("preview").src = encodeURI(file);
+      preview.src = getFileURL(file);
+      preview.style.display = "block";
     }
 
-    // Read the original HTML file and display its code.
+    // Load and display the source code from GitHub.
     function viewCode(index) {
       var file = homework[currentWeek][index];
 
@@ -279,49 +344,73 @@
 
       var thisView = viewNumber;
 
-      document.getElementById("preview").style.display = "none";
-      document.getElementById("preview").src = "about:blank";
       document.getElementById("codeBox").style.display = "block";
-      document.getElementById("codeText").textContent = "";
+
       document.getElementById("message").textContent =
         "Loading code...";
 
-      fetch(encodeURI(file))
+      fetch(githubURL + getFileURL(file))
         .then(function (response) {
           if (!response.ok) {
-            throw new Error("File could not be loaded.");
+            throw new Error("HTTP " + response.status);
           }
 
           return response.text();
         })
         .then(function (code) {
-          // Ignore an old request if another card was opened.
+          // Ignore an old request if another task was opened.
           if (thisView !== viewNumber) {
             return;
           }
 
-          // textContent shows the code without running it.
           document.getElementById("codeText").textContent = code;
           document.getElementById("message").textContent = "";
+
+          document.getElementById("previewCodeButton").disabled =
+            false;
         })
-        .catch(function () {
+        .catch(function (error) {
           if (thisView !== viewNumber) {
             return;
           }
 
           document.getElementById("message").textContent =
-            "Could not load code. Open the site on GitHub Pages and check the file name.";
+            "Could not load code. Check your internet connection " +
+            "and the file name on GitHub. (" + error.message + ")";
         });
     }
 
-    function closeViewer() {
-      viewNumber++;
+    // Run exactly the code displayed in the code section.
+    function previewCode() {
+      var code = document.getElementById("codeText").textContent;
 
-      document.getElementById("viewer").style.display = "none";
-      document.getElementById("preview").src = "about:blank";
+      if (code === "") {
+        document.getElementById("message").textContent =
+          "First, load the code using View Code.";
+        return;
+      }
+
+      var preview = document.getElementById("preview");
+
+      preview.srcdoc = code;
+      preview.style.display = "block";
+
+      document.getElementById("message").textContent =
+        "Preview of the code shown below.";
+
+      preview.scrollIntoView();
     }
 
-    // Show Week 2 when the page opens.
+    // Close the viewer.
+    function closeViewer() {
+      viewNumber++;
+      clearPreview();
+
+      document.getElementById("viewer").style.display = "none";
+      document.getElementById("codeText").textContent = "";
+      document.getElementById("previewCodeButton").disabled = true;
+    }
+
     showWeek(2);
   </script>
 </body>
