@@ -1,1 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Eric's Homework</title>
 
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f4f8;
+      color: #222;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    h1 {
+      color: #2563eb;
+    }
+
+    .weeks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 25px 0;
+    }
+
+    button {
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #1e40af;
+    }
+
+    .active {
+      background-color: #163274;
+    }
+
+    .card {
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 15px;
+    }
+
+    .card button {
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+
+    #viewer {
+      display: none;
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 25px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 550px;
+      border: 1px solid #ddd;
+      margin-top: 15px;
+    }
+
+    pre {
+      background-color: #182234;
+      color: white;
+      padding: 15px;
+      overflow: auto;
+      max-height: 550px;
+      line-height: 1.6;
+    }
+
+    #message {
+      color: #555;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Eric's Homework</h1>
+    <p>My Web Programming Assignments</p>
+
+    <div id="weeks" class="weeks"></div>
+
+    <h2 id="weekTitle">Week 2</h2>
+    <div id="homeworkList"></div>
+
+    <div id="viewer">
+      <h2 id="homeworkTitle"></h2>
+      <button onclick="closeViewer()">Close</button>
+
+      <p id="message" role="status"></p>
+
+      <iframe
+        id="preview"
+        title="Homework preview"
+        sandbox="allow-scripts allow-forms allow-modals">
+      </iframe>
+
+      <pre id="codeBox"><code id="codeText"></code></pre>
+    </div>
+  </div>
+
+  <script>
+    // Homework file names for each week.
+    var homework = [];
+
+    for (var i = 1; i <= 10; i++) {
+      homework[i] = [];
+    }
+
+    homework[2] = [
+      "week2/Task1 Convert dip soup into semanting HTML.html",
+      "week2/Task2_Blog artice with header &amp;footer.html",
+      "week2/Task3_Figure, figcaption&amp;time.html",
+      "week2/Task4_FAQ with details & summary.html",
+      "week2/Task5_Full Semantic Portfolio Page.html",
+      "week2/Task6_Fix semantic errors.html",
+      "week2/Task7_Quatation and amp citation page .html",
+      "week2/Task8_News Article — All Semantic Elements.html"
+    ];
+
+    homework[3] = [
+      "Week3/Task1_style your first heading.html",
+      "Week3/Task2_2.html",
+      "Week3/Task3_Color Palette Card.html",
+      "Week3/Task4_Box Model Visualisation.html",
+      "Week3/Task5_Fix the broken CSS.html",
+      "Week3/Task6_Flexbox  Navigation Bar.html",
+      "Week3/Task7_Profile card with CSS.html",
+      "Week3/Task8_Full style sheet.html",
+      "week3_1/Task_01_Position_the_Badge.html",
+      "week3_1/Task_02_Hover_Card_with_Transition.html",
+      "week3_1/Task_03_Loading_Spinner_with_keyframes.html",
+      "week3_1/Task_04_CSS_Variables_Theme.html",
+      "week3_1/Task_05_Fixed_Navigation_Bar.html",
+      "week3_1/Task_06_Responsive_Grid_Page.html",
+      "week3_1/Task_07_Complete_CSS_Advanced_Portfolio_Page.html"
+    ];
+
+    homework[4] = [
+      "Week4/task1_click_counter.html",
+      "Week4/task2_dark_mode_toggle.html",
+      "Week4/task3_interactive_todo_list.html",
+      "Week4/task4_live_search_filter.html"
+    ];
+
+    var currentWeek = 2;
+    var viewNumber = 0;
+
+    // Create Week 1–10 buttons.
+    for (var week = 1; week <= 10; week++) {
+      var button = document.createElement("button");
+
+      button.textContent = "Week " + week;
+      button.value = week;
+
+      button.onclick = function () {
+        showWeek(Number(this.value));
+      };
+
+      document.getElementById("weeks").appendChild(button);
+    }
+
+    // Turn a file name into a readable title.
+    function getTitle(file) {
+      var parts = file.split("/");
+      var title = parts[1];
+
+      title = title.replace(".html", "");
+      title = title.split("_").join(" ");
+      title = title.split("&amp;").join("&");
+
+      return title;
+    }
+
+    // Show homework cards for the selected week.
+    function showWeek(week) {
+      currentWeek = week;
+      closeViewer();
+
+      document.getElementById("weekTitle").textContent =
+        "Week " + week;
+
+      var list = document.getElementById("homeworkList");
+      list.innerHTML = "";
+
+      var weekButtons =
+        document.getElementById("weeks").children;
+
+      for (var i = 0; i < weekButtons.length; i++) {
+        weekButtons[i].className = "";
+
+        if (Number(weekButtons[i].value) === week) {
+          weekButtons[i].className = "active";
+        }
+      }
+
+      if (homework[week].length === 0) {
+        list.textContent = "No homework added yet.";
+        return;
+      }
+
+      for (var i = 0; i < homework[week].length; i++) {
+        var card = document.createElement("div");
+        card.className = "card";
+
+        var title = document.createElement("h3");
+        title.textContent = getTitle(homework[week][i]);
+
+        var previewButton = document.createElement("button");
+        previewButton.textContent = "View Homework";
+        previewButton.value = i;
+
+        previewButton.onclick = function () {
+          viewHomework(Number(this.value));
+        };
+
+        var codeButton = document.createElement("button");
+        codeButton.textContent = "View Code";
+        codeButton.value = i;
+
+        codeButton.onclick = function () {
+          viewCode(Number(this.value));
+        };
+
+        card.appendChild(title);
+        card.appendChild(previewButton);
+        card.appendChild(codeButton);
+        list.appendChild(card);
+      }
+    }
+
+    // Open the viewer and set its title.
+    function openViewer(file) {
+      viewNumber++;
+
+      document.getElementById("viewer").style.display = "block";
+      document.getElementById("homeworkTitle").textContent =
+        getTitle(file);
+
+      document.getElementById("message").textContent = "";
+
+      document.getElementById("viewer").scrollIntoView();
+    }
+
+    // Show the working homework page.
+    function viewHomework(index) {
+      var file = homework[currentWeek][index];
+
+      openViewer(file);
+
+      document.getElementById("codeBox").style.display = "none";
+      document.getElementById("preview").style.display = "block";
+
+      document.getElementById("preview").src = encodeURI(file);
+    }
+
+    // Read the original HTML file and display its code.
+    function viewCode(index) {
+      var file = homework[currentWeek][index];
+
+      openViewer(file);
+
+      var thisView = viewNumber;
+
+      document.getElementById("preview").style.display = "none";
+      document.getElementById("preview").src = "about:blank";
+      document.getElementById("codeBox").style.display = "block";
+      document.getElementById("codeText").textContent = "";
+      document.getElementById("message").textContent =
+        "Loading code...";
+
+      fetch(encodeURI(file))
+        .then(function (response) {
+          if (!response.ok) {
+            throw new Error("File could not be loaded.");
+          }
+
+          return response.text();
+        })
+        .then(function (code) {
+          // Ignore an old request if another card was opened.
+          if (thisView !== viewNumber) {
+            return;
+          }
+
+          // textContent shows the code without running it.
+          document.getElementById("codeText").textContent = code;
+          document.getElementById("message").textContent = "";
+        })
+        .catch(function () {
+          if (thisView !== viewNumber) {
+            return;
+          }
+
+          document.getElementById("message").textContent =
+            "Could not load code. Open the site on GitHub Pages and check the file name.";
+        });
+    }
+
+    function closeViewer() {
+      viewNumber++;
+
+      document.getElementById("viewer").style.display = "none";
+      document.getElementById("preview").src = "about:blank";
+    }
+
+    // Show Week 2 when the page opens.
+    showWeek(2);
+  </script>
+</body>
+</html>
