@@ -1,17 +1,330 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Eric's Web Programming</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Eric's Homework</title>
+
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 30px 20px;
+      font-family: Arial, sans-serif;
+      background: #f1f5f9;
+      color: #172033;
+    }
+    main { max-width: 1100px; margin: auto; }
+    h1 { margin-bottom: 8px; }
+    .subtitle { color: #64748b; }
+    .weeks, .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    button {
+      padding: 11px 16px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      background: white;
+      color: #172033;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover { background: #e2e8f0; }
+    button.active {
+      background: #2563eb;
+      border-color: #2563eb;
+      color: white;
+    }
+    button:focus-visible {
+      outline: 3px solid #f59e0b;
+      outline-offset: 3px;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .card, .viewer {
+      padding: 22px;
+      border-radius: 12px;
+      background: white;
+      border: 1px solid #e2e8f0;
+    }
+    .card h3 { line-height: 1.5; }
+    .card small { color: #64748b; }
+    .viewer { margin-top: 25px; }
+    iframe {
+      width: 100%;
+      height: 600px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      background: white;
+    }
+    pre {
+      margin: 0;
+      padding: 20px;
+      max-height: 650px;
+      overflow: auto;
+      border-radius: 8px;
+      background: #0f172a;
+      color: #e2e8f0;
+      font: 14px/1.7 Consolas, monospace;
+      tab-size: 2;
+    }
+    [hidden] { display: none !important; }
+  </style>
 </head>
 
 <body>
-    <h1>Eric's Web Programming</h1>
-    <p>My weekly assignments</p>
+<main>
+  <h1>Eric's Homework</h1>
+  <p class="subtitle">Web Programming · HTML, CSS & JavaScript</p>
 
-    <h2>Weeks</h2>
+  <nav id="weeks" class="weeks" aria-label="Choose week"></nav>
 
-    <a href="Week2/">Week 2</a>
-    <a href="Week3/">Week 3</a>
-    <a href="Week4/">Week 4</a>
+  <h2 id="weekTitle"></h2>
+  <div id="cards" class="cards"></div>
+
+  <section id="viewer" class="viewer" hidden>
+    <h2 id="taskTitle" tabindex="-1"></h2>
+
+    <div class="buttons">
+      <button id="previewButton">View Homework</button>
+      <button id="codeButton">View Code</button>
+      <button id="closeButton">Close</button>
+    </div>
+
+    <p id="status" role="status"></p>
+
+    <iframe
+      id="preview"
+      title="Homework preview"
+      sandbox="allow-scripts allow-forms allow-modals"
+      hidden>
+    </iframe>
+
+    <pre id="codePanel" tabindex="0" hidden><code id="source"></code></pre>
+  </section>
+</main>
+
+<script>
+  const groups = [
+    {
+      week: 2,
+      folder: "week2",
+      label: "HTML",
+      files: [
+        "Task1 Convert dip soup into semanting HTML.html",
+        "Task2_Blog artice with header &amp;footer.html",
+        "Task3_Figure, figcaption&amp;time.html",
+        "Task4_FAQ with details & summary.html",
+        "Task5_Full Semantic Portfolio Page.html",
+        "Task6_Fix semantic errors.html",
+        "Task7_Quatation and amp citation page .html",
+        "Task8_News Article — All Semantic Elements.html"
+      ]
+    },
+    {
+      week: 3,
+      folder: "Week3",
+      label: "CSS Basics",
+      files: [
+        "Task1_style your first heading.html",
+        "Task2_2.html",
+        "Task3_Color Palette Card.html",
+        "Task4_Box Model Visualisation.html",
+        "Task5_Fix the broken CSS.html",
+        "Task6_Flexbox  Navigation Bar.html",
+        "Task7_Profile card with CSS.html",
+        "Task8_Full style sheet.html"
+      ]
+    },
+    {
+      week: 3,
+      folder: "week3_1",
+      label: "Advanced CSS",
+      files: [
+        "Task_01_Position_the_Badge.html",
+        "Task_02_Hover_Card_with_Transition.html",
+        "Task_03_Loading_Spinner_with_keyframes.html",
+        "Task_04_CSS_Variables_Theme.html",
+        "Task_05_Fixed_Navigation_Bar.html",
+        "Task_06_Responsive_Grid_Page.html",
+        "Task_07_Complete_CSS_Advanced_Portfolio_Page.html"
+      ]
+    },
+    {
+      week: 4,
+      folder: "Week4",
+      label: "JavaScript",
+      files: [
+        "task1_click_counter.html",
+        "task2_dark_mode_toggle.html",
+        "task3_interactive_todo_list.html",
+        "task4_live_search_filter.html"
+      ]
+    }
+  ];
+
+  const $ = id => document.getElementById(id);
+  const cache = new Map();
+
+  let currentTask = null;
+  let currentMode = "preview";
+  let requestId = 0;
+  let opener = null;
+
+  function titleFromFile(file) {
+    return file
+      .replace(/\.html$/i, "")
+      .replace(/_/g, " ")
+      .replace(/&amp;/g, "&");
+  }
+
+  function closeViewer() {
+    requestId++;
+    currentTask = null;
+    $("viewer").hidden = true;
+    $("preview").src = "about:blank";
+  }
+
+  function showWeek(week) {
+    closeViewer();
+    $("weekTitle").textContent = "Week " + week;
+    $("cards").replaceChildren();
+
+    for (const button of $("weeks").children) {
+      const active = Number(button.dataset.week) === week;
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-pressed", String(active));
+    }
+
+    const matchingGroups = groups.filter(group => group.week === week);
+
+    if (!matchingGroups.length) {
+      const message = document.createElement("p");
+      message.textContent = "No homework added yet.";
+      $("cards").append(message);
+      return;
+    }
+
+    for (const group of matchingGroups) {
+      for (const file of group.files) {
+        const task = {
+          title: titleFromFile(file),
+          url: group.folder + "/" + encodeURIComponent(file)
+        };
+
+        const card = document.createElement("article");
+        card.className = "card";
+
+        const label = document.createElement("small");
+        label.textContent = group.label;
+
+        const heading = document.createElement("h3");
+        heading.textContent = task.title;
+
+        const buttons = document.createElement("div");
+        buttons.className = "buttons";
+
+        for (const [text, mode] of [
+          ["View Homework", "preview"],
+          ["View Code", "code"]
+        ]) {
+          const button = document.createElement("button");
+          button.textContent = text;
+          button.onclick = () => openTask(task, mode, button);
+          buttons.append(button);
+        }
+
+        card.append(label, heading, buttons);
+        $("cards").append(card);
+      }
+    }
+  }
+
+  function openTask(task, mode, button) {
+    currentTask = task;
+    opener = button;
+    $("taskTitle").textContent = task.title;
+    $("preview").src = task.url;
+    $("viewer").hidden = false;
+
+    setMode(mode);
+
+    $("taskTitle").focus({ preventScroll: true });
+    $("viewer").scrollIntoView({ behavior: "smooth" });
+  }
+
+  async function setMode(mode) {
+    if (!currentTask) return;
+
+    currentMode = mode;
+    const id = ++requestId;
+    const task = currentTask;
+    const showCode = mode === "code";
+
+    $("preview").hidden = showCode;
+    $("codePanel").hidden = !showCode;
+    $("previewButton").classList.toggle("active", !showCode);
+    $("codeButton").classList.toggle("active", showCode);
+    $("previewButton").setAttribute("aria-pressed", String(!showCode));
+    $("codeButton").setAttribute("aria-pressed", String(showCode));
+    $("status").textContent = "";
+
+    if (!showCode) return;
+
+    $("source").textContent = "";
+    $("status").textContent = "Loading code...";
+
+    try {
+      let source = cache.get(task.url);
+
+      if (source === undefined) {
+        const response = await fetch(task.url);
+
+        if (!response.ok) {
+          throw new Error("HTTP " + response.status);
+        }
+
+        source = await response.text();
+        cache.set(task.url, source);
+      }
+
+      if (id !== requestId || currentMode !== "code") return;
+
+      // Display HTML/JavaScript as text, without executing it.
+      $("source").textContent = source;
+      $("status").textContent = "";
+    } catch (error) {
+      if (id !== requestId) return;
+
+      $("status").textContent =
+        location.protocol === "file:"
+          ? "Open this site through GitHub Pages or a local web server to view code."
+          : "Could not load code. Check the file path and try again.";
+    }
+  }
+
+  for (let week = 1; week <= 10; week++) {
+    const button = document.createElement("button");
+    button.textContent = "Week " + week;
+    button.dataset.week = week;
+    button.onclick = () => showWeek(week);
+    $("weeks").append(button);
+  }
+
+  $("previewButton").onclick = () => setMode("preview");
+  $("codeButton").onclick = () => setMode("code");
+  $("closeButton").onclick = () => {
+    closeViewer();
+    if (opener) opener.focus();
+  };
+
+  showWeek(2);
+</script>
 </body>
 </html>
