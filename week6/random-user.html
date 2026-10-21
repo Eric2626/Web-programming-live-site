@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random User</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      max-width: 700px;
+      margin: auto;
+      padding: 25px;
+    }
+
+    section {
+      background-color: white;
+      padding: 20px;
+      border: 1px solid #ddd;
+    }
+
+    h1 {
+      color: #0f766e;
+    }
+
+    button {
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    img {
+      max-width: 120px;
+      border-radius: 8px;
+    }
+
+    a {
+      color: #0f766e;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Random User</h1>
+  <p>Generate a random sample profile.</p>
+
+  <section>
+    <button onclick="loadUser()">Generate User</button>
+    <p id="status"></p>
+    <div id="user"></div>
+  </section>
+
+  <p><a href="index.html">Back to Week 6</a></p>
+
+  <script>
+    async function loadUser() {
+      let output = document.getElementById('user');
+      document.getElementById('status').textContent = 'Loading...';
+      output.textContent = '';
+
+      try {
+        const res = await fetch('https://randomuser.me/api/');
+
+        if (!res.ok) {
+          throw new Error('Request failed');
+        }
+
+        const data = await res.json();
+        const user = data.results[0];
+
+        let image = document.createElement('img');
+        image.src = user.picture.large;
+        image.alt = 'Random user photo';
+
+        let name = document.createElement('p');
+        name.textContent =
+          'Name: ' + user.name.first + ' ' + user.name.last;
+
+        let email = document.createElement('p');
+        email.textContent = 'Email: ' + user.email;
+
+        let country = document.createElement('p');
+        country.textContent = 'Country: ' + user.location.country;
+
+        output.appendChild(image);
+        output.appendChild(name);
+        output.appendChild(email);
+        output.appendChild(country);
+
+        document.getElementById('status').textContent = 'User loaded!';
+      } catch (error) {
+        document.getElementById('status').textContent =
+          'Could not load a user. Please try again.';
+      }
+    }
+  </script>
+
+</body>
+</html>

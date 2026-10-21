@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSONPlaceholder</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #1e293b;
+      max-width: 800px;
+      margin: auto;
+      padding: 25px;
+    }
+
+    section {
+      background: white;
+      padding: 18px;
+      margin-bottom: 18px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+
+    h1, h2 {
+      color: #0f766e;
+    }
+
+    input, textarea, button {
+      padding: 9px;
+      margin: 4px 0;
+      font: inherit;
+    }
+
+    input, textarea {
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .todo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid #eee;
+      padding: 8px 0;
+    }
+
+    .todo input[type="checkbox"] {
+      width: auto;
+    }
+
+    .todo input[type="text"] {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .completed {
+      text-decoration: line-through;
+      color: #64748b;
+    }
+
+    .status {
+      color: #0f766e;
+    }
+
+    a {
+      color: #0f766e;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>JSONPlaceholder</h1>
+
+  <section>
+    <h2>Post Author</h2>
+    <p id="userStatus">Loading user...</p>
+    <div id="user"></div>
+    <button onclick="loadUser(true)">Random User</button>
+  </section>
+
+  <section>
+    <h2>Edit Blog Post</h2>
+
+    <label for="postTitle">Post Title</label>
+    <input type="text" id="postTitle">
+
+    <label for="postBody">Post Content</label>
+    <textarea id="postBody"></textarea>
+
+    <button onclick="savePost()">Save Post</button>
+    <p id="postStatus" class="status"></p>
+
+    <h2>Post Preview</h2>
+    <h3 id="previewTitle"></h3>
+    <p id="previewAuthor"></p>
+    <p id="previewBody"></p>
+  </section>
+
+  <section>
+    <h2>My Todos</h2>
+    <p>Check off tasks, edit their names, or remove them.</p>
+
+    <input type="text" id="newTodo" placeholder="Enter a new task">
+    <button onclick="addTodo()">Add Todo</button>
+
+    <div id="todos"></div>
+    <p id="todoStatus" class="status"></p>
+  </section>
+
+  <p><a href="index.html">Back to Week 6</a></p>
+
+  <script>
+    let currentUser = null;
+
+    let todos = JSON.parse(localStorage.getItem('week6Todos') || 'null') || [
+      { text: 'Practice JavaScript fetch()', completed: false },
+      { text: 'Learn async and await', completed: false },
+      { text: 'Finish my web programming assignment', completed: false }
+    ];
+
+    document.getElementById('postTitle').value =
+      localStorage.getItem('week6PostTitle') || 'My Week 6 Learning Journey';
+
+    document.getElementById('postBody').value =
+      localStorage.getItem('week6PostBody') ||
+      'Today I practiced JavaScript and learned how to fetch data from an API. I also learned how to work with users, edit content, and manage a todo list.';
+
+    function updatePreview() {
+      document.getElementById('previewTitle').textContent =
+        document.getElementById('postTitle').value;
+
+      document.getElementById('previewBody').textContent =
+        document.getElementById('postBody').value;
+
+      document.getElementById('previewAuthor').textContent =
+        currentUser ? 'Written by ' + currentUser.name : 'Loading author...';
+    }
+
+    async function loadUser(randomize) {
+      let id = randomize
+        ? Math.floor(Math.random() * 10) + 1
+        : Number(localStorage.getItem('week6UserId')) || 1;
+
+      document.getElementById('userStatus').textContent = 'Loading user...';
+
+      try {
+        const res = await fetch(
+          'https://jsonplaceholder.typicode.com/users/' + id
+        );
+
+        if (!res.ok) {
+          throw new Error('User request failed');
+        }
+
+        currentUser = await res.json();
+
+        localStorage.setItem('week6UserId', currentUser.id);
+
+        document.getElementById('user').textContent = '';
+
+        let name = document.createElement('p');
+        name.textContent = 'Name: ' + currentUser.name;
+
+        let username = document.createElement('p');
+        username.textContent = 'Username: ' + currentUser.username;
+
+        let email = document.createElement('p');
+        email.textContent = 'Email: ' + currentUser.email;
+
+        document.getElementById('user').appendChild(name);
+        document.getElementById('user').appendChild(username);
+        document.getElementById('user').appendChild(email);
+
+        document.getElementById('userStatus').textContent =
+          'User profile loaded from JSONPlaceholder.';
+
+        updatePreview();
+      } catch (error) {
+        document.getElementById('userStatus').textContent =
+          'Could not load a user. Please try again.';
+      }
+    }
+
+    function savePost() {
+      localStorage.setItem(
+        'week6PostTitle',
+        document.getElementById('postTitle').value
+      );
+
+      localStorage.setItem(
+        'week6PostBody',
+        document.getElementById('postBody').value
+      );
+
+      updatePreview();
+
+      document.getElementById('postStatus').textContent =
+        'Post saved in this browser.';
+    }
+
+    function saveTodos() {
+      localStorage.setItem('week6Todos', JSON.stringify(todos));
+    }
+
+    function showTodos() {
+      let output = document.getElementById('todos');
+      output.textContent = '';
+
+      for (let todo of todos) {
+        let row = document.createElement('div');
+        row.className = 'todo';
+
+        let checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = todo.completed;
+
+        let text = document.createElement('input');
+        text.type = 'text';
+        text.value = todo.text;
+
+        if (todo.completed) {
+          text.className = 'completed';
+        }
+
+        let remove = document.createElement('button');
+        remove.textContent = 'Delete';
+
+        checkbox.addEventListener('change', function () {
+          todo.completed = checkbox.checked;
+          saveTodos();
+          showTodos();
+        });
+
+        text.addEventListener('change', function () {
+          todo.text = text.value;
+          saveTodos();
+        });
+
+        remove.addEventListener('click', function () {
+          todos = todos.filter(item => item !== todo);
+          saveTodos();
+          showTodos();
+        });
+
+        row.appendChild(checkbox);
+        row.appendChild(text);
+        row.appendChild(remove);
+        output.appendChild(row);
+      }
+
+      let completed = todos.filter(todo => todo.completed).length;
+
+      document.getElementById('todoStatus').textContent =
+        completed + ' of ' + todos.length + ' tasks completed.';
+    }
+
+    function addTodo() {
+      let input = document.getElementById('newTodo');
+      let text = input.value.trim();
+
+      if (text === '') {
+        return;
+      }
+
+      todos.push({ text: text, completed: false });
+      input.value = '';
+
+      saveTodos();
+      showTodos();
+    }
+
+    document.getElementById('postTitle').addEventListener('input', updatePreview);
+    document.getElementById('postBody').addEventListener('input', updatePreview);
+
+    document.getElementById('newTodo').addEventListener('keydown', function (event) {
+      if (event.key === 'Enter') {
+        addTodo();
+      }
+    });
+
+    showTodos();
+    updatePreview();
+    loadUser(false);
+  </script>
+
+</body>
+</html>

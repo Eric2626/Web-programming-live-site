@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Joke Fetcher</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      color: #1e293b;
+      max-width: 700px;
+      margin: auto;
+      padding: 30px;
+    }
+
+    section {
+      background-color: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+
+    h1, h2 {
+      color: #0f766e;
+    }
+
+    button {
+      padding: 8px 12px;
+      margin: 5px 5px 5px 0;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+    }
+
+    .spinner {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #ddd;
+      border-top: 3px solid #0f766e;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      vertical-align: middle;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    #error {
+      color: #dc2626;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Random Joke Fetcher</h1>
+
+  <section>
+    <button id="loadButton" onclick="loadJoke()">Load Joke</button>
+    <span id="spinner" class="spinner"></span>
+
+    <p id="status"></p>
+    <p id="error"></p>
+
+    <h2>Setup</h2>
+    <p id="jokeSetup">Click Load Joke to get a joke.</p>
+
+    <h2>Punchline</h2>
+    <p id="jokePunch"></p>
+
+    <button id="saveButton" onclick="saveFavourite()" disabled>
+      Save Favourite
+    </button>
+  </section>
+
+  <section>
+    <h2>Favourite Jokes</h2>
+    <div id="favourites"></div>
+  </section>
+
+  <script>
+    let currentJoke = null;
+
+    async function loadJoke() {
+      let button = document.getElementById('loadButton');
+      let spinner = document.getElementById('spinner');
+
+      button.disabled = true;
+      document.getElementById('saveButton').disabled = true;
+      spinner.style.display = 'inline-block';
+      document.getElementById('status').textContent = 'Loading…';
+      document.getElementById('error').textContent = '';
+      document.getElementById('jokeSetup').textContent = '';
+      document.getElementById('jokePunch').textContent = '';
+      currentJoke = null;
+
+      try {
+        const res = await fetch(
+          'https://official-joke-api.appspot.com/random_joke'
+        );
+
+        if (!res.ok) {
+          throw new Error('Request failed');
+        }
+
+        const data = await res.json();
+
+        currentJoke = {
+          setup: data.setup,
+          punchline: data.punchline
+        };
+
+        document.getElementById('jokeSetup').textContent = data.setup;
+        document.getElementById('jokePunch').textContent = data.punchline;
+        document.getElementById('status').textContent = 'Joke loaded!';
+        document.getElementById('saveButton').disabled = false;
+
+      } catch (err) {
+        document.getElementById('status').textContent = '';
+        document.getElementById('error').textContent =
+          'Sorry, the joke could not be loaded. Please try again.';
+      } finally {
+        button.disabled = false;
+        spinner.style.display = 'none';
+      }
+    }
+
+    function saveFavourite() {
+      if (currentJoke === null) {
+        return;
+      }
+
+      let favourites = JSON.parse(
+        localStorage.getItem('favoriteJokes') || '[]'
+      );
+
+      favourites.push(currentJoke);
+
+      localStorage.setItem('favoriteJokes', JSON.stringify(favourites));
+
+      showFavourites();
+      document.getElementById('status').textContent = 'Favourite saved!';
+    }
+
+    function showFavourites() {
+      let favourites = JSON.parse(
+        localStorage.getItem('favoriteJokes') || '[]'
+      );
+
+      let list = document.getElementById('favourites');
+      list.textContent = '';
+
+      if (favourites.length === 0) {
+        list.textContent = 'No favourite jokes saved yet.';
+      }
+
+      for (let joke of favourites) {
+        let item = document.createElement('div');
+        let setup = document.createElement('p');
+        let punchline = document.createElement('p');
+
+        setup.textContent = joke.setup;
+        punchline.textContent = joke.punchline;
+
+        item.appendChild(setup);
+        item.appendChild(punchline);
+        item.style.borderBottom = '1px solid #ddd';
+        item.style.padding = '10px 0';
+
+        list.appendChild(item);
+      }
+    }
+
+    showFavourites();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REST Countries</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #1e293b;
+      max-width: 700px;
+      margin: auto;
+      padding: 25px;
+    }
+
+    section {
+      background: white;
+      padding: 20px;
+      margin-bottom: 18px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+
+    h1, h2 {
+      color: #0f766e;
+    }
+
+    input, button {
+      padding: 9px;
+      margin: 4px 0;
+    }
+
+    input {
+      width: 65%;
+      max-width: 350px;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .flag {
+      max-width: 180px;
+      max-height: 120px;
+    }
+
+    .detail {
+      border-bottom: 1px solid #eee;
+      padding: 8px 0;
+    }
+
+    a {
+      color: #0f766e;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>REST Countries</h1>
+  <p>Search for a country to explore its flag, capital and population.</p>
+
+  <section>
+    <input
+      type="text"
+      id="countryInput"
+      value="Mongolia"
+      placeholder="Enter a country name"
+    >
+    <button onclick="searchCountry()">Search</button>
+
+    <p id="status">Loading country...</p>
+    <div id="results"></div>
+  </section>
+
+  <p><a href="index.html">Back to Week 6</a></p>
+
+  <script>
+    async function searchCountry() {
+      let name = document.getElementById('countryInput').value.trim();
+      let status = document.getElementById('status');
+      let output = document.getElementById('results');
+
+      output.textContent = '';
+
+      if (name === '') {
+        status.textContent = 'Please enter a country name.';
+        return;
+      }
+
+      status.textContent = 'Searching...';
+
+      try {
+        let query = name;
+
+        if (name.toLowerCase() === 'south korea') {
+          query = 'Korea';
+        }
+
+        if (name.toLowerCase() === 'north korea') {
+          query = 'Korea';
+        }
+
+        const res = await fetch(
+          'https://countries.dev/name/' + encodeURIComponent(query)
+        );
+
+        if (!res.ok) {
+          throw new Error('Country not found');
+        }
+
+        let data = await res.json();
+
+        if (!Array.isArray(data)) {
+          throw new Error('Invalid response');
+        }
+
+        if (name.toLowerCase() === 'south korea') {
+          data = data.filter(country => country.alpha2Code === 'KR');
+        }
+
+        if (name.toLowerCase() === 'north korea') {
+          data = data.filter(country => country.alpha2Code === 'KP');
+        }
+
+        if (data.length === 0) {
+          throw new Error('Country not found');
+        }
+
+        status.textContent = data.length + ' result(s) found.';
+
+        for (let country of data) {
+          let card = document.createElement('section');
+
+          let title = document.createElement('h2');
+          title.textContent = country.name;
+
+          let flag = document.createElement('img');
+          flag.className = 'flag';
+          flag.alt = country.name + ' flag';
+
+          if (country.flags && country.flags.png) {
+            flag.src = country.flags.png;
+          } else if (country.flags && country.flags.svg) {
+            flag.src = country.flags.svg;
+          } else {
+            flag.src = 'https://countries.dev/flags/' +
+              country.alpha2Code.toLowerCase() + '.svg';
+          }
+
+          let capital = document.createElement('p');
+          capital.className = 'detail';
+          capital.textContent = 'Capital: ' +
+            (country.capital || 'Not available');
+
+          let population = document.createElement('p');
+          population.className = 'detail';
+          population.textContent = 'Population: ' +
+            (country.population != null
+              ? country.population.toLocaleString()
+              : 'Not available');
+
+          let region = document.createElement('p');
+          region.className = 'detail';
+          region.textContent = 'Region: ' +
+            (country.region || 'Not available');
+
+          let area = document.createElement('p');
+          area.className = 'detail';
+          area.textContent = 'Area: ' +
+            (country.area != null
+              ? country.area.toLocaleString() + ' km²'
+              : 'Not available');
+
+          card.appendChild(title);
+          card.appendChild(flag);
+          card.appendChild(capital);
+          card.appendChild(population);
+          card.appendChild(region);
+          card.appendChild(area);
+
+          output.appendChild(card);
+        }
+
+      } catch (error) {
+        status.textContent =
+          'Country not found or the service is unavailable. Please try another name.';
+      }
+    }
+
+    document.getElementById('countryInput').addEventListener(
+      'keydown',
+      function(event) {
+        if (event.key === 'Enter') {
+          searchCountry();
+        }
+      }
+    );
+
+    searchCountry();
+  </script>
+
+</body>
+</html>

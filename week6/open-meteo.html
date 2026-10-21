@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seoul Weather</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #1e293b;
+      max-width: 700px;
+      margin: auto;
+      padding: 25px;
+    }
+
+    section {
+      background: white;
+      padding: 20px;
+      margin-bottom: 18px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+
+    h1, h2 {
+      color: #0f766e;
+    }
+
+    #temperature {
+      font-size: 38px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    button {
+      padding: 9px 14px;
+      cursor: pointer;
+    }
+
+    .detail {
+      border-bottom: 1px solid #eee;
+      padding: 10px 0;
+    }
+
+    a {
+      color: #0f766e;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Seoul Weather</h1>
+  <p>Current weather in Seoul, South Korea.</p>
+
+  <section>
+    <button onclick="loadWeather()">Refresh Weather</button>
+    <p id="status">Loading weather...</p>
+
+    <h2 id="condition">--</h2>
+    <p id="temperature">-- °C</p>
+
+    <div id="details"></div>
+    <p id="updated"></p>
+  </section>
+
+  <p><a href="index.html">Back to Week 6</a></p>
+
+  <script>
+    function getCondition(code) {
+      if (code === 0) return 'Clear sky';
+      if (code === 1) return 'Mainly clear';
+      if (code === 2) return 'Partly cloudy';
+      if (code === 3) return 'Overcast';
+      if (code === 45 || code === 48) return 'Fog';
+      if (code >= 51 && code <= 57) return 'Drizzle';
+      if (code >= 61 && code <= 67) return 'Rain';
+      if (code >= 71 && code <= 77) return 'Snow';
+      if (code >= 80 && code <= 82) return 'Rain showers';
+      if (code === 85 || code === 86) return 'Snow showers';
+      if (code >= 95) return 'Thunderstorm';
+      return 'Weather conditions unavailable';
+    }
+
+    async function loadWeather() {
+      document.getElementById('status').textContent = 'Loading latest weather...';
+      document.getElementById('details').textContent = '';
+
+      try {
+        const res = await fetch(
+          'https://api.open-meteo.com/v1/forecast?latitude=37.5665&longitude=126.9780&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,weather_code&timezone=Asia%2FSeoul'
+        );
+
+        if (!res.ok) {
+          throw new Error('Weather request failed');
+        }
+
+        const data = await res.json();
+        const weather = data.current;
+
+        document.getElementById('condition').textContent =
+          getCondition(weather.weather_code);
+
+        document.getElementById('temperature').textContent =
+          weather.temperature_2m + ' °C';
+
+        let details = [
+          ['Feels like', weather.apparent_temperature + ' °C'],
+          ['Humidity', weather.relative_humidity_2m + '%'],
+          ['Wind speed', weather.wind_speed_10m + ' km/h'],
+          ['Weather data time', weather.time.replace('T', ' ') + ' (Seoul time)']
+        ];
+
+        let output = document.getElementById('details');
+
+        for (let item of details) {
+          let row = document.createElement('p');
+          row.className = 'detail';
+          row.textContent = item[0] + ': ' + item[1];
+          output.appendChild(row);
+        }
+
+        let updated = new Date().toLocaleTimeString('en-GB', {
+          timeZone: 'Asia/Seoul',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
+        });
+
+        document.getElementById('updated').textContent =
+          'Checked at ' + updated + ' Korea time.';
+
+        document.getElementById('status').textContent =
+          'Latest weather data loaded.';
+      } catch (error) {
+        document.getElementById('status').textContent =
+          'Could not load weather. Please try refreshing.';
+      }
+    }
+
+    loadWeather();
+  </script>
+
+</body>
+</html>

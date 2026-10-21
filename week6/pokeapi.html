@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PokéAPI</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #1e293b;
+      max-width: 750px;
+      margin: auto;
+      padding: 25px;
+    }
+
+    section {
+      background: white;
+      padding: 18px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+
+    h1, h2 {
+      color: #0f766e;
+    }
+
+    button, input {
+      padding: 8px;
+      margin: 4px;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    img {
+      width: 180px;
+      height: 180px;
+      object-fit: contain;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 8px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    a {
+      color: #0f766e;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>PokéAPI</h1>
+  <p>Search the Pokémon database by name or Pokédex number.</p>
+
+  <section>
+    <input type="text" id="pokemonInput" placeholder="Pikachu or 25">
+    <button onclick="searchPokemon()">Search</button>
+    <button onclick="randomPokemon()">Random Pokémon</button>
+
+    <p id="status"></p>
+  </section>
+
+  <section id="details" hidden>
+    <h2 id="name"></h2>
+    <img id="sprite" alt="Pokémon image">
+
+    <p id="types"></p>
+    <p id="height"></p>
+    <p id="weight"></p>
+    <p id="abilities"></p>
+
+    <h2>Base Stats</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Stat</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody id="stats"></tbody>
+    </table>
+  </section>
+
+  <p><a href="index.html">Back to Week 6</a></p>
+
+  <script>
+    async function searchPokemon() {
+      let value = document.getElementById('pokemonInput').value.trim().toLowerCase();
+
+      if (value === '') {
+        document.getElementById('status').textContent =
+          'Enter a Pokémon name or number.';
+        return;
+      }
+
+      await loadPokemon(value);
+    }
+
+    async function loadPokemon(value) {
+      let status = document.getElementById('status');
+      let details = document.getElementById('details');
+
+      status.textContent = 'Loading Pokémon...';
+      details.hidden = true;
+
+      try {
+        const res = await fetch(
+          'https://pokeapi.co/api/v2/pokemon/' + encodeURIComponent(value)
+        );
+
+        if (!res.ok) {
+          throw new Error('Pokémon not found');
+        }
+
+        const data = await res.json();
+
+        document.getElementById('name').textContent =
+          '#' + data.id + ' ' +
+          data.name.charAt(0).toUpperCase() + data.name.slice(1);
+
+        let sprite = data.sprites.other['official-artwork'].front_default
+          || data.sprites.front_default;
+
+        document.getElementById('sprite').src = sprite || '';
+        document.getElementById('types').textContent =
+          'Types: ' + data.types.map(item => item.type.name).join(', ');
+
+        document.getElementById('height').textContent =
+          'Height: ' + data.height / 10 + ' m';
+
+        document.getElementById('weight').textContent =
+          'Weight: ' + data.weight / 10 + ' kg';
+
+        document.getElementById('abilities').textContent =
+          'Abilities: ' + data.abilities
+            .map(item => item.ability.name)
+            .join(', ');
+
+        let stats = document.getElementById('stats');
+        stats.textContent = '';
+
+        for (let item of data.stats) {
+          let row = document.createElement('tr');
+          let statName = document.createElement('td');
+          let statValue = document.createElement('td');
+
+          statName.textContent = item.stat.name;
+          statValue.textContent = item.base_stat;
+
+          row.appendChild(statName);
+          row.appendChild(statValue);
+          stats.appendChild(row);
+        }
+
+        status.textContent = 'Pokémon loaded!';
+        details.hidden = false;
+      } catch (error) {
+        status.textContent =
+          'Pokémon not found or the API is unavailable. Try another name or number.';
+      }
+    }
+
+    async function randomPokemon() {
+      let status = document.getElementById('status');
+      status.textContent = 'Finding a random Pokémon...';
+
+      try {
+        const res = await fetch(
+          'https://pokeapi.co/api/v2/pokemon?limit=1'
+        );
+
+        if (!res.ok) {
+          throw new Error('Request failed');
+        }
+
+        const data = await res.json();
+        let id = Math.floor(Math.random() * data.count) + 1;
+
+        document.getElementById('pokemonInput').value = id;
+        await loadPokemon(id);
+      } catch (error) {
+        status.textContent =
+          'Could not get a random Pokémon. Please try again.';
+      }
+    }
+
+    document.getElementById('pokemonInput').addEventListener('keydown', event => {
+      if (event.key === 'Enter') {
+        searchPokemon();
+      }
+    });
+
+    loadPokemon('pikachu');
+  </script>
+
+</body>
+</html>
