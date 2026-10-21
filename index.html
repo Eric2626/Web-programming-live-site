@@ -212,6 +212,11 @@
       "Week6/Task6_REST_Countries.html"
     ];
 
+    // Week 7: Book Search (Open Library API).
+    homework[7] = [
+      "Week7/book-search.html"
+    ];
+
     var currentWeek = 2;
     var currentFile = "";
     var viewNumber = 0;
@@ -233,6 +238,9 @@
     }
 
     function getTitle(file) {
+      if (file === "Week7/book-search.html") {
+        return "Task 1 – Book Search";
+      }
       var parts = file.split("/");
       var title = parts[parts.length - 1];
 
@@ -336,6 +344,12 @@
       document.getElementById("codeText").textContent = "";
       document.getElementById("codeBox").style.display = "block";
       document.getElementById("previewCodeButton").disabled = true;
+
+      // The code viewer is below the task cards; scroll to it automatically.
+      document.getElementById("viewer").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
     }
 
     function displayCode(code) {
@@ -344,50 +358,66 @@
       document.getElementById("previewCodeButton").disabled = false;
     }
 
+    function loadCodeFrom(url) {
+      return fetch(url, { cache: "no-store" }).then(function (response) {
+        if (!response.ok) {
+          throw new Error("HTTP " + response.status);
+        }
+        return response.text();
+      }).then(function (source) {
+        // Some hosting setups return an HTML error page instead of a 404 status.
+        if (/\b404\s+(Not Found|File not found)\b/i.test(source) &&
+            !/function |<script|<style/i.test(source)) {
+          throw new Error("404 Not Found");
+        }
+        return source;
+      });
+    }
+
     function viewCode(index) {
       var file = homework[currentWeek][index];
-
       openViewer(file);
-
       var thisView = viewNumber;
+      var path = getFileURL(file);
+      var sources;
 
-      document.getElementById("message").textContent =
-        "Loading code...";
+      // Week 2–3 live in the original source repository for now.
+      // Week 4–7 are published with this site and have matching HTML files.
+      if (currentWeek === 2 || currentWeek === 3) {
+        sources = [githubURL + path, path];
+      } else if (currentWeek === 4) {
+        sources = [path, githubURL + path];
+      } else {
+        sources = [path];
+      }
 
-      // Prefer the published HTML; keep support for code stored in the original repository.
-      var filePath = getFileURL(file);
-      fetch(filePath)
-        .then(function (response) {
-          if (response.ok) {
-            return response.text();
-          }
-          // Week 2–4 may still be stored only in the source repository.
-          if (currentWeek !== 6) {
-            return fetch(githubURL + filePath).then(function (originalResponse) {
-              if (!originalResponse.ok) {
-                throw new Error("HTTP " + originalResponse.status);
-              }
-              return originalResponse.text();
-            });
-          }
-          throw new Error("HTTP " + response.status);
-        })
-        .then(function (code) {
-          if (thisView !== viewNumber) {
-            return;
-          }
+      document.getElementById("message").textContent = "Loading code...";
 
-          displayCode(code);
-        })
-        .catch(function (error) {
-          if (thisView !== viewNumber) {
-            return;
+      function attempt(n) {
+        if (n >= sources.length) {
+          if (thisView === viewNumber) {
+            document.getElementById("message").textContent =
+              "HTML file not found: " + file +
+              ". Upload the complete Week folder (not just index.html) " +
+              "to the main branch of Web-programming-live-site.";
           }
+          return;
+        }
 
-          document.getElementById("message").textContent =
-            "Could not load code. Check your internet connection " +
-            "and the file name on GitHub. (" + error.message + ")";
-        });
+        loadCodeFrom(sources[n])
+          .then(function (code) {
+            if (thisView === viewNumber) {
+              displayCode(code);
+            }
+          })
+          .catch(function () {
+            if (thisView === viewNumber) {
+              attempt(n + 1);
+            }
+          });
+      }
+
+      attempt(0);
     }
 
     function previewCode() {
