@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Live Search Filter (Advanced)</title>
+  <style>
+    .task-title {
+      font-size: 24px;
+      margin-bottom: 24px;
+      color: #1a56db;
+    }
+
+    body {
+      font-family: system-ui;
+      padding: 20px;
+      max-width: 420px;
+      margin: auto;
+    }
+
+    h2 {
+      color: #1a56db;
+    }
+
+    #search {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px 14px;
+      font-size: 16px;
+      border: 2px solid #1a56db;
+      border-radius: 10px;
+      margin-bottom: 14px;
+    }
+
+    .student {
+      padding: 10px 14px;
+      margin-bottom: 6px;
+      background: #f0f4ff;
+      border-radius: 8px;
+      border: 1px solid #c8d4f0;
+      font-size: 15px;
+    }
+
+    #no-results {
+      display: none;
+      color: #9ca3af;
+      text-align: center;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 class="task-title">Live Search Filter (Advanced)</h1>
+
+  <h2>Student Search</h2>
+
+  <input id="search" type="text" placeholder="Search students...">
+
+  <div id="student-list">
+    <div class="student" data-name="Eric">Eric — Web Programming</div>
+    <div class="student" data-name="Park Minjun">Park Minjun — Computer Science</div>
+    <div class="student" data-name="Lee Sooyeon">Lee Sooyeon — Software Engineering</div>
+    <div class="student" data-name="Choi Hyunwoo">Choi Hyunwoo — Artificial Intelligence</div>
+    <div class="student" data-name="Jung Yuna">Jung Yuna — Data Science</div>
+    <div class="student" data-name="Kang Seojun">Kang Seojun — Web Programming</div>
+  </div>
+
+  <p id="no-results">No students found.</p>
+
+  <script>
+    const search = document.querySelector('#search');
+    const students = document.querySelectorAll('.student');
+    const noResults = document.querySelector('#no-results');
+
+    search.addEventListener('input', (e) => {
+      const term = e.target.value.toLowerCase();
+      let visible = 0;
+
+      students.forEach((student) => {
+        const name = student.dataset.name.toLowerCase();
+
+        if (name.includes(term)) {
+          student.style.display = '';
+          visible++;
+        } else {
+          student.style.display = 'none';
+        }
+      });
+
+      if (visible === 0) {
+        noResults.style.display = 'block';
+      } else {
+        noResults.style.display = 'none';
+      }
+    });
+  </script>
+
+</body>
+</html>
