@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eric's Portfolio</title>
+
+  <style>
+    /* 1. Reset */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* 2. Base styles */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    h1, h2, h3 {
+      font-weight: bold;
+    }
+
+    p {
+      color: #64748b;
+    }
+
+    /* 3. Navigation */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #1e293b;
+      padding: 18px 30px;
+    }
+
+    .nav-logo {
+      color: #10B981;
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      color: white;
+    }
+
+    .nav-links a:hover {
+      color: #10B981;
+    }
+
+    /* 4. Hero */
+    .hero {
+      text-align: center;
+      padding: 70px 20px;
+      background-color: #ecfdf5;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: #10B981;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+    }
+
+    /* 5. Skills */
+    .skills-section {
+      padding: 50px 30px;
+      text-align: center;
+    }
+
+    .skills-section h2 {
+      margin-bottom: 30px;
+    }
+
+    .skills-grid {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .skill-card {
+      width: 250px;
+      background-color: white;
+      padding: 25px;
+      border: 2px solid #10B981;
+      border-radius: 10px;
+    }
+
+    .skill-card h3 {
+      color: #10B981;
+      margin-bottom: 10px;
+    }
+
+    /* 6. Footer */
+    .footer {
+      background-color: #1e293b;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .footer p {
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="nav">
+    <span class="nav-logo">Eric</span>
+
+    <div class="nav-links">
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <h1>Hi, I am Eric</h1>
+    <p>I like music, song writing, and web programming.</p>
+    <a href="#skills" class="btn">My Skills</a>
+  </section>
+
+  <section class="skills-section" id="skills">
+    <h2>My Skills</h2>
+
+    <div class="skills-grid">
+      <div class="skill-card">
+        <h3>Music Produce</h3>
+        <p>I like creating music and beats.</p>
+      </div>
+
+      <div class="skill-card">
+        <h3>Song Writing</h3>
+        <p>I enjoy writing lyrics and song ideas.</p>
+      </div>
+
+      <div class="skill-card">
+        <h3>HTML5</h3>
+        <p>I am learning how to build web pages.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer" id="contact">
+    <p>K0126002 Web Programming &copy; 2026 Gachon University</p>
+  </footer>
+
+</body>
+</html>
