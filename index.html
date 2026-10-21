@@ -161,7 +161,6 @@
       "https://raw.githubusercontent.com/Eric2626/web-programming/main/";
 
     var homework = [];
-    var embeddedCode = {};
 
     for (var i = 1; i <= 10; i++) {
       homework[i] = [];
@@ -203,268 +202,19 @@
       "Week4/task4_live_search_filter.html"
     ];
 
-    // Week 6 code is stored inside this index.html.
+    // Week 6: six independent HTML pages (published inside Week6/).
     homework[6] = [
-      "Week6/Task1_Random_Joke_Fetcher.html"
+      "Week6/Task1_Random_Joke_Fetcher.html",
+      "Week6/Task2_JSONPlaceholder.html",
+      "Week6/Task3_Open_Meteo_Weather.html",
+      "Week6/Task4_Random_User.html",
+      "Week6/Task5_PokeAPI.html",
+      "Week6/Task6_REST_Countries.html"
     ];
-
-    embeddedCode["Week6/Task1_Random_Joke_Fetcher.html"] = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Task 1 — Random Joke Fetcher</title>
-
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f4f8;
-      color: #222;
-      margin: 0;
-      padding: 20px;
-    }
-
-    .container {
-      max-width: 650px;
-      margin: 20px auto;
-    }
-
-    .card {
-      background-color: white;
-      padding: 25px;
-      border-radius: 12px;
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      color: #2563eb;
-    }
-
-    button {
-      background-color: #2563eb;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      padding: 12px 18px;
-      margin: 5px 5px 5px 0;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #1e40af;
-    }
-
-    button:disabled {
-      background-color: #94a3b8;
-      cursor: default;
-    }
-
-    #setup {
-      font-size: 20px;
-      font-weight: bold;
-    }
-
-    #punchline {
-      color: #166534;
-      font-size: 18px;
-    }
-
-    #message {
-      color: #555;
-    }
-
-    #spinner {
-      width: 25px;
-      height: 25px;
-      border: 4px solid #ddd;
-      border-top-color: #2563eb;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin: 15px 0;
-    }
-
-    @keyframes spin {
-      from {
-        transform: rotate(0deg);
-      }
-
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .favourite {
-      border-bottom: 1px solid #ddd;
-      padding: 12px 0;
-    }
-
-    [hidden] {
-      display: none;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      #spinner {
-        animation: none;
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <div class="container">
-    <div class="card">
-      <h1>Random Joke Fetcher</h1>
-      <p>Click the button to get a random joke.</p>
-
-      <button id="loadButton" onclick="loadJoke()">
-        Load Joke
-      </button>
-
-      <button id="saveButton" onclick="saveFavourite()" disabled>
-        Save Favourite
-      </button>
-
-      <p id="message" role="status"></p>
-      <div id="spinner" aria-hidden="true" hidden></div>
-
-      <div aria-live="polite">
-        <p id="setup"></p>
-        <p id="punchline"></p>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>My Favourite Jokes</h2>
-      <div id="favouriteList">Loading favourites...</div>
-    </div>
-  </div>
-
-  <script>
-    var currentJoke = null;
-    var favourites = [];
-
-    function loadJoke() {
-      currentJoke = null;
-
-      document.getElementById("message").textContent = "Loading...";
-      document.getElementById("spinner").hidden = false;
-      document.getElementById("loadButton").disabled = true;
-      document.getElementById("saveButton").disabled = true;
-
-      document.getElementById("setup").textContent = "";
-      document.getElementById("punchline").textContent = "";
-
-      fetch("https://official-joke-api.appspot.com/random_joke")
-        .then(function (response) {
-          if (!response.ok) {
-            throw new Error("Could not load joke.");
-          }
-
-          return response.json();
-        })
-        .then(function (joke) {
-          if (
-            typeof joke.setup !== "string" ||
-            typeof joke.punchline !== "string"
-          ) {
-            throw new Error("Invalid joke.");
-          }
-
-          currentJoke = joke;
-
-          document.getElementById("setup").textContent =
-            joke.setup;
-
-          document.getElementById("punchline").textContent =
-            joke.punchline;
-
-          document.getElementById("message").textContent = "";
-          document.getElementById("saveButton").disabled = false;
-        })
-        .catch(function () {
-          document.getElementById("message").textContent =
-            "Sorry, we couldn't load a joke. Please try again.";
-        })
-        .finally(function () {
-          document.getElementById("spinner").hidden = true;
-          document.getElementById("loadButton").disabled = false;
-        });
-    }
-
-    function saveFavourite() {
-      if (currentJoke === null) {
-        return;
-      }
-
-      // Ask the main page to save to localStorage.
-      window.parent.postMessage({
-        type: "eric-save-favourite",
-        joke: {
-          setup: currentJoke.setup,
-          punchline: currentJoke.punchline
-        }
-      }, "*");
-    }
-
-    function showFavourites() {
-      var list = document.getElementById("favouriteList");
-      list.innerHTML = "";
-
-      if (favourites.length === 0) {
-        list.textContent = "No favourites saved yet.";
-        return;
-      }
-
-      for (var i = 0; i < favourites.length; i++) {
-        var item = document.createElement("div");
-        item.className = "favourite";
-
-        var setup = document.createElement("p");
-        setup.textContent = favourites[i].setup;
-
-        var punchline = document.createElement("p");
-        punchline.textContent = favourites[i].punchline;
-
-        item.appendChild(setup);
-        item.appendChild(punchline);
-        list.appendChild(item);
-      }
-    }
-
-    // Receive saved favourites from the main page.
-    window.addEventListener("message", function (event) {
-      if (event.source !== window.parent) {
-        return;
-      }
-
-      var data = event.data;
-
-      if (!data || data.type !== "eric-favourites-result") {
-        return;
-      }
-
-      favourites = data.jokes;
-      showFavourites();
-
-      if (data.message) {
-        document.getElementById("message").textContent =
-          data.message;
-      }
-    });
-
-    window.parent.postMessage({
-      type: "eric-load-favourites"
-    }, "*");
-  <\/script>
-</body>
-</html>
-`;
 
     var currentWeek = 2;
     var currentFile = "";
     var viewNumber = 0;
-    var jokePreviewActive = false;
 
     // Create Week 1–10 buttons.
     for (var week = 1; week <= 10; week++) {
@@ -474,7 +224,9 @@
       button.value = week;
 
       button.onclick = function () {
-        showWeek(Number(this.value));
+        var selected = Number(this.value);
+        showWeek(selected);
+        window.history.replaceState(null, "", "#week" + selected);
       };
 
       document.getElementById("weeks").appendChild(button);
@@ -563,8 +315,6 @@
     }
 
     function clearPreview() {
-      jokePreviewActive = false;
-
       var preview = document.getElementById("preview");
 
       preview.style.display = "none";
@@ -599,24 +349,28 @@
 
       openViewer(file);
 
-      // Use code stored inside this page when available.
-      if (embeddedCode[file] !== undefined) {
-        displayCode(embeddedCode[file]);
-        return;
-      }
-
       var thisView = viewNumber;
 
       document.getElementById("message").textContent =
         "Loading code...";
 
-      fetch(githubURL + getFileURL(file))
+      // Prefer the published HTML; keep support for code stored in the original repository.
+      var filePath = getFileURL(file);
+      fetch(filePath)
         .then(function (response) {
-          if (!response.ok) {
-            throw new Error("HTTP " + response.status);
+          if (response.ok) {
+            return response.text();
           }
-
-          return response.text();
+          // Week 2–4 may still be stored only in the source repository.
+          if (currentWeek !== 6) {
+            return fetch(githubURL + filePath).then(function (originalResponse) {
+              if (!originalResponse.ok) {
+                throw new Error("HTTP " + originalResponse.status);
+              }
+              return originalResponse.text();
+            });
+          }
+          throw new Error("HTTP " + response.status);
         })
         .then(function (code) {
           if (thisView !== viewNumber) {
@@ -647,9 +401,6 @@
 
       clearPreview();
 
-      jokePreviewActive =
-        currentFile === "Week6/Task1_Random_Joke_Fetcher.html";
-
       var preview = document.getElementById("preview");
 
       preview.srcdoc = code;
@@ -669,120 +420,8 @@
       document.getElementById("previewCodeButton").disabled = true;
     }
 
-    // Favourite storage for the Week 6 preview.
-    function readFavourites() {
-      var saved = localStorage.getItem("ericFavouriteJokes");
-
-      if (saved === null) {
-        return [];
-      }
-
-      var jokes = JSON.parse(saved);
-      var validJokes = [];
-
-      if (!Array.isArray(jokes)) {
-        return validJokes;
-      }
-
-      for (var i = 0; i < jokes.length; i++) {
-        if (
-          jokes[i] &&
-          typeof jokes[i].setup === "string" &&
-          typeof jokes[i].punchline === "string"
-        ) {
-          validJokes.push({
-            setup: jokes[i].setup,
-            punchline: jokes[i].punchline
-          });
-        }
-      }
-
-      return validJokes;
-    }
-
-    window.addEventListener("message", function (event) {
-      var preview = document.getElementById("preview");
-
-      // Only accept requests from the active Week 6 preview.
-      if (
-        !jokePreviewActive ||
-        event.source !== preview.contentWindow
-      ) {
-        return;
-      }
-
-      var data = event.data;
-
-      if (
-        !data ||
-        (
-          data.type !== "eric-load-favourites" &&
-          data.type !== "eric-save-favourite"
-        )
-      ) {
-        return;
-      }
-
-      var jokes = [];
-      var message = "";
-
-      try {
-        jokes = readFavourites();
-
-        if (data.type === "eric-save-favourite") {
-          var joke = data.joke;
-
-          if (
-            !joke ||
-            typeof joke.setup !== "string" ||
-            typeof joke.punchline !== "string"
-          ) {
-            return;
-          }
-
-          var alreadySaved = false;
-
-          for (var i = 0; i < jokes.length; i++) {
-            if (
-              jokes[i].setup === joke.setup &&
-              jokes[i].punchline === joke.punchline
-            ) {
-              alreadySaved = true;
-            }
-          }
-
-          if (alreadySaved) {
-            message = "This joke is already in your favourites.";
-          } else {
-            var updatedJokes = jokes.slice();
-
-            updatedJokes.push({
-              setup: joke.setup,
-              punchline: joke.punchline
-            });
-
-            localStorage.setItem(
-              "ericFavouriteJokes",
-              JSON.stringify(updatedJokes)
-            );
-
-            jokes = updatedJokes;
-            message = "Favourite saved!";
-          }
-        }
-      } catch (error) {
-        message =
-          "Could not access saved favourites. Browser storage may be unavailable.";
-      }
-
-      preview.contentWindow.postMessage({
-        type: "eric-favourites-result",
-        jokes: jokes,
-        message: message
-      }, "*");
-    });
-
-    showWeek(2);
+    var requestedWeek = /^#week(10|[1-9])$/i.exec(window.location.hash);
+    showWeek(requestedWeek ? Number(requestedWeek[1]) : 2);
   </script>
 </body>
 </html>
