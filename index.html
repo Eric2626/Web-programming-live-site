@@ -196,25 +196,25 @@
     ];
 
     homework[4] = [
-      "Week4/task1_click_counter.html",
-      "Week4/task2_dark_mode_toggle.html",
-      "Week4/task3_interactive_todo_list.html",
-      "Week4/task4_live_search_filter.html"
+      "week4/task1_click_counter.html",
+      "week4/task2_dark_mode_toggle.html",
+      "week4/task3_interactive_todo_list.html",
+      "week4/task4_live_search_filter.html"
     ];
 
-    // Week 6: six independent HTML pages (published inside Week6/).
+    // Week 6: match the lowercase week6 folder and existing filenames.
     homework[6] = [
-      "Week6/Task1_Random_Joke_Fetcher.html",
-      "Week6/Task2_JSONPlaceholder.html",
-      "Week6/Task3_Open_Meteo_Weather.html",
-      "Week6/Task4_Random_User.html",
-      "Week6/Task5_PokeAPI.html",
-      "Week6/Task6_REST_Countries.html"
+      "week6/random-joke.html",
+      "week6/jsonplaceholder.html",
+      "week6/open-meteo.html",
+      "week6/random-user.html",
+      "week6/pokeapi.html",
+      "week6/rest-countries.html"
     ];
 
-    // Week 7: Book Search (Open Library API).
+    // Week 7: Book Search (Open Library API) in lowercase week7 folder.
     homework[7] = [
-      "Week7/book-search.html"
+      "week7/book-search.html"
     ];
 
     var currentWeek = 2;
@@ -238,18 +238,20 @@
     }
 
     function getTitle(file) {
-      if (file === "Week7/book-search.html") {
-        return "Task 1 – Book Search";
-      }
+      var labels = {
+        "week6/random-joke.html": "Task 1 – Random Joke Fetcher",
+        "week6/jsonplaceholder.html": "Task 2 – JSONPlaceholder",
+        "week6/open-meteo.html": "Task 3 – Open-Meteo Weather",
+        "week6/random-user.html": "Task 4 – Random User",
+        "week6/pokeapi.html": "Task 5 – PokéAPI",
+        "week6/rest-countries.html": "Task 6 – REST Countries",
+        "week7/book-search.html": "Task 1 – Book Search"
+      };
+      if (labels[file]) return labels[file];
       var parts = file.split("/");
       var title = parts[parts.length - 1];
-
-      title = title.replace(".html", "");
-      title = title.split("_").join(" ");
-      title = title.split("&amp;").join("&");
-      title = title.replace("task", "Task");
-
-      return title;
+      title = title.replace(/\.html$/i, "").replace(/_/g, " ").replace(/&amp;/g, "&");
+      return title.replace(/^task/i, "Task");
     }
 
     function getFileURL(file) {
@@ -381,8 +383,8 @@
       var path = getFileURL(file);
       var sources;
 
-      // Week 2–3 live in the original source repository for now.
-      // Week 4–7 are published with this site and have matching HTML files.
+      // Week 2–3 may still live in the original source repository.
+      // Week 4, 6 and 7 HTML files are in the live-site repository.
       if (currentWeek === 2 || currentWeek === 3) {
         sources = [githubURL + path, path];
       } else if (currentWeek === 4) {
