@@ -43,6 +43,23 @@
       background-color: #1e40af;
     }
 
+    .site-link {
+      display: inline-block;
+      margin-left: 10px;
+      padding: 10px 15px;
+      border-radius: 6px;
+      background-color: #10b981;
+      color: white;
+      font-size: 13.3333px;
+      text-decoration: none;
+      vertical-align: middle;
+    }
+
+    .site-link:hover,
+    .site-link:focus-visible {
+      background-color: #047857;
+    }
+
     button:disabled {
       background-color: #94a3b8;
       cursor: default;
@@ -476,6 +493,8 @@
     }
 
     function getFileURL(file) {
+      // Convert text such as "&amp;" to the real character "&".
+      file = file.replace(/&amp;/g, "&");
       var parts = file.split("/");
 
       for (var i = 0; i < parts.length; i++) {
@@ -526,8 +545,19 @@
           viewCode(Number(this.value));
         };
 
+        // Each task has its own live GitHub Pages URL once its HTML file
+        // has been uploaded to this published repository.
+        var siteLink = document.createElement("a");
+        siteLink.className = "site-link";
+        siteLink.textContent = "Open Website";
+        siteLink.href = getFileURL(homework[week][i]);
+        siteLink.target = "_blank";
+        siteLink.rel = "noopener noreferrer";
+        siteLink.setAttribute("aria-label", "Open website for " + getTitle(homework[week][i]));
+
         card.appendChild(title);
         card.appendChild(codeButton);
+        card.appendChild(siteLink);
         list.appendChild(card);
       }
     }
@@ -754,3 +784,5 @@
 
     showWeek(2);
   </script>
+</body>
+</html>
