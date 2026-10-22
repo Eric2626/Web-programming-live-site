@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JavaScript Basics</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      max-width: 700px;
+      margin: auto;
+      padding: 30px;
+    }
+
+    section {
+      background-color: white;
+      padding: 15px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+    }
+
+    h1 {
+      color: #0f766e;
+    }
+
+    h2 {
+      color: #334155;
+    }
+
+    input {
+      padding: 6px;
+    }
+
+    button {
+      padding: 6px 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>JavaScript Basics</h1>
+
+  <section>
+    <h2>Changing Content</h2>
+    <p id="message">Original text</p>
+    <button onclick="changeText()">Change Text</button>
+  </section>
+
+  <section>
+    <h2>Reading User Input</h2>
+    <input type="text" id="nameInput" placeholder="Your name">
+    <button onclick="greet()">Greet</button>
+    <p id="output"></p>
+  </section>
+
+  <section>
+    <h2>Condition (if / else)</h2>
+    <p>Enter a score:</p>
+    <input type="number" id="scoreInput">
+    <button onclick="checkScore()">Check</button>
+    <p id="grade"></p>
+  </section>
+
+  <section>
+    <h2>Loop (for)</h2>
+    <p>Enter a number:</p>
+    <input type="number" id="loopInput">
+    <button onclick="runLoop()">Run</button>
+    <p id="loop"></p>
+  </section>
+
+  <section>
+    <h2>Loop Through an Array</h2>
+    <p id="fruits"></p>
+  </section>
+
+  <section>
+    <h2>localStorage</h2>
+    <p id="saved"></p>
+  </section>
+
+  <script>
+    let name = 'DELGERBAT';
+    const MAX = 100;
+
+    console.log(name);
+
+    function changeText() {
+      let el = document.getElementById('message');
+      el.textContent = 'Text was changed!';
+      el.style.color = 'red';
+    }
+
+    function greet() {
+      let name = document.getElementById('nameInput').value;
+      document.getElementById('output').textContent = 'Hello, ' + name + '!';
+      localStorage.setItem('name', name);
+    }
+
+    function checkScore() {
+      let score = document.getElementById('scoreInput').value;
+
+      localStorage.setItem('score', score);
+
+      if (score >= 90) {
+        document.getElementById('grade').textContent = 'Grade: A';
+      } else if (score >= 80) {
+        document.getElementById('grade').textContent = 'Grade: B';
+      } else if (score >= 70) {
+        document.getElementById('grade').textContent = 'Grade: C';
+      } else {
+        document.getElementById('grade').textContent = 'Grade: F';
+      }
+    }
+
+    function runLoop() {
+      let number = document.getElementById('loopInput').value;
+
+      localStorage.setItem('loopNumber', number);
+
+      let result = '';
+
+      for (let i = 1; i <= number; i++) {
+        result += 'Step ' + i + '<br>';
+      }
+
+      document.getElementById('loop').innerHTML = result;
+    }
+
+    let fruits = ['apple', 'banana', 'cherry'];
+    let fruitResult = '';
+
+    for (let fruit of fruits) {
+      fruitResult += fruit + '<br>';
+    }
+
+    document.getElementById('fruits').innerHTML = fruitResult;
+
+    let savedName = localStorage.getItem('name');
+    let savedScore = localStorage.getItem('score');
+    let savedLoopNumber = localStorage.getItem('loopNumber');
+
+    if (savedName !== null) {
+      document.getElementById('nameInput').value = savedName;
+      document.getElementById('output').textContent = 'Hello, ' + savedName + '!';
+    }
+
+    if (savedScore !== null) {
+      document.getElementById('scoreInput').value = savedScore;
+
+      if (savedScore >= 90) {
+        document.getElementById('grade').textContent = 'Grade: A';
+      } else if (savedScore >= 80) {
+        document.getElementById('grade').textContent = 'Grade: B';
+      } else if (savedScore >= 70) {
+        document.getElementById('grade').textContent = 'Grade: C';
+      } else {
+        document.getElementById('grade').textContent = 'Grade: F';
+      }
+    }
+
+    if (savedLoopNumber !== null) {
+      document.getElementById('loopInput').value = savedLoopNumber;
+
+      let savedResult = '';
+
+      for (let i = 1; i <= savedLoopNumber; i++) {
+        savedResult += 'Step ' + i + '<br>';
+      }
+
+      document.getElementById('loop').innerHTML = savedResult;
+    }
+
+    localStorage.setItem('username', 'DELGERBAT');
+    document.getElementById('saved').textContent =
+      'Saved name: ' + localStorage.getItem('username');
+  </script>
+
+</body>
+</html>
