@@ -202,6 +202,12 @@
       "week4/task4_live_search_filter.html"
     ];
 
+    // Week 5: JavaScript Basics and Counter.
+    homework[5] = [
+      "week5/js-basics.html",
+      "week5/counter.html"
+    ];
+
     // Week 6: match the lowercase week6 folder and existing filenames.
     homework[6] = [
       "week6/random-joke.html",
@@ -239,6 +245,8 @@
 
     function getTitle(file) {
       var labels = {
+        "week5/js-basics.html": "Task 1 – JavaScript Basics",
+        "week5/counter.html": "Task 2 – Counter",
         "week6/random-joke.html": "Task 1 – Random Joke Fetcher",
         "week6/jsonplaceholder.html": "Task 2 – JSONPlaceholder",
         "week6/open-meteo.html": "Task 3 – Open-Meteo Weather",
@@ -384,7 +392,7 @@
       var sources;
 
       // Week 2–3 may still live in the original source repository.
-      // Week 4, 6 and 7 HTML files are in the live-site repository.
+      // Week 4, 5, 6 and 7 HTML files are in the live-site repository.
       if (currentWeek === 2 || currentWeek === 3) {
         sources = [githubURL + path, path];
       } else if (currentWeek === 4) {
