@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Homework — Student Registration — Web Programming</title>
+  <style>
+:root { color-scheme: light; --blue:#2563eb; --blue-dark:#1d4ed8; --ink:#182338; --muted:#607089; --line:#dbe3f0; --bg:#f2f6fc; --green:#15803d; --red:#dc2626; }
+* { box-sizing: border-box; }
+body { margin:0; font-family: Arial, Helvetica, sans-serif; color:var(--ink); background:var(--bg); line-height:1.5; }
+main { max-width:880px; margin:0 auto; }
+main { padding:26px 20px 55px; }
+.card { background:#fff; border:1px solid #e5ebf6; border-radius:16px; padding:26px; margin:0 0 22px; box-shadow:0 8px 22px rgba(35,62,100,.055); }
+.card h2 { margin:0 0 6px; font-size:22px; }
+.desc { color:var(--muted); margin:0 0 22px; }
+label { display:block; font-size:14px; font-weight:700; margin:16px 0 6px; }
+input:not([type=checkbox]):not([type=range]), select { width:100%; font:inherit; padding:11px 13px; border-radius:9px; border:2px solid var(--line); background:#fff; min-height:45px; }
+input:focus-visible, select:focus-visible { outline:3px solid #93c5fd; outline-offset:2px; }
+.help { color:var(--muted); font-size:12px; margin:5px 0 0; }
+.row { display:flex; align-items:center; gap:10px; margin-top:18px; }
+.row label { margin:0; font-weight:500; }
+.row input[type=checkbox] { width:17px; height:17px; accent-color:var(--blue); }
+button { background:var(--blue); color:white; border:0; padding:12px 20px; font:inherit; font-weight:700; border-radius:9px; margin-top:20px; cursor:pointer; }
+button:hover { background:var(--blue-dark); }
+.status { margin:13px 0 0; font-size:14px; font-weight:600; color:var(--green); min-height:22px; }
+fieldset { border:1px solid var(--line); border-radius:12px; margin:0 0 18px; padding:14px 20px 22px; min-width:0; }
+legend { color:#17448a; padding:0 8px; font-weight:700; }
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:0 18px; }
+.full { grid-column:1/-1; }
+.note { background:#eef5ff; color:#24466c; border-left:4px solid #3b82f6; border-radius:5px; padding:13px 16px; font-size:13px; margin:12px 0 21px; }
+nav { display:flex; flex-wrap:wrap; gap:14px; font-size:14px; }
+nav a { color:#fff; text-decoration:underline; text-underline-offset:3px; }
+footer { text-align:center; color:var(--muted); padding:0 20px 30px; font-size:13px; }
+/* Form state colors only after the user enters something. */
+.validation input:not([type=checkbox]):not([type=range]):not([type=date]):valid:not(:placeholder-shown) { border-color:#16a34a; background-color:#f0fdf4; }
+.validation input:not([type=checkbox]):not([type=range]):not([type=date]):invalid:not(:placeholder-shown) { border-color:#dc2626; background-color:#fef2f2; }
+.validation input:not([type=checkbox]):not([type=range]):focus { outline:3px solid #bfdbfe; outline-offset:2px; }
+.validation select:required:valid { border-color:#16a34a; }
+.validation select:required:invalid { border-color:var(--line); }
+.experience { display:flex; align-items:center; gap:16px; }
+.experience input { flex:1; accent-color:var(--blue); }
+output { background:#dbeafe; padding:5px 12px; min-width:40px; text-align:center; border-radius:9px; font-weight:700; }
+@media (max-width:640px) { .card { padding:20px 16px; } .grid { grid-template-columns:1fr; } fieldset { padding:12px 14px 18px; } }
+
+</style>
+</head>
+<body>
+  <main>
+<section class="card validation">
+  <h2>Student Registration Form</h2>
+  <form id="student-registration" method="post" action="/register" data-demo>
+    <fieldset>
+      <legend>Personal Info</legend>
+      <div class="grid">
+        <div class="full">
+          <label for="full-name">Full Name <span aria-hidden="true">*</span></label>
+          <input id="full-name" name="full_name" type="text" placeholder="Your full name" autocomplete="name" required>
+        </div>
+        <div>
+          <label for="student-id">Student ID <span aria-hidden="true">*</span></label>
+          <input id="student-id" name="student_id" type="text" pattern="\d{9}"
+                 placeholder="202112345" title="Enter exactly 9 digits" inputmode="numeric" required>
+          <p class="help">Must contain exactly nine digits.</p>
+        </div>
+        <div>
+          <label for="birth-date">Date of Birth</label>
+          <input id="birth-date" name="date_of_birth" type="date" autocomplete="bday">
+        </div>
+        <div class="full">
+          <label for="major">Major <span aria-hidden="true">*</span></label>
+          <select id="major" name="major" required>
+            <option value="">Select your major</option>
+            <option value="computer-science">Computer Science</option>
+            <option value="computer-engineering">Computer Engineering</option>
+            <option value="business">Business Administration</option>
+            <option value="electrical-engineering">Electrical Engineering</option>
+            <option value="media">Media and Communication</option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Account Info</legend>
+      <div class="grid">
+        <div>
+          <label for="account-email">Email <span aria-hidden="true">*</span></label>
+          <input id="account-email" name="email" type="email" placeholder="name@example.com" autocomplete="email" required>
+        </div>
+        <div>
+          <label for="account-password">Password <span aria-hidden="true">*</span></label>
+          <input id="account-password" name="password" type="password" placeholder="At least 8 characters"
+                 minlength="8" autocomplete="new-password" required>
+          <p class="help">Minimum 8 characters.</p>
+        </div>
+        <div class="full">
+          <label for="phone">Phone</label>
+          <input id="phone" name="phone" type="text" pattern="\d{3}-\d{4}-\d{4}"
+                 placeholder="010-1234-5678" title="Use the format 010-1234-5678" autocomplete="tel">
+          <p class="help">Format: 010-1234-5678 (optional).</p>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Bonus: Coding Experience</legend>
+      <label for="years">Years of coding experience (0–10)</label>
+      <div class="experience">
+        <input id="years" name="coding_years" type="range" min="0" max="10" step="1" value="0">
+        <output id="years-value" for="years">0</output>
+      </div>
+    </fieldset>
+    <div class="row">
+      <input id="terms" name="terms" type="checkbox" required value="agreed">
+      <label for="terms">I agree to the terms <span aria-hidden="true">*</span></label>
+    </div>
+    <button type="submit">Register</button>
+    <p class="status" role="status" aria-live="polite"></p>
+  </form>
+</section>
+</main>
+  <footer>HTML Forms &amp; HTML5 Validation · Week 6 Monday exercises</footer>
+  <script>
+// Front-end demonstration: prevent POST requests (GitHub Pages has no backend).
+// The browser checks required fields, patterns, etc. before this submit handler runs.
+document.querySelectorAll('form[data-demo]').forEach(form => {
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    const status = form.querySelector('.status');
+    if (status) status.textContent = 'Form is valid! Demo only — no data was sent.';
+  });
+  form.addEventListener('input', () => {
+    const status = form.querySelector('.status');
+    if (status) status.textContent = '';
+  });
+});
+const experience = document.getElementById('years');
+const experienceValue = document.getElementById('years-value');
+if (experience && experienceValue) {
+  experience.addEventListener('input', () => { experienceValue.value = experience.value; experienceValue.textContent = experience.value; });
+}
+</script>
+</body>
+</html>
