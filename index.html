@@ -238,6 +238,11 @@
       "week7/homework.html"
     ];
 
+    // Week 8: actual filename as uploaded to the week8 GitHub folder.
+    homework[8] = [
+      "week8/upgraded registration.html"
+    ];
+
     var currentWeek = 2;
     var currentFile = "";
     var viewNumber = 0;
@@ -272,7 +277,8 @@
         "week7/login.html": "Practice E1 – Login Form",
         "week7/validation.html": "Practice E2 – HTML5 Validation",
         "week7/css_states.html": "Practice E3 – CSS Valid / Invalid States",
-        "week7/homework.html": "Homework – Student Registration"
+        "week7/homework.html": "Homework – Student Registration",
+        "week8/upgraded registration.html": "Homework – Upgraded Student Registration"
       };
       if (labels[file]) return labels[file];
       var parts = file.split("/");
@@ -411,7 +417,7 @@
       var sources;
 
       // Week 2–3 may still live in the original source repository.
-      // Week 4, 5, 6 and 7 HTML files are in the live-site repository.
+      // Week 4–8 HTML files are in the live-site repository.
       if (currentWeek === 2 || currentWeek === 3) {
         sources = [githubURL + path, path];
       } else if (currentWeek === 4) {
