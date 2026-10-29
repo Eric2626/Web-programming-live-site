@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E3 — Fix Accessibility Issues — Web Accessibility</title>
+  <style>
+:root{color-scheme:light;--ink:#182338;--muted:#475569;--blue:#1d4ed8;--green:#166534;--line:#cbd5e1;--bg:#f1f5f9}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}
+main{max-width:840px;margin:46px auto;padding:0 22px 40px}.sheet{background:white;border:1px solid var(--line);border-radius:16px;padding:30px;box-shadow:0 10px 28px #142d4a12}
+h1{font-size:clamp(1.6rem,5vw,2.25rem);line-height:1.2;margin:0 0 12px}h2{font-size:1.15rem;margin:1.4rem 0 .6rem}
+p{margin:.5rem 0 1rem}.muted{color:var(--muted)}.tag{display:inline-block;background:#e0e7ff;color:#1e40af;font-size:.83rem;font-weight:700;border-radius:100px;padding:3px 12px;margin-bottom:18px}
+button,.button{font:inherit;cursor:pointer;background:var(--blue);color:#fff;border:2px solid transparent;border-radius:10px;padding:11px 19px;font-weight:700}button:hover,.button:hover{background:#1e40af}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #d97706;outline-offset:4px}
+a{color:#1d4ed8}.skip-link{position:absolute;left:-9999px;top:10px;background:#16213b;color:#fff;padding:8px 15px;z-index:99;border-radius:8px}.skip-link:focus{left:10px}
+.helper{background:#eff6ff;border-left:4px solid #2563eb;border-radius:5px;padding:13px 16px;margin:20px 0}.success{background:#dcfce7;border-left:4px solid #15803d;color:#14532d;padding:12px 15px;border-radius:6px;margin-top:17px}.error{color:#991b1b;font-size:.92rem}.hidden{display:none}.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}.status{min-height:1.4rem;margin-top:18px;font-weight:600}.divider{height:1px;background:#e2e8f0;margin:24px 0}
+@media(max-width:640px){main{margin:20px auto}.sheet{padding:20px}}
+
+
+form{margin-top:18px}label{display:block;font-weight:700;margin:18px 0 5px}
+input{width:100%;padding:11px 13px;border:2px solid #94a3b8;border-radius:9px;font:inherit}
+input[aria-invalid=true]{border-color:#b91c1c;background:#fff7f7}
+.small{font-size:.88rem;margin:4px 0}.error{min-height:1.4rem;margin:4px 0 0}
+.submit-btn{width:100%;margin-top:12px}.icon-btn{border-radius:100px;padding:5px 10px;min-width:46px;height:46px;background:#166534}
+.icon-btn:hover{background:#14532d}.search-panel{background:#eff6ff;padding:14px;border-radius:9px;margin-top:14px}
+.team-link img{max-width:350px;width:100%;height:auto;border-radius:10px;border:1px solid #cbd5e1}
+</style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <main id="main-content"><div class="sheet">
+<span class="tag">EXERCISE 3</span>
+<h1>Lighthouse Accessibility Fixes</h1>
+<p class="muted">This form fixes four common accessibility issues from the study guide.</p>
+<div class="row" style="justify-content:space-between">
+  <h2 style="margin:0">Sign Up</h2>
+  <!-- Fix 1: icon button has accessible name. -->
+  <button type="button" class="icon-btn" id="search-button" aria-label="Show email search field" aria-expanded="false" aria-controls="search-panel" title="Show search">🔍</button>
+</div>
+<div id="search-panel" class="search-panel" hidden>
+  <label for="search-field">Search for a word</label>
+  <input id="search-field" type="search" placeholder="Type something to search">
+  <p class="muted">Search is a demonstration only; no server is connected.</p>
+</div>
+<form id="signup" novalidate>
+  <!-- Fix 2: every field has a visible, associated label. -->
+  <label for="email-field">Email address <span aria-hidden="true">*</span></label>
+  <input id="email-field" name="email" type="email" autocomplete="email" placeholder="you@example.com" required aria-describedby="email-hint email-error">
+  <p class="muted small" id="email-hint">Use a valid email address.</p>
+  <p id="email-error" class="error" aria-live="polite"></p>
+
+  <label for="password-field">Password <span aria-hidden="true">*</span></label>
+  <input id="password-field" name="password" type="password" autocomplete="new-password" minlength="8" placeholder="At least 8 characters" required aria-describedby="password-hint password-error">
+  <p class="muted small" id="password-hint">Minimum 8 characters.</p>
+  <p id="password-error" class="error" aria-live="polite"></p>
+  <button type="submit" class="submit-btn">Create account</button>
+</form>
+<!-- Fix 3: feedback includes explicit text and an alert role, not color alone. -->
+<p id="form-result" class="status" role="status" aria-live="polite"></p>
+<div class="divider"></div>
+<!-- Fix 4: linked image communicates destination. -->
+<a class="team-link" href="../teamproject/index.html" aria-label="Open Memory Match team project">
+  <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20420%20140%22%3E%3Crect%20width%3D%22420%22%20height%3D%22140%22%20rx%3D%2212%22%20fill%3D%22%23e0eaff%22%2F%3E%3Ccircle%20cx%3D%2295%22%20cy%3D%2267%22%20r%3D%2224%22%20fill%3D%22%23375ba2%22%2F%3E%3Ccircle%20cx%3D%22162%22%20cy%3D%2267%22%20r%3D%2224%22%20fill%3D%22%231b857a%22%2F%3E%3Ccircle%20cx%3D%22229%22%20cy%3D%2267%22%20r%3D%2224%22%20fill%3D%22%239555bf%22%2F%3E%3Ctext%20x%3D%22280%22%20y%3D%2266%22%20fill%3D%22%231c355c%22%20font-size%3D%2219%22%20font-weight%3D%22bold%22%20font-family%3D%22Arial%22%3ETEAM%3C%2Ftext%3E%3Ctext%20x%3D%22280%22%20y%3D%2288%22%20fill%3D%22%231c355c%22%20font-size%3D%2215%22%20font-family%3D%22Arial%22%3EPROJECT%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Open Memory Match team project">
+</a>
+<p class="muted">The image link leads to the team's Memory Match website.</p>
+<div class="helper">
+<strong>Four fixes:</strong> Named icon button, labeled email input, explicit error messages, and descriptive alt text for the linked image.
+</div>
+</div></main>
+  <script>
+const searchButton = document.getElementById('search-button');
+searchButton.addEventListener('click', () => {
+  const panel = document.getElementById('search-panel');
+  panel.hidden = !panel.hidden;
+  searchButton.setAttribute('aria-expanded', String(!panel.hidden));
+  searchButton.setAttribute('aria-label', panel.hidden ? 'Show email search field' : 'Hide email search field');
+  if (!panel.hidden) document.getElementById('search-field').focus();
+});
+const form = document.getElementById('signup');
+const email = document.getElementById('email-field');
+const password = document.getElementById('password-field');
+function validateField(el, showError) {
+  const err = document.getElementById(el.id === 'email-field' ? 'email-error' : 'password-error');
+  let message = '';
+  if (!el.value.trim()) message = 'Error: This field is required.';
+  else if (el === email && !el.validity.valid) message = 'Error: Enter a valid email address.';
+  else if (el === password && el.value.length < 8) message = 'Error: Password must have at least 8 characters.';
+  err.textContent = showError ? '⚠ ' + message : '';
+  el.setAttribute('aria-invalid', String(Boolean(message && showError)));
+  return !message;
+}
+[email, password].forEach(el => el.addEventListener('input', () => {
+  validateField(el, true);
+  document.getElementById('form-result').textContent = '';
+}));
+form.addEventListener('submit', event => {
+  event.preventDefault();
+  const okEmail = validateField(email, true);
+  const okPassword = validateField(password, true);
+  const result = document.getElementById('form-result');
+  if (!okEmail || !okPassword) {
+    result.textContent = '⚠ Error: Please correct the fields above.';
+    (!okEmail ? email : password).focus();
+  } else {
+    result.textContent = '✅ Form is valid! Demo only — no data was sent.';
+  }
+});
+</script>
+</body>
+</html>

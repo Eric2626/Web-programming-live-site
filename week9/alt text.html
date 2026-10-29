@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E2 — Image Alt Text — Web Accessibility</title>
+  <style>
+:root{color-scheme:light;--ink:#182338;--muted:#475569;--blue:#1d4ed8;--green:#166534;--line:#cbd5e1;--bg:#f1f5f9}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}
+main{max-width:840px;margin:46px auto;padding:0 22px 40px}.sheet{background:white;border:1px solid var(--line);border-radius:16px;padding:30px;box-shadow:0 10px 28px #142d4a12}
+h1{font-size:clamp(1.6rem,5vw,2.25rem);line-height:1.2;margin:0 0 12px}h2{font-size:1.15rem;margin:1.4rem 0 .6rem}
+p{margin:.5rem 0 1rem}.muted{color:var(--muted)}.tag{display:inline-block;background:#e0e7ff;color:#1e40af;font-size:.83rem;font-weight:700;border-radius:100px;padding:3px 12px;margin-bottom:18px}
+button,.button{font:inherit;cursor:pointer;background:var(--blue);color:#fff;border:2px solid transparent;border-radius:10px;padding:11px 19px;font-weight:700}button:hover,.button:hover{background:#1e40af}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #d97706;outline-offset:4px}
+a{color:#1d4ed8}.skip-link{position:absolute;left:-9999px;top:10px;background:#16213b;color:#fff;padding:8px 15px;z-index:99;border-radius:8px}.skip-link:focus{left:10px}
+.helper{background:#eff6ff;border-left:4px solid #2563eb;border-radius:5px;padding:13px 16px;margin:20px 0}.success{background:#dcfce7;border-left:4px solid #15803d;color:#14532d;padding:12px 15px;border-radius:6px;margin-top:17px}.error{color:#991b1b;font-size:.92rem}.hidden{display:none}.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}.status{min-height:1.4rem;margin-top:18px;font-weight:600}.divider{height:1px;background:#e2e8f0;margin:24px 0}
+@media(max-width:640px){main{margin:20px auto}.sheet{padding:20px}}
+
+
+.gallery{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0}
+.item{border:1px solid #d3deeb;border-radius:11px;padding:15px;background:#fafcff}
+.item h2{font-size:1rem;margin:0 0 10px}.item img{display:block;width:100%;object-fit:contain;border-radius:9px;background:#eef2ff}
+.item img.logo{max-height:160px}.item p{font-size:.88rem;color:#475569;margin:8px 0 0}
+#feedback .item-result{margin:5px 0}
+@media(max-width:620px){.gallery{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <main id="main-content"><div class="sheet">
+<span class="tag">EXERCISE 2</span>
+<h1>Add proper alt text to images</h1>
+<p class="muted">Describe informative images, skip purely decorative images, and name destinations for linked images.</p>
+<div class="gallery">
+  <section class="item"><h2>Image 1 — Campus</h2>
+    <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20640%20280%22%3E%3Crect%20width%3D%22640%22%20height%3D%22280%22%20fill%3D%22%23d9efff%22%2F%3E%3Ccircle%20cx%3D%22545%22%20cy%3D%2250%22%20r%3D%2234%22%20fill%3D%22%23ffe799%22%2F%3E%3Cpath%20d%3D%22M0%20232Q115%20196%20230%20225T640%20218V280H0Z%22%20fill%3D%22%2377b18b%22%2F%3E%3Crect%20x%3D%22165%22%20y%3D%2269%22%20width%3D%22305%22%20height%3D%22167%22%20rx%3D%226%22%20fill%3D%22%23dce7f6%22%20stroke%3D%22%23406c8e%22%20stroke-width%3D%224%22%2F%3E%3Crect%20x%3D%22193%22%20y%3D%2251%22%20width%3D%22247%22%20height%3D%2219%22%20fill%3D%22%23194d74%22%2F%3E%3Ctext%20x%3D%22316%22%20y%3D%2265%22%20fill%3D%22white%22%20font-size%3D%2213%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%22%3EUNIVERSITY%20CAMPUS%3C%2Ftext%3E%3Cg%20fill%3D%22%236cb0d8%22%20stroke%3D%22%23fff%22%20stroke-width%3D%224%22%3E%3Crect%20x%3D%22188%22%20y%3D%2291%22%20width%3D%2258%22%20height%3D%2251%22%2F%3E%3Crect%20x%3D%22257%22%20y%3D%2291%22%20width%3D%2258%22%20height%3D%2251%22%2F%3E%3Crect%20x%3D%22327%22%20y%3D%2291%22%20width%3D%2258%22%20height%3D%2251%22%2F%3E%3Crect%20x%3D%22396%22%20y%3D%2291%22%20width%3D%2250%22%20height%3D%2251%22%2F%3E%3Crect%20x%3D%22188%22%20y%3D%22153%22%20width%3D%2258%22%20height%3D%2251%22%2F%3E%3Crect%20x%3D%22257%22%20y%3D%22153%22%20width%3D%2258%22%20height%3D%2251%22%2F%3E%3Crect%20x%3D%22396%22%20y%3D%22153%22%20width%3D%2250%22%20height%3D%2251%22%2F%3E%3C%2Fg%3E%3Crect%20x%3D%22318%22%20y%3D%22160%22%20width%3D%2265%22%20height%3D%2276%22%20fill%3D%22%23234e77%22%2F%3E%3Ccircle%20cx%3D%2295%22%20cy%3D%22182%22%20r%3D%2246%22%20fill%3D%22%23409c63%22%2F%3E%3Crect%20x%3D%2289%22%20y%3D%22199%22%20width%3D%2213%22%20height%3D%2246%22%20fill%3D%22%23765138%22%2F%3E%3Ccircle%20cx%3D%22527%22%20cy%3D%22185%22%20r%3D%2246%22%20fill%3D%22%23409c63%22%2F%3E%3Crect%20x%3D%22521%22%20y%3D%22199%22%20width%3D%2213%22%20height%3D%2246%22%20fill%3D%22%23765138%22%2F%3E%3C%2Fsvg%3E" alt="Illustration of a university campus building with glass windows and trees">
+    <p>Informative image: descriptive alternative text.</p>
+  </section>
+  <section class="item"><h2>Image 2 — Decorative divider</h2>
+    <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20640%2075%22%3E%3Crect%20width%3D%22640%22%20height%3D%2275%22%20fill%3D%22%23edf7ef%22%2F%3E%3Cpath%20d%3D%22M0%2034Q40%206%2080%2034T160%2034T240%2034T320%2034T400%2034T480%2034T560%2034T640%2034%22%20fill%3D%22none%22%20stroke%3D%22%2317a06d%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E" alt="">
+    <p>Decorative image: empty <code>alt=""</code> tells screen readers to skip it.</p>
+  </section>
+  <section class="item"><h2>Image 3 — Linked logo</h2>
+    <a href="https://www.gachon.ac.kr/" target="_blank" rel="noopener noreferrer" title="Visit Gachon University">
+      <img class="logo" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20300%20140%22%3E%3Crect%20width%3D%22300%22%20height%3D%22140%22%20rx%3D%2214%22%20fill%3D%22%23e9f4ff%22%2F%3E%3Ccircle%20cx%3D%2275%22%20cy%3D%2270%22%20r%3D%2249%22%20fill%3D%22%2315599a%22%2F%3E%3Ctext%20x%3D%2275%22%20y%3D%2282%22%20fill%3D%22white%22%20font-size%3D%2238%22%20font-weight%3D%22bold%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%22%3EGU%3C%2Ftext%3E%3Ctext%20x%3D%22145%22%20y%3D%2259%22%20fill%3D%22%23123a60%22%20font-size%3D%2223%22%20font-weight%3D%22bold%22%20font-family%3D%22Arial%22%3EGACHON%3C%2Ftext%3E%3Ctext%20x%3D%22145%22%20y%3D%2286%22%20fill%3D%22%23123a60%22%20font-size%3D%2219%22%20font-family%3D%22Arial%22%3EUNIVERSITY%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Visit Gachon University homepage">
+    </a>
+    <p>Linked image: alternative text describes where the link goes.</p>
+  </section>
+  <section class="item"><h2>Image 4 — Enrollment chart</h2>
+    <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20640%20300%22%3E%3Crect%20width%3D%22640%22%20height%3D%22300%22%20fill%3D%22%23fafafa%22%2F%3E%3Ctext%20x%3D%2240%22%20y%3D%2235%22%20font-size%3D%2223%22%20fill%3D%22%23192b4a%22%20font-family%3D%22Arial%22%20font-weight%3D%22bold%22%3EStudent%20enrollment%3C%2Ftext%3E%3Cpath%20d%3D%22M75%2060V252H600%22%20stroke%3D%22%23475569%22%20stroke-width%3D%223%22%20fill%3D%22none%22%2F%3E%3Cg%20fill%3D%22%232563eb%22%3E%3Crect%20x%3D%22130%22%20y%3D%2292%22%20width%3D%2292%22%20height%3D%22160%22%2F%3E%3Crect%20x%3D%22294%22%20y%3D%2265%22%20width%3D%2292%22%20height%3D%22187%22%2F%3E%3Crect%20x%3D%22458%22%20y%3D%2255%22%20width%3D%2292%22%20height%3D%22197%22%2F%3E%3C%2Fg%3E%3Cg%20font-size%3D%2219%22%20fill%3D%22%23182338%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%22%3E%3Ctext%20x%3D%22176%22%20y%3D%2286%22%3E1%2C200%3C%2Ftext%3E%3Ctext%20x%3D%22340%22%20y%3D%2259%22%3E1%2C400%3C%2Ftext%3E%3Ctext%20x%3D%22504%22%20y%3D%2249%22%3E1%2C476%3C%2Ftext%3E%3Ctext%20x%3D%22176%22%20y%3D%22279%22%3E2024%3C%2Ftext%3E%3Ctext%20x%3D%22340%22%20y%3D%22279%22%3E2025%3C%2Ftext%3E%3Ctext%20x%3D%22504%22%20y%3D%22279%22%3E2026%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="Bar chart of student enrollment increasing from 1,200 students in 2024 to 1,400 in 2025 and 1,476 in 2026">
+    <p>Data chart: alternative text summarizes the important numbers.</p>
+  </section>
+</div>
+<button type="button" id="check-alts">Check my alt text</button>
+<div id="feedback" class="status" role="status" aria-live="polite"></div>
+</div></main>
+  <script>
+document.getElementById('check-alts').addEventListener('click', () => {
+  const images = [...document.querySelectorAll('.gallery img')];
+  const results = images.map((img, i) => {
+    const alt = img.getAttribute('alt');
+    if (alt === null) return `❌ Image ${i + 1}: Missing alt attribute`;
+    if (i === 1) return alt === '' ? '✅ Image 2: Correct decorative alt=""' : '❌ Image 2: Decorative image needs alt=""';
+    if (alt.trim().length < 15) return `❌ Image ${i + 1}: Please use a more descriptive alt`;
+    return `✅ Image ${i + 1}: Accessible alt text added`;
+  });
+  const feedback = document.getElementById('feedback');
+  feedback.replaceChildren(...results.map(result => {
+    const p = document.createElement('p'); p.className='item-result'; p.textContent=result; return p;
+  }));
+});
+</script>
+</body>
+</html>

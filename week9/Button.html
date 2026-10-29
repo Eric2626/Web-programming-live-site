@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E1 — Accessible Buttons — Web Accessibility</title>
+  <style>
+:root{color-scheme:light;--ink:#182338;--muted:#475569;--blue:#1d4ed8;--green:#166534;--line:#cbd5e1;--bg:#f1f5f9}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}
+main{max-width:840px;margin:46px auto;padding:0 22px 40px}.sheet{background:white;border:1px solid var(--line);border-radius:16px;padding:30px;box-shadow:0 10px 28px #142d4a12}
+h1{font-size:clamp(1.6rem,5vw,2.25rem);line-height:1.2;margin:0 0 12px}h2{font-size:1.15rem;margin:1.4rem 0 .6rem}
+p{margin:.5rem 0 1rem}.muted{color:var(--muted)}.tag{display:inline-block;background:#e0e7ff;color:#1e40af;font-size:.83rem;font-weight:700;border-radius:100px;padding:3px 12px;margin-bottom:18px}
+button,.button{font:inherit;cursor:pointer;background:var(--blue);color:#fff;border:2px solid transparent;border-radius:10px;padding:11px 19px;font-weight:700}button:hover,.button:hover{background:#1e40af}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #d97706;outline-offset:4px}
+a{color:#1d4ed8}.skip-link{position:absolute;left:-9999px;top:10px;background:#16213b;color:#fff;padding:8px 15px;z-index:99;border-radius:8px}.skip-link:focus{left:10px}
+.helper{background:#eff6ff;border-left:4px solid #2563eb;border-radius:5px;padding:13px 16px;margin:20px 0}.success{background:#dcfce7;border-left:4px solid #15803d;color:#14532d;padding:12px 15px;border-radius:6px;margin-top:17px}.error{color:#991b1b;font-size:.92rem}.hidden{display:none}.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}.status{min-height:1.4rem;margin-top:18px;font-weight:600}.divider{height:1px;background:#e2e8f0;margin:24px 0}
+@media(max-width:640px){main{margin:20px auto}.sheet{padding:20px}}
+
+
+.submit-btn{background:#166534}.submit-btn:hover{background:#14532d}
+.close-btn{background:#b91c1c;width:46px;height:46px;border-radius:50%;padding:0;font-size:20px}
+.close-btn:hover{background:#991b1b}
+.submit-btn:focus-visible{outline:3px solid #166534;outline-offset:4px}
+.close-btn:focus-visible{outline:3px solid #b91c1c;outline-offset:4px}
+kbd{border:1px solid #94a3b8;border-radius:4px;background:#f8fafc;padding:1px 5px}
+</style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <main id="main-content"><div class="sheet">
+<span class="tag">EXERCISE 1</span>
+<h1>Fix a div-button to a real button</h1>
+<p class="muted">Accessible buttons work with a mouse, keyboard, and screen reader.</p>
+<div class="helper">Press <kbd>Tab</kbd> to move between the buttons. Press <kbd>Enter</kbd> or <kbd>Space</kbd> to activate one.</div>
+<div class="row">
+  <!-- Fix 1: A real button, not a div with onclick. -->
+  <button class="submit-btn" id="submit-btn" type="button">Submit form</button>
+  <!-- Fix 2: Name the icon-only button for screen readers. -->
+  <button class="close-btn" id="close-btn" type="button" aria-label="Close message" title="Close message"><span aria-hidden="true">✕</span></button>
+</div>
+<p id="result" class="status" role="status" aria-live="polite">Select a button to test it.</p>
+<div class="divider"></div>
+<h2>What was fixed?</h2>
+<ul>
+  <li>Replaced <code>&lt;div onclick&gt;</code> with <code>&lt;button type="button"&gt;</code>.</li>
+  <li>Added a visible <code>:focus-visible</code> outline for keyboard users.</li>
+  <li>Added <code>aria-label="Close message"</code> to the icon-only button.</li>
+  <li>Both buttons are automatically keyboard accessible using Tab, Enter, and Space.</li>
+</ul>
+</div></main>
+  <script>
+const result = document.getElementById('result');
+document.getElementById('submit-btn').addEventListener('click', () => {
+  result.textContent = '✅ Submit activated! This works with the mouse, Enter, or Space.';
+});
+document.getElementById('close-btn').addEventListener('click', () => {
+  result.textContent = '✅ Close button activated! Its accessible name is “Close message”.';
+});
+</script>
+</body>
+</html>
