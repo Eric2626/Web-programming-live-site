@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Homework — Student Registration — Web Programming</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --blue: #2563eb;
+      --blue-dark: #1d4ed8;
+      --ink: #182338;
+      --muted: #607089;
+      --line: #dbe3f0;
+      --bg: #f2f6fc;
+      --green: #15803d;
+      --red: #dc2626;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.5;
+    }
+    main { max-width: 880px; margin: 0 auto; padding: 26px 20px 55px; }
+    .card {
+      background: #fff;
+      border: 1px solid #e5ebf6;
+      border-radius: 16px;
+      padding: 26px;
+      margin-bottom: 22px;
+      box-shadow: 0 8px 22px rgba(35, 62, 100, .055);
+    }
+    .card h2 { margin: 0 0 6px; font-size: 22px; }
+    .desc { color: var(--muted); margin: 0 0 22px; }
+    label { display: block; font-size: 14px; font-weight: 700; margin: 16px 0 6px; }
+    input:not([type="checkbox"]):not([type="range"]), select {
+      width: 100%;
+      font: inherit;
+      padding: 11px 13px;
+      border-radius: 9px;
+      border: 2px solid var(--line);
+      background: #fff;
+      min-height: 45px;
+    }
+    input:focus-visible, select:focus-visible { outline: 3px solid #93c5fd; outline-offset: 2px; }
+    .help { color: var(--muted); font-size: 12px; margin: 5px 0 0; }
+    .error { color: var(--red); font-size: 12px; font-weight: 600; margin: 5px 0 0; }
+    .row { display: flex; align-items: center; gap: 10px; margin-top: 18px; }
+    .row label { margin: 0; font-weight: 500; }
+    .row input[type="checkbox"] { width: 17px; height: 17px; accent-color: var(--blue); }
+    button {
+      background: var(--blue);
+      color: white;
+      border: 0;
+      padding: 12px 20px;
+      font: inherit;
+      font-weight: 700;
+      border-radius: 9px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    button:hover:not(:disabled) { background: var(--blue-dark); }
+    button:disabled { background: #94a3b8; cursor: not-allowed; }
+    .success-message {
+      margin-top: 16px;
+      padding: 12px 15px;
+      border-radius: 9px;
+      border: 1px solid #86efac;
+      background: #f0fdf4;
+      color: var(--green);
+      font-weight: 600;
+    }
+    .submit-error { margin-top: 12px; color: var(--red); font-weight: 600; }
+    fieldset {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      margin: 0 0 18px;
+      padding: 14px 20px 22px;
+      min-width: 0;
+    }
+    legend { color: #17448a; padding: 0 8px; font-weight: 700; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 18px; }
+    .full { grid-column: 1 / -1; }
+    .experience { display: flex; align-items: center; gap: 16px; }
+    .experience input { flex: 1; accent-color: var(--blue); }
+    output {
+      background: #dbeafe;
+      padding: 5px 12px;
+      min-width: 40px;
+      text-align: center;
+      border-radius: 9px;
+      font-weight: 700;
+    }
+    .validation input.is-valid:not([type="checkbox"]):not([type="range"]),
+    .validation select.is-valid { border-color: #16a34a; background-color: #f0fdf4; }
+    .validation input.is-invalid:not([type="checkbox"]):not([type="range"]),
+    .validation select.is-invalid { border-color: var(--red); background-color: #fef2f2; }
+    footer { text-align: center; color: var(--muted); padding: 0 20px 30px; font-size: 13px; }
+    @media (max-width: 640px) {
+      .card { padding: 20px 16px; }
+      .grid { grid-template-columns: 1fr; }
+      fieldset { padding: 12px 14px 18px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="card validation">
+      <h2>Student Registration Form</h2>
+      <p class="desc">Complete all required fields to enable the Register button.</p>
+      <form id="student-registration" method="post" action="/register" novalidate>
+        <fieldset>
+          <legend>Personal Info</legend>
+          <div class="grid">
+            <div class="full">
+              <label for="full-name">Full Name <span aria-hidden="true">*</span></label>
+              <input id="full-name" name="full_name" type="text" placeholder="Your full name"
+                     autocomplete="name" required aria-describedby="full-name-error" aria-invalid="false">
+              <p class="error" id="full-name-error" hidden></p>
+            </div>
+            <div>
+              <label for="student-id">Student ID <span aria-hidden="true">*</span></label>
+              <input id="student-id" name="student_id" type="text" pattern="[0-9]{9}"
+                     placeholder="202112345" title="Enter exactly 9 digits" inputmode="numeric"
+                     required aria-describedby="student-id-help student-id-error" aria-invalid="false">
+              <p class="help" id="student-id-help">Must contain exactly nine digits.</p>
+              <p class="error" id="student-id-error" hidden></p>
+            </div>
+            <div>
+              <label for="birth-date">Date of Birth</label>
+              <input id="birth-date" name="date_of_birth" type="date" autocomplete="bday"
+                     aria-describedby="birth-date-error" aria-invalid="false">
+              <p class="error" id="birth-date-error" hidden></p>
+            </div>
+            <div class="full">
+              <label for="major">Major <span aria-hidden="true">*</span></label>
+              <select id="major" name="major" required aria-describedby="major-error" aria-invalid="false">
+                <option value="">Select your major</option>
+                <option value="computer-science">Computer Science</option>
+                <option value="computer-engineering">Computer Engineering</option>
+                <option value="business">Business Administration</option>
+                <option value="electrical-engineering">Electrical Engineering</option>
+                <option value="media">Media and Communication</option>
+              </select>
+              <p class="error" id="major-error" hidden></p>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Account Info</legend>
+          <div class="grid">
+            <div>
+              <label for="account-email">Email <span aria-hidden="true">*</span></label>
+              <input id="account-email" name="email" type="email" placeholder="name@example.com"
+                     autocomplete="email" required aria-describedby="account-email-error" aria-invalid="false">
+              <p class="error" id="account-email-error" hidden></p>
+            </div>
+            <div>
+              <label for="account-password">Password <span aria-hidden="true">*</span></label>
+              <input id="account-password" name="password" type="password" placeholder="At least 8 characters"
+                     minlength="8" autocomplete="new-password" required
+                     aria-describedby="password-help account-password-error" aria-invalid="false">
+              <p class="help" id="password-help">Minimum 8 characters.</p>
+              <p class="error" id="account-password-error" hidden></p>
+            </div>
+            <div class="full">
+              <label for="confirm-password">Confirm Password <span aria-hidden="true">*</span></label>
+              <input id="confirm-password" name="confirm_password" type="password"
+                     placeholder="Re-enter your password" autocomplete="new-password" required
+                     aria-describedby="confirm-password-error" aria-invalid="false">
+              <p class="error" id="confirm-password-error" hidden></p>
+            </div>
+            <div class="full">
+              <label for="phone">Phone</label>
+              <input id="phone" name="phone" type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
+                     placeholder="010-1234-5678" title="Use the format 010-1234-5678" autocomplete="tel"
+                     aria-describedby="phone-help phone-error" aria-invalid="false">
+              <p class="help" id="phone-help">Format: 010-1234-5678 (optional).</p>
+              <p class="error" id="phone-error" hidden></p>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Bonus: Coding Experience</legend>
+          <label for="years">Years of coding experience (0–10)</label>
+          <div class="experience">
+            <input id="years" name="coding_years" type="range" min="0" max="10" step="1" value="0"
+                   aria-describedby="years-help years-error" aria-invalid="false">
+            <output id="years-value" for="years">0</output>
+          </div>
+          <p class="help" id="years-help">Move the slider to select your experience level.</p>
+          <p class="error" id="years-error" hidden></p>
+        </fieldset>
+        <div class="row">
+          <input id="terms" name="terms" type="checkbox" required value="agreed"
+                 aria-describedby="terms-error" aria-invalid="false">
+          <label for="terms">I agree to the terms <span aria-hidden="true">*</span></label>
+        </div>
+        <p class="error" id="terms-error" hidden></p>
+        <button type="submit" id="register-button" disabled>Register</button>
+        <p id="submit-error" class="submit-error" role="alert" hidden></p>
+        <div id="success-message" class="success-message" role="status" aria-live="polite" hidden>
+          Registration successful! This is a demo, so no information was sent.
+        </div>
+      </form>
+    </section>
+  </main>
+  <footer>HTML Forms &amp; HTML5 Validation · Week 6 Monday exercises</footer>
+
+  <script>
+    const form = document.getElementById('student-registration');
+    const fields = [...form.querySelectorAll('input, select')];
+    const password = document.getElementById('account-password');
+    const confirmPassword = document.getElementById('confirm-password');
+    const submitButton = document.getElementById('register-button');
+    const successMessage = document.getElementById('success-message');
+    const submitError = document.getElementById('submit-error');
+    const years = document.getElementById('years');
+    const yearsValue = document.getElementById('years-value');
+
+    function checkPasswordMatch() {
+      // setCustomValidity() allows matching passwords to use HTML5 validation.
+      if (confirmPassword.value && confirmPassword.value !== password.value) {
+        confirmPassword.setCustomValidity('Passwords do not match.');
+      } else {
+        confirmPassword.setCustomValidity('');
+      }
+    }
+
+    function getErrorMessage(field) {
+      const validity = field.validity;
+      if (validity.valid) return '';
+      if (validity.valueMissing) {
+        if (field.type === 'checkbox') return 'You must agree to the terms.';
+        if (field.tagName === 'SELECT') return 'Please select your major.';
+        return 'This field is required.';
+      }
+      if (validity.customError) return field.validationMessage;
+      if (validity.typeMismatch) return 'Please enter a valid email address.';
+      if (validity.tooShort) return `Please enter at least ${field.minLength} characters.`;
+      if (validity.patternMismatch) {
+        if (field.id === 'student-id') return 'Student ID must contain exactly 9 digits.';
+        if (field.id === 'phone') return 'Use the format 010-1234-5678.';
+      }
+      if (validity.badInput) return 'Please enter a valid value.';
+      return field.validationMessage || 'Please check this field.';
+    }
+
+    function updateField(field) {
+      const hasBeenTouched = field.dataset.touched === 'true';
+      const isValid = field.validity.valid;
+      const error = document.getElementById(`${field.id}-error`);
+      const showError = hasBeenTouched && !isValid;
+
+      // ARIA attributes announce errors to assistive technologies.
+      field.setAttribute('aria-invalid', String(showError));
+      if (error) {
+        error.textContent = showError ? getErrorMessage(field) : '';
+        error.hidden = !showError;
+      }
+
+      const isTextControl = field.type !== 'checkbox' && field.type !== 'range';
+      const hasValue = isTextControl && field.value.trim() !== '';
+      field.classList.toggle('is-valid', hasBeenTouched && isValid && hasValue);
+      field.classList.toggle('is-invalid', showError);
+    }
+
+    function updateFormState() {
+      checkPasswordMatch();
+      fields.forEach(updateField);
+      // Bonus: enable Submit only when ALL form constraints pass.
+      submitButton.disabled = !form.checkValidity();
+    }
+
+    // Attach an input listener to every form field (including checkbox/range).
+    fields.forEach(field => {
+      const onFieldChange = () => {
+        field.dataset.touched = 'true';
+        successMessage.hidden = true;
+        submitError.hidden = true;
+        if (field === years) yearsValue.textContent = years.value;
+        updateFormState();
+      };
+      field.addEventListener('input', onFieldChange);
+      field.addEventListener('change', onFieldChange);
+    });
+
+    form.addEventListener('submit', event => {
+      event.preventDefault(); // Keep this working on GitHub Pages without a backend.
+      fields.forEach(field => { field.dataset.touched = 'true'; });
+      updateFormState();
+
+      if (!form.checkValidity()) {
+        submitError.textContent = 'Please correct the highlighted fields.';
+        submitError.hidden = false;
+        const firstInvalid = fields.find(field => !field.validity.valid);
+        if (firstInvalid) firstInvalid.focus();
+        return;
+      }
+
+      submitError.hidden = true;
+      successMessage.hidden = false;
+    });
+
+    updateFormState(); // The Register button starts disabled.
+  </script>
+</body>
+</html>
