@@ -247,7 +247,8 @@
     homework[9] = [
       "week9/Button.html",
       "week9/alt text.html",
-      "week9/lighthouse.html"
+      "week9/lighthouse.html",
+      "week9/home work accessibility.pdf"
     ];
 
     var currentWeek = 2;
@@ -288,7 +289,8 @@
         "week8/upgraded registration.html": "Homework – Upgraded Student Registration",
         "week9/Button.html": "Practice E1 – Fix div to Button",
         "week9/alt text.html": "Practice E2 – Add Proper Alt Text",
-        "week9/lighthouse.html": "Practice E3 – Lighthouse Accessibility Fixes"
+        "week9/lighthouse.html": "Practice E3 – Lighthouse Accessibility Fixes",
+        "week9/home work accessibility.pdf": "Homework – Accessibility Report (95 to 100)"
       };
       if (labels[file]) return labels[file];
       var parts = file.split("/");
@@ -341,6 +343,31 @@
 
         var title = document.createElement("h3");
         title.textContent = getTitle(homework[week][i]);
+
+        // PDFs are documents, not HTML source code. Open/download them directly.
+        var file = homework[week][i];
+        if (/\.pdf$/i.test(file)) {
+          var pdfLink = document.createElement("a");
+          pdfLink.className = "site-link";
+          pdfLink.style.marginLeft = "0";
+          pdfLink.textContent = "View PDF";
+          pdfLink.href = getFileURL(file);
+          pdfLink.target = "_blank";
+          pdfLink.rel = "noopener noreferrer";
+
+          var downloadLink = document.createElement("a");
+          downloadLink.className = "site-link";
+          downloadLink.textContent = "Download PDF";
+          downloadLink.href = getFileURL(file);
+          downloadLink.setAttribute("download", "");
+          downloadLink.style.backgroundColor = "#2563eb";
+
+          card.appendChild(title);
+          card.appendChild(pdfLink);
+          card.appendChild(downloadLink);
+          list.appendChild(card);
+          continue;
+        }
 
         var codeButton = document.createElement("button");
         codeButton.textContent = "View Code";
