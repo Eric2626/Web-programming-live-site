@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>E2 — WebP vs JPEG | Web Performance Practice</title>
+  <meta name="description" content="Web performance practice exercise for Web Programming.">
+  <style>
+:root{font-family:Arial,Helvetica,sans-serif;color:#1c2b44;background:#f2f6fb}
+*{box-sizing:border-box}body{margin:0}main{max-width:920px;margin:40px auto;padding:0 20px 48px}
+small{color:#cbe0ff;letter-spacing:.04em}h1{margin:8px 0;font-size:30px}h2{font-size:21px;margin-top:0}p{line-height:1.6}
+.card{background:white;border:1px solid #dde5f0;border-radius:12px;padding:22px 25px;margin:16px 0;box-shadow:0 3px 14px #1c335010}
+.badge{display:inline-block;background:#daf5e7;color:#0b7752;padding:5px 10px;border-radius:99px;font-size:13px;font-weight:700}
+label{display:block;margin-bottom:6px}code{background:#eaf1fd;padding:2px 5px;border-radius:3px;color:#153f8b}
+pre{padding:15px;white-space:pre-wrap;overflow-wrap:anywhere;background:#10223c;color:#eef5ff;border-radius:9px;font-size:13px;line-height:1.5}
+ul,ol{padding-left:24px;line-height:1.8}img{max-width:100%;height:auto;border-radius:10px;display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+figure{margin:0}figcaption{font-size:13px;color:#536480;margin-top:8px}
+footer{color:#586a80;text-align:center;font-size:13px;margin-top:24px}
+.status{border-radius:8px;padding:13px 15px;background:#fff4d1;color:#755313;font-weight:bold}
+.status.ok{background:#e0f7e9;color:#126437}
+@media(max-width:600px){main{margin:16px auto}.card{padding:18px}}
+</style>
+  
+</head>
+<body><main><section class="card"><span class="badge">picture + source + srcset</span><h2>Responsive landscape photo</h2>
+<p>The browser tries WebP first. If it cannot use WebP, it falls back to JPEG.</p>
+<picture>
+  <source type="image/webp" srcset="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=400&h=200&fit=crop&fm=webp&q=75 400w, https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800&h=400&fit=crop&fm=webp&q=75 800w" sizes="(max-width: 500px) 100vw, 800px">
+  <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800&h=400&fit=crop&fm=jpg&q=75"
+       srcset="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=400&h=200&fit=crop&fm=jpg&q=75 400w, https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800&h=400&fit=crop&fm=jpg&q=75 800w"
+       sizes="(max-width: 500px) 100vw, 800px"
+       alt="Golden hills under a wide open sky at sunset"
+       width="800" height="400" fetchpriority="high" decoding="async">
+</picture>
+<p><b>What was added:</b> <code>&lt;picture&gt;</code>, <code>&lt;source type="image/webp"&gt;</code>, <code>srcset</code>, <code>sizes</code>, <code>alt</code>, <code>width</code> and <code>height</code>.</p></section>
+<section class="card"><h2>Compare the formats</h2>
+<div class="grid"><div><h3>JPEG</h3><p>A good photo format, but its file size may be larger.</p></div>
+<div><h3>WebP</h3><p>Often smaller at similar visual quality. Supported by modern browsers.</p></div></div>
+<p><b>Bonus:</b> <code>fetchpriority="high"</code> helps prioritize the hero image.</p></section>
+<section class="card"><h2>Test in Chrome</h2><ol><li>Press <b>F12</b> → <b>Network</b>.</li><li>Reload this page and select the image request.</li><li>Check the image <b>Type</b> and <b>Size</b>.</li><li>Resize the browser. Check how the image request changes with the viewport.</li></ol><p><b>Note:</b> This example uses an online image service. Internet access is needed to load the photo.</p></section>
+<footer>Eric · Web Programming · E2</footer></main></body></html>

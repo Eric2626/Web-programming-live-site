@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>E1 — Run Lighthouse | Web Performance Practice</title>
+  <meta name="description" content="Web performance practice exercise for Web Programming.">
+  <style>
+:root{font-family:Arial,Helvetica,sans-serif;color:#1c2b44;background:#f2f6fb}
+*{box-sizing:border-box}body{margin:0}main{max-width:920px;margin:40px auto;padding:0 20px 48px}
+small{color:#cbe0ff;letter-spacing:.04em}h1{margin:8px 0;font-size:30px}h2{font-size:21px;margin-top:0}p{line-height:1.6}
+.card{background:white;border:1px solid #dde5f0;border-radius:12px;padding:22px 25px;margin:16px 0;box-shadow:0 3px 14px #1c335010}
+.badge{display:inline-block;background:#daf5e7;color:#0b7752;padding:5px 10px;border-radius:99px;font-size:13px;font-weight:700}
+label{display:block;margin-bottom:6px}code{background:#eaf1fd;padding:2px 5px;border-radius:3px;color:#153f8b}
+pre{padding:15px;white-space:pre-wrap;overflow-wrap:anywhere;background:#10223c;color:#eef5ff;border-radius:9px;font-size:13px;line-height:1.5}
+ul,ol{padding-left:24px;line-height:1.8}img{max-width:100%;height:auto;border-radius:10px;display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+figure{margin:0}figcaption{font-size:13px;color:#536480;margin-top:8px}
+footer{color:#586a80;text-align:center;font-size:13px;margin-top:24px}
+.status{border-radius:8px;padding:13px 15px;background:#fff4d1;color:#755313;font-weight:bold}
+.status.ok{background:#e0f7e9;color:#126437}
+@media(max-width:600px){main{margin:16px auto}.card{padding:18px}}
+</style>
+  <!-- Small external-style demo script: defer keeps HTML non-blocking. -->
+  <script src="data:text/javascript;charset=utf-8,document.addEventListener%28%27DOMContentLoaded%27%2C%28%29%3D%3E%7Bconst%20s%3Ddocument.getElementById%28%27script-status%27%29%3Bs.textContent%3D%27JavaScript%20ran%20after%20HTML%20was%20parsed%20%28defer%20works%29.%27%3Bs.classList.add%28%27ok%27%29%3B%7D%29%3B" defer></script>
+</head>
+<body>
+<main>
+<section class="card"><span class="badge">3 fixes applied</span><h2>What I improved</h2>
+<ol><li>I used <code>defer</code> so JavaScript does not block HTML parsing.</li>
+<li>I added <code>width</code> and <code>height</code> to each image to reduce layout shifts.</li>
+<li>I used <code>loading="lazy"</code> for images below the first photo.</li></ol>
+<div id="script-status" class="status" role="status">Checking JavaScript...</div></section>
+<section class="card"><h2>Images with better loading</h2>
+<figure><img src="https://picsum.photos/id/1018/960/540" alt="Landscape with a mountain path and trees" width="960" height="540" loading="eager" fetchpriority="high" decoding="async"><figcaption>Hero image — loads immediately; size is set.</figcaption></figure>
+<div class="grid" style="margin-top:20px">
+<figure><img src="https://picsum.photos/id/1015/480/320" alt="Mountain landscape reflected in water" width="480" height="320" loading="lazy" decoding="async"><figcaption>Second image — lazy loaded.</figcaption></figure>
+<figure><img src="https://picsum.photos/id/1025/480/320" alt="Dog photographed outdoors" width="480" height="320" loading="lazy" decoding="async"><figcaption>Third image — lazy loaded.</figcaption></figure>
+</div></section>
+<section class="card"><h2>Try it yourself</h2><ol><li>Open this page in Google Chrome.</li><li>Press <b>F12</b> → <b>Lighthouse</b>.</li><li>Select <b>Performance</b> and run the audit.</li><li>Check the Performance score, LCP, FCP, and CLS. Write down your result.</li></ol><p><b>Note:</b> Lighthouse scores depend on the device, network, and image server. No score is invented here.</p></section>
+<footer>Eric · Web Programming · E1</footer></main>
+</body></html>

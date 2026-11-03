@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>E3 — defer and async | Web Performance Practice</title>
+  <meta name="description" content="Web performance practice exercise for Web Programming.">
+  <style>
+:root{font-family:Arial,Helvetica,sans-serif;color:#1c2b44;background:#f2f6fb}
+*{box-sizing:border-box}body{margin:0}main{max-width:920px;margin:40px auto;padding:0 20px 48px}
+small{color:#cbe0ff;letter-spacing:.04em}h1{margin:8px 0;font-size:30px}h2{font-size:21px;margin-top:0}p{line-height:1.6}
+.card{background:white;border:1px solid #dde5f0;border-radius:12px;padding:22px 25px;margin:16px 0;box-shadow:0 3px 14px #1c335010}
+.badge{display:inline-block;background:#daf5e7;color:#0b7752;padding:5px 10px;border-radius:99px;font-size:13px;font-weight:700}
+label{display:block;margin-bottom:6px}code{background:#eaf1fd;padding:2px 5px;border-radius:3px;color:#153f8b}
+pre{padding:15px;white-space:pre-wrap;overflow-wrap:anywhere;background:#10223c;color:#eef5ff;border-radius:9px;font-size:13px;line-height:1.5}
+ul,ol{padding-left:24px;line-height:1.8}img{max-width:100%;height:auto;border-radius:10px;display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+figure{margin:0}figcaption{font-size:13px;color:#536480;margin-top:8px}
+footer{color:#586a80;text-align:center;font-size:13px;margin-top:24px}
+.status{border-radius:8px;padding:13px 15px;background:#fff4d1;color:#755313;font-weight:bold}
+.status.ok{background:#e0f7e9;color:#126437}
+@media(max-width:600px){main{margin:16px auto}.card{padding:18px}}
+</style>
+  <!-- These data: scripts keep this practice in ONE HTML file. -->
+  <!-- On a real website, use src="app.js" and src="analytics.js". -->
+  <script src="data:text/javascript;charset=utf-8,const%20box%3Ddocument.getElementById%28%27status%27%29%3Bbox.textContent%3D%27SUCCESS%3A%20The%20app%20ran%20after%20HTML%20parsing%20%28defer%29.%27%3Bbox.classList.add%28%27ok%27%29%3Bdocument.getElementById%28%27dom-check%27%29.textContent%3D%27DOM%20element%20found%3A%20YES%27%3Bconsole.log%28%27E3%3A%20deferred%20app%20script%20executed%27%29%3B" defer></script>
+  <script src="data:text/javascript;charset=utf-8,console.log%28%27E3%3A%20independent%20analytics%20script%20ran%20with%20async%27%29%3Bwindow.demoAnalyticsLoaded%3Dtrue%3B" async></script>
+</head>
+<body><main><section class="card"><span class="badge">Non-blocking JavaScript</span><h2>Script loading test</h2>
+<p>The main app script needs the HTML elements, so it uses <code>defer</code>. The analytics script runs independently, so it uses <code>async</code>.</p>
+<div id="status" class="status" role="status">Waiting for the main script...</div>
+<p id="dom-check">DOM element found: waiting...</p></section>
+<section class="card"><h2>Code pattern for real websites</h2>
+<pre>&lt;head&gt;
+  &lt;script src="app.js" defer&gt;&lt;/script&gt;
+  &lt;script src="analytics.js" async&gt;&lt;/script&gt;
+&lt;/head&gt;</pre>
+<p><b>defer:</b> downloads in parallel, runs after HTML parsing, and preserves order among deferred scripts.</p>
+<p><b>async:</b> downloads in parallel, runs as soon as available, and does not guarantee execution order.</p>
+<p><b>Important:</b> This practice file embeds both tiny scripts as data URLs so it works as one HTML file. In a real project, save them as separate JavaScript files.</p></section>
+<section class="card"><h2>Test it</h2><ol><li>Reload the page and check that the status turns green.</li><li>Open Chrome DevTools → <b>Console</b>.</li><li>Find the two messages about <code>defer</code> and <code>async</code>.</li><li>Check that the app found its DOM element.</li></ol></section>
+<footer>Eric · Web Programming · E3</footer></main></body></html>
