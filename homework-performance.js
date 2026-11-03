@@ -83,6 +83,7 @@ var githubURL =
 
     // Week 9_2: Web Performance Optimization practice and reports.
     homework["9_2"] = [
+      "week9_2/cinereview-all-steps.html",
       "week9_2/e1 lighthouse.html",
       "week9_2/e2.html",
       "week9_2/e 3 defer a sync.html",
@@ -128,6 +129,7 @@ var githubURL =
         "week9/alt text.html": "Practice E2 – Add Proper Alt Text",
         "week9/lighthouse.html": "Practice E3 – Lighthouse Accessibility Fixes",
         "week9/home work accessibility.pdf": "Homework – Accessibility Report (95 to 100)",
+        "week9_2/cinereview-all-steps.html": "Lab – Fix the Broken Website (All 7 Steps)",
         "week9_2/e1 lighthouse.html": "Practice E1 – Run Lighthouse",
         "week9_2/e2.html": "Practice E2 – Image Optimization",
         "week9_2/e 3 defer a sync.html": "Practice E3 – Defer and Async",
