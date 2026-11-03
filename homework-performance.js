@@ -81,25 +81,32 @@ var githubURL =
       "week9/home work accessibility.pdf"
     ];
 
+    // Week 9_2: Web Performance Optimization practice and reports.
+    homework["9_2"] = [
+      "week9_2/e1 lighthouse.html",
+      "week9_2/e2.html",
+      "week9_2/e 3 defer a sync.html",
+      "week9_2/Web Performance Report.pdf",
+      "week9_2/memorymatch performance.pdf"
+    ];
+
     var currentWeek = 2;
     var currentFile = "";
     var viewNumber = 0;
 
-    // Create Week 1–10 buttons.
-    for (var week = 1; week <= 10; week++) {
+    // Display Week 9_2 between Week 9 and Week 10.
+    var weekTabs = [1, 2, 3, 4, 5, 6, 7, 8, 9, "9_2", 10];
+    weekTabs.forEach(function (week) {
       var button = document.createElement("button");
-
       button.textContent = "Week " + week;
       button.value = week;
-
       button.onclick = function () {
-        var selected = Number(this.value);
+        var selected = this.value === "9_2" ? "9_2" : Number(this.value);
         showWeek(selected);
         window.history.replaceState(null, "", "#week" + selected);
       };
-
       document.getElementById("weeks").appendChild(button);
-    }
+    });
 
     function getTitle(file) {
       var labels = {
@@ -120,7 +127,12 @@ var githubURL =
         "week9/Button.html": "Practice E1 – Fix div to Button",
         "week9/alt text.html": "Practice E2 – Add Proper Alt Text",
         "week9/lighthouse.html": "Practice E3 – Lighthouse Accessibility Fixes",
-        "week9/home work accessibility.pdf": "Homework – Accessibility Report (95 to 100)"
+        "week9/home work accessibility.pdf": "Homework – Accessibility Report (95 to 100)",
+        "week9_2/e1 lighthouse.html": "Practice E1 – Run Lighthouse",
+        "week9_2/e2.html": "Practice E2 – Image Optimization",
+        "week9_2/e 3 defer a sync.html": "Practice E3 – Defer and Async",
+        "week9_2/Web Performance Report.pdf": "Homework – Web Performance Report",
+        "week9_2/memorymatch performance.pdf": "Homework – Memory Match Performance Report"
       };
       if (labels[file]) return labels[file];
       var parts = file.split("/");
@@ -157,7 +169,7 @@ var githubURL =
       for (var i = 0; i < weekButtons.length; i++) {
         weekButtons[i].className = "";
 
-        if (Number(weekButtons[i].value) === week) {
+        if (String(weekButtons[i].value) === String(week)) {
           weekButtons[i].className = "active";
         }
       }
@@ -352,5 +364,5 @@ var githubURL =
       document.getElementById("previewCodeButton").disabled = true;
     }
 
-    var requestedWeek = /^#week(10|[1-9])$/i.exec(window.location.hash);
-    showWeek(requestedWeek ? Number(requestedWeek[1]) : 2);
+    var requestedWeek = /^#week(9_2|10|[1-9])$/i.exec(window.location.hash);
+    showWeek(requestedWeek ? (requestedWeek[1] === "9_2" ? "9_2" : Number(requestedWeek[1])) : 2);
