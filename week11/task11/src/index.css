@@ -59,14 +59,27 @@ h1 { font-size: clamp(32px, 5vw, 48px); margin: 8px 0; color: #1e3d72; }
   text-align: center;
 }
 .activity-proof .activity-code { color: #234b82; font-size: 19px; line-height: 1.6; margin: 0 0 17px; }
-.activity-proof img {
+.activity-image-frame {
   display: block;
-  width: 100%;
-  max-width: 550px;
-  height: auto;
+  width: min(100%, 650px);
+  aspect-ratio: 2.35 / 1;
+  overflow: hidden;
+  position: relative;
   margin: 0 auto;
-  border-radius: 9px;
   border: 1px solid #26384b;
+  border-radius: 9px;
+  background: #080b10;
+  cursor: zoom-in;
+}
+.activity-image-frame img {
+  position: absolute;
+  width: 360%;
+  height: auto;
+  max-width: none;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
 }
 @media (max-width: 780px) {
   .page { padding-top: 28px; justify-content: flex-start; }
