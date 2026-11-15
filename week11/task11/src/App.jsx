@@ -16,22 +16,22 @@ function App() {
           name="Eric Munkhtulga Davaasuren"
           studentId="202637684"
           major="Computer Engineering"
-          year="—"
+          year={1}
           gpa={3.3}
         />
         <StudentProfileCard
           name="Abinash Lamichhane"
           studentId="202637724"
-          major="—"
-          year="—"
+          major="Computer Engineering"
+          year={1}
           gpa={4}
         />
         <StudentProfileCard
-          name="Khant Zayar Soe"
-          studentId="—"
-          major="—"
-          year="—"
-          gpa="—"
+          name="Sudip Sah"
+          studentId="202637610"
+          major="Computer Engineering"
+          year={1}
+          gpa={4.45}
         />
       </section>
 
