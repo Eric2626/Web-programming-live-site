@@ -3,7 +3,7 @@ var githubURL =
 
     var homework = [];
 
-    for (var i = 1; i <= 10; i++) {
+    for (var i = 1; i <= 11; i++) {
       homework[i] = [];
     }
 
@@ -91,12 +91,19 @@ var githubURL =
       "week9_2/memorymatch performance.pdf"
     ];
 
+    // Week 11 Friday: React Components and Props.
+    homework[11] = [
+      "week11/exercise1-profile-card.html",
+      "week11/exercise2-notifications.html",
+      "week11/exercise3-reusable-card.html"
+    ];
+
     var currentWeek = 2;
     var currentFile = "";
     var viewNumber = 0;
 
     // Display Week 9_2 between Week 9 and Week 10.
-    var weekTabs = [1, 2, 3, 4, 5, 6, 7, 8, 9, "9_2", 10];
+    var weekTabs = [1, 2, 3, 4, 5, 6, 7, 8, 9, "9_2", 10, 11];
     weekTabs.forEach(function (week) {
       var button = document.createElement("button");
       button.textContent = "Week " + week;
@@ -134,7 +141,10 @@ var githubURL =
         "week9_2/e2.html": "Practice E2 – Image Optimization",
         "week9_2/e 3 defer a sync.html": "Practice E3 – Defer and Async",
         "week9_2/Web Performance Report.pdf": "Homework – Web Performance Report",
-        "week9_2/memorymatch performance.pdf": "Homework – Memory Match Performance Report"
+        "week9_2/memorymatch performance.pdf": "Homework – Memory Match Performance Report",
+        "week11/exercise1-profile-card.html": "Practice 1 – ProfileCard Component",
+        "week11/exercise2-notifications.html": "Practice 2 – Notification List",
+        "week11/exercise3-reusable-card.html": "Practice 3 – Reusable Card (props.children)"
       };
       if (labels[file]) return labels[file];
       var parts = file.split("/");
@@ -366,5 +376,5 @@ var githubURL =
       document.getElementById("previewCodeButton").disabled = true;
     }
 
-    var requestedWeek = /^#week(9_2|10|[1-9])$/i.exec(window.location.hash);
+    var requestedWeek = /^#week(9_2|10|11|[1-9])$/i.exec(window.location.hash);
     showWeek(requestedWeek ? (requestedWeek[1] === "9_2" ? "9_2" : Number(requestedWeek[1])) : 2);
