@@ -19,7 +19,7 @@ var githubURL =
     ];
 
     homework[3] = [
-      "teamproject/index.html",
+      "week3/Task1_style your first heading.html",
       "week3/Task2_2.html",
       "week3/Task3_Color Palette Card.html",
       "week3/Task4_Box Model Visualisation.html",
@@ -148,7 +148,6 @@ var githubURL =
         "week11/exercise2-notifications.html": "Notification List",
         "week11/exercise3-reusable-card.html": "Reusable Card",
         "week11/task11/live/index.html": "StudentProfileCard",
-        "teamproject/index.html": "Memory Match – Neon Arcade",
         "week11/portfolio-gallery/live/index.html": "Portfolio Gallery"
       };
       if (labels[file]) return labels[file];
