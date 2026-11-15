@@ -95,7 +95,8 @@ var githubURL =
     homework[11] = [
       "week11/exercise1-profile-card.html",
       "week11/exercise2-notifications.html",
-      "week11/exercise3-reusable-card.html"
+      "week11/exercise3-reusable-card.html",
+      "week11/task11/live/index.html"
     ];
 
     var currentWeek = 2;
@@ -144,7 +145,8 @@ var githubURL =
         "week9_2/memorymatch performance.pdf": "Homework – Memory Match Performance Report",
         "week11/exercise1-profile-card.html": "Practice 1 – ProfileCard Component",
         "week11/exercise2-notifications.html": "Practice 2 – Notification List",
-        "week11/exercise3-reusable-card.html": "Practice 3 – Reusable Card (props.children)"
+        "week11/exercise3-reusable-card.html": "Practice 3 – Reusable Card (props.children)",
+        "week11/task11/live/index.html": "Task 11-A – StudentProfileCard (30 points)"
       };
       if (labels[file]) return labels[file];
       var parts = file.split("/");
