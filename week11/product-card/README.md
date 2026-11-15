@@ -11,6 +11,8 @@ Create a React `ProductCard` component that receives:
 
 **Bonuses implemented:** display rating as `4.5 / 5 stars`; show `Out of Stock` when `inStock` is false.
 
+The page shows **PS5**, **RTX 5090 Ti**, and **Mongol Deel**. Product prices, star ratings, and stock status are example values for the assignment, not current retail listings.
+
 ## Files
 - `ProductCard.jsx`: reusable JSX component
 - `index.html`: self-contained React example (CDN React, plus HTML fallback)
