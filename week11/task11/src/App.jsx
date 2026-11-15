@@ -45,7 +45,7 @@ function App() {
           <li>Operating Systems</li>
         </ul>
       </section>
-      <p className="footnote">— means the information has not been provided.</p>
+      <p className="footnote">All three students are in Year 1 of Computer Engineering.</p>
     </main>
   );
 }
