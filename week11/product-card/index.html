@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ProductCard | React Practice</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: #f3f7fc; color: #223653;
+      font-family: Arial, sans-serif; min-height: 100vh;
+    }
+    .page { max-width: 980px; margin: 0 auto; min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center; padding: 30px 20px 60px; }
+    .back { display: inline-block; margin-bottom: 25px; color: #2860ab; text-decoration: none; }
+    .heading { text-align: center; margin-bottom: 27px; }
+    h1 { font-size: 34px; color: #1d477b; margin: 0 0 10px; }
+    .heading p { color: #63768f; margin: 0; }
+    .products { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; width: 100%; }
+    .product-card { background: #fff; border: 1px solid #d5e0ef; border-radius: 14px;
+      min-height: 285px; padding: 28px; transition: border-color .2s ease, box-shadow .2s ease; }
+    .product-card:hover { border-color: #8faed5; box-shadow: 0 8px 20px rgba(30,69,125,.1); }
+    .product-icon { font-size: 34px; margin-bottom: 15px; }
+    .product-card h2 { font-size: 23px; margin: 0 0 12px; }
+    .price { font-size: 22px; font-weight: bold; margin: 0 0 10px; color: #205caa; }
+    .rating { color: #495f7d; margin: 0 0 24px; }
+    .stock { display: inline-block; border-radius: 6px; padding: 8px 12px;
+      background: #e2f7ec; color: #18764c; font-size: 14px; font-weight: bold; }
+    .stock.out { background: #fee8e8; color: #b63e42; }
+    .note { margin: 22px 0 0; text-align: center; color: #718098; font-size: 13px; }
+    @media (max-width: 650px) {
+      .products { grid-template-columns: 1fr; }
+      .product-card { min-height: 0; }
+      .heading h1 { font-size: 28px; }
+    }
+  </style>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+</head>
+<body>
+  <div id="root">
+    <!-- Visible fallback, even when the external React library is blocked -->
+    <main class="page">
+      <div class="heading">
+        <a class="back" href="../index.html">← Week 11</a>
+        <h1>ProductCard</h1>
+        <p>React components and props</p>
+      </div>
+      <section class="products" aria-label="Product cards">
+        <article class="product-card">
+          <div class="product-icon" aria-hidden="true">🎧</div>
+          <h2>Wireless Earbuds</h2>
+          <p class="price">89,000원</p><p class="rating">⭐ 4.5 / 5 stars</p>
+          <span class="stock">In Stock</span>
+        </article>
+        <article class="product-card">
+          <div class="product-icon" aria-hidden="true">⌨️</div>
+          <h2>Gaming Keyboard</h2>
+          <p class="price">59,000원</p><p class="rating">⭐ 4.2 / 5 stars</p>
+          <span class="stock out">Out of Stock</span>
+        </article>
+      </section>
+      <p class="note">Each card uses name, price, rating and inStock props.</p>
+    </main>
+  </div>
+  <script>
+  (function () {
+    if (!window.React || !window.ReactDOM || !ReactDOM.createRoot) return;
+    const e = React.createElement;
+    const products = [
+      { id: 1, name: 'Wireless Earbuds', price: 89000, rating: 4.5, inStock: true, icon: '🎧' },
+      { id: 2, name: 'Gaming Keyboard', price: 59000, rating: 4.2, inStock: false, icon: '⌨️' }
+    ];
+
+    function ProductCard({ name, price, rating, inStock, icon }) {
+      return e('article', { className: 'product-card' },
+        e('div', { className: 'product-icon', 'aria-hidden': 'true' }, icon),
+        e('h2', null, name),
+        e('p', { className: 'price' }, price.toLocaleString('ko-KR') + '원'),
+        e('p', { className: 'rating' }, '⭐ ' + rating + ' / 5 stars'),
+        e('span', { className: inStock ? 'stock' : 'stock out' }, inStock ? 'In Stock' : 'Out of Stock')
+      );
+    }
+    function App() {
+      return e('main', { className: 'page' },
+        e('div', { className: 'heading' },
+          e('a', { className: 'back', href: '../index.html' }, '← Week 11'),
+          e('h1', null, 'ProductCard'),
+          e('p', null, 'React components and props')
+        ),
+        e('section', { className: 'products', 'aria-label': 'Product cards' },
+          products.map(product => e(ProductCard, { key: product.id, ...product }))
+        ),
+        e('p', { className: 'note' }, 'Each card uses name, price, rating and inStock props.')
+      );
+    }
+    try { ReactDOM.createRoot(document.getElementById('root')).render(e(App)); }
+    catch (error) { console.error('React unavailable; displaying the HTML version.', error); }
+  }());
+  </script>
+</body>
+</html>
