@@ -43,8 +43,6 @@
     <main class="page">
       <div class="heading">
         <a class="back" href="../index.html">← Week 11</a>
-        <h1>ProductCard</h1>
-        <p>React components and props</p>
       </div>
       <section class="products" aria-label="Product cards">
         <article class="product-card">
@@ -91,9 +89,8 @@
     function App() {
       return e('main', { className: 'page' },
         e('div', { className: 'heading' },
-          e('a', { className: 'back', href: '../index.html' }, '← Week 11'),
-          e('h1', null, 'ProductCard'),
-          e('p', null, 'React components and props')
+          e('a', { className: 'back', href: '../index.html' }, '← Week 11')
+
         ),
         e('section', { className: 'products', 'aria-label': 'Product cards' },
           products.map(product => e(ProductCard, { key: product.id, ...product }))
