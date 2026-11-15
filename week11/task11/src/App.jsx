@@ -46,10 +46,8 @@ function App() {
           <li>Operating Systems</li>
         </ul>
       </section>
-      <p className="footnote">All three students are in Year 1 of Computer Engineering.</p>
-      <section className="activity-proof" aria-labelledby="activity-proof-title">
-        <h2 id="activity-proof-title">Week 11 Monday – Activity Screenshot</h2>
-        <p>Activity code: <strong>7684-BBB-6950</strong> · Student ID: 202637684 · 3/3 correct</p>
+      <section className="activity-proof" aria-label="Activity code screenshot">
+        <p className="activity-code"><strong>7684-BBB-6950</strong></p>
         <img
           src={activityScreenshot}
           alt="Week 11 Monday activity screenshot showing code 7684-BBB-6950 and 3 out of 3 correct answers"
