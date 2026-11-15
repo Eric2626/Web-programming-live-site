@@ -96,7 +96,8 @@ var githubURL =
       "week11/exercise1-profile-card.html",
       "week11/exercise2-notifications.html",
       "week11/exercise3-reusable-card.html",
-      "week11/task11/live/index.html"
+      "week11/task11/live/index.html",
+      "week11/portfolio-gallery/live/index.html"
     ];
 
     var currentWeek = 2;
@@ -146,7 +147,8 @@ var githubURL =
         "week11/exercise1-profile-card.html": "ProfileCard Component",
         "week11/exercise2-notifications.html": "Notification List",
         "week11/exercise3-reusable-card.html": "Reusable Card",
-        "week11/task11/live/index.html": "StudentProfileCard"
+        "week11/task11/live/index.html": "StudentProfileCard",
+        "week11/portfolio-gallery/live/index.html": "Portfolio Gallery"
       };
       if (labels[file]) return labels[file];
       var parts = file.split("/");
