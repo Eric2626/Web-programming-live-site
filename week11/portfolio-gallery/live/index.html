@@ -85,141 +85,202 @@ footer { text-align: center; margin-top: 36px; font-size: 12px; color: #8593a7; 
   .project-grid { grid-template-columns: 1fr; }
   .project-card { min-height: 0; padding: 20px; }
 }
-
   </style>
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
 </head>
 <body>
-  <div id="root"></div>
-  <script type="text/babel" data-presets="react">
-const { useState } = React;
-
-// Projects I have made for Web Programming.
-const base = 'https://eric2626.github.io/Web-programming-live-site/';
-const github = 'https://github.com/Eric2626/Web-programming-live-site/';
-
-const projects = [
-  {
-    id: 1,
-    title: 'Memory Match — Neon Arcade',
-    description: 'A memory card game made with my team. Players can practice and try timed challenges.',
-    techStack: ['HTML', 'CSS', 'JavaScript'],
-    githubUrl: github + 'tree/main/teamproject',
-    demoUrl: base + 'teamproject/index.html',
-  },
-  {
-    id: 2,
-    title: 'Book Search',
-    description: 'A book search page that shows matching books using a book data API.',
-    techStack: ['HTML', 'CSS', 'JavaScript'],
-    githubUrl: github + 'blob/main/week7/book-search.html',
-    demoUrl: base + 'week7/book-search.html',
-  },
-  {
-    id: 3,
-    title: 'Student Registration Form',
-    description: 'An upgraded student registration form with clear input fields and form checks.',
-    techStack: ['HTML', 'CSS', 'JavaScript'],
-    githubUrl: github + 'blob/main/week8/upgraded%20registration.html',
-    demoUrl: base + 'week8/upgraded%20registration.html',
-  },
-  {
-    id: 4,
-    title: 'Student Directory',
-    description: 'A React page that displays three student cards with props and their course information.',
-    techStack: ['React', 'CSS', 'JavaScript'],
-    githubUrl: github + 'tree/main/week11/task11',
-    demoUrl: base + 'week11/task11/live/',
-  },
-];
-
-function FilterBar({ technologies, selectedTechnology, onChange }) {
-  return (
-    <nav className="filter-bar" aria-label="Filter projects by technology">
-      {technologies.map((technology) => (
-        <button
-          type="button"
-          key={technology}
-          className={selectedTechnology === technology ? 'filter-button active' : 'filter-button'}
-          aria-pressed={selectedTechnology === technology}
-          onClick={() => onChange(technology)}
-        >
-          {technology}
-        </button>
-      ))}
-    </nav>
-  );
-}
-
-function ProjectCard({ project }) {
-  return (
-    <article className="project-card">
-      <div className="project-card-top">
-        <h2>{project.title}</h2>
-        <p>{project.description}</p>
-      </div>
-      <div className="tech-list" aria-label="Technologies used">
-        {project.techStack.map((technology) => (
-          <span className="tech-tag" key={technology}>{technology}</span>
-        ))}
-      </div>
-      <div className="project-links">
-        <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">GitHub Code ↗</a>
-        <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">Live Demo ↗</a>
-      </div>
-    </article>
-  );
-}
-
-function ProjectList({ projects }) {
-  if (projects.length === 0) {
-    return <p className="empty-message">No projects found for this technology.</p>;
-  }
-
-  return (
-    <section className="project-grid" aria-label="Portfolio projects">
-      {projects.map((project) => (
-        <ProjectCard key={project.id} project={project} />
-      ))}
-    </section>
-  );
-}
-
-const technologies = ['All', ...new Set(projects.flatMap((project) => project.techStack))];
-
-function App() {
-  const [selectedTechnology, setSelectedTechnology] = useState('All');
-
-  const visibleProjects = projects.filter((project) => (
-    selectedTechnology === 'All' || project.techStack.includes(selectedTechnology)
-  ));
-
-  return (
-    <main className="page">
-      <div className="gallery-header">
-        <a className="back-link" href="../../index.html">← Week 11</a>
+  <div id="root">
+    <main class="page">
+      <div class="gallery-header">
+        <a class="back-link" href="../../index.html">← Week 11</a>
         <h1>Portfolio Gallery</h1>
         <p>My Web Programming projects. Select a technology to filter the cards.</p>
       </div>
-
-      <FilterBar
-        technologies={technologies}
-        selectedTechnology={selectedTechnology}
-        onChange={setSelectedTechnology}
-      />
-
-      <p className="result-count" aria-live="polite">
-        Showing {visibleProjects.length} {visibleProjects.length === 1 ? 'project' : 'projects'}
-      </p>
-      <ProjectList projects={visibleProjects} />
+      <nav class="filter-bar" aria-label="Filter projects by technology">
+        <button type="button" class="filter-button active" data-filter="All" aria-pressed="true">All</button>
+        <button type="button" class="filter-button" data-filter="HTML" aria-pressed="false">HTML</button>
+        <button type="button" class="filter-button" data-filter="CSS" aria-pressed="false">CSS</button>
+        <button type="button" class="filter-button" data-filter="JavaScript" aria-pressed="false">JavaScript</button>
+        <button type="button" class="filter-button" data-filter="React" aria-pressed="false">React</button>
+      </nav>
+      <p class="result-count" aria-live="polite">Showing 4 projects</p>
+      <section class="project-grid" aria-label="Portfolio projects">
+      <article class="project-card" data-tech="HTML|CSS|JavaScript">
+  <div class="project-card-top"><h2>Memory Match — Neon Arcade</h2><p>A memory card game made with my team. Players can practice and try timed challenges.</p></div>
+  <div class="tech-list"><span class="tech-tag">HTML</span><span class="tech-tag">CSS</span><span class="tech-tag">JavaScript</span></div>
+  <div class="project-links"><a href="https://github.com/Eric2626/Web-programming-live-site/tree/main/teamproject" target="_blank" rel="noopener noreferrer">GitHub Code ↗</a><a href="https://eric2626.github.io/Web-programming-live-site/teamproject/index.html" target="_blank" rel="noopener noreferrer">Live Demo ↗</a></div>
+</article>
+      <article class="project-card" data-tech="HTML|CSS|JavaScript">
+  <div class="project-card-top"><h2>Book Search</h2><p>A book search page that shows matching books using a book data API.</p></div>
+  <div class="tech-list"><span class="tech-tag">HTML</span><span class="tech-tag">CSS</span><span class="tech-tag">JavaScript</span></div>
+  <div class="project-links"><a href="https://github.com/Eric2626/Web-programming-live-site/blob/main/week7/book-search.html" target="_blank" rel="noopener noreferrer">GitHub Code ↗</a><a href="https://eric2626.github.io/Web-programming-live-site/week7/book-search.html" target="_blank" rel="noopener noreferrer">Live Demo ↗</a></div>
+</article>
+      <article class="project-card" data-tech="HTML|CSS|JavaScript">
+  <div class="project-card-top"><h2>Student Registration Form</h2><p>An upgraded student registration form with clear input fields and form checks.</p></div>
+  <div class="tech-list"><span class="tech-tag">HTML</span><span class="tech-tag">CSS</span><span class="tech-tag">JavaScript</span></div>
+  <div class="project-links"><a href="https://github.com/Eric2626/Web-programming-live-site/blob/main/week8/upgraded%20registration.html" target="_blank" rel="noopener noreferrer">GitHub Code ↗</a><a href="https://eric2626.github.io/Web-programming-live-site/week8/upgraded%20registration.html" target="_blank" rel="noopener noreferrer">Live Demo ↗</a></div>
+</article>
+      <article class="project-card" data-tech="React|CSS|JavaScript">
+  <div class="project-card-top"><h2>Student Directory</h2><p>A React page that displays three student cards with props and their course information.</p></div>
+  <div class="tech-list"><span class="tech-tag">React</span><span class="tech-tag">CSS</span><span class="tech-tag">JavaScript</span></div>
+  <div class="project-links"><a href="https://github.com/Eric2626/Web-programming-live-site/tree/main/week11/task11" target="_blank" rel="noopener noreferrer">GitHub Code ↗</a><a href="https://eric2626.github.io/Web-programming-live-site/week11/task11/live/" target="_blank" rel="noopener noreferrer">Live Demo ↗</a></div>
+</article>
+      </section>
       <footer>Eric · Web Programming · Week 11</footer>
     </main>
-  );
-}
+  </div>
+  <script>
+(function () {
+  "use strict";
+  const projects = [
+  {
+    "id": 1,
+    "title": "Memory Match — Neon Arcade",
+    "description": "A memory card game made with my team. Players can practice and try timed challenges.",
+    "techStack": [
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ],
+    "githubUrl": "https://github.com/Eric2626/Web-programming-live-site/tree/main/teamproject",
+    "demoUrl": "https://eric2626.github.io/Web-programming-live-site/teamproject/index.html"
+  },
+  {
+    "id": 2,
+    "title": "Book Search",
+    "description": "A book search page that shows matching books using a book data API.",
+    "techStack": [
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ],
+    "githubUrl": "https://github.com/Eric2626/Web-programming-live-site/blob/main/week7/book-search.html",
+    "demoUrl": "https://eric2626.github.io/Web-programming-live-site/week7/book-search.html"
+  },
+  {
+    "id": 3,
+    "title": "Student Registration Form",
+    "description": "An upgraded student registration form with clear input fields and form checks.",
+    "techStack": [
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ],
+    "githubUrl": "https://github.com/Eric2626/Web-programming-live-site/blob/main/week8/upgraded%20registration.html",
+    "demoUrl": "https://eric2626.github.io/Web-programming-live-site/week8/upgraded%20registration.html"
+  },
+  {
+    "id": 4,
+    "title": "Student Directory",
+    "description": "A React page that displays three student cards with props and their course information.",
+    "techStack": [
+      "React",
+      "CSS",
+      "JavaScript"
+    ],
+    "githubUrl": "https://github.com/Eric2626/Web-programming-live-site/tree/main/week11/task11",
+    "demoUrl": "https://eric2626.github.io/Web-programming-live-site/week11/task11/live/"
+  }
+];
+  const technologies = ["All","HTML","CSS","JavaScript","React"];
 
-ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-  </script>
+  // The HTML includes a fully visible fallback so the page never appears empty
+  // if a third-party React/Babel script is blocked by the browser.
+  document.addEventListener('click', function (event) {
+    if (window.__galleryReactMounted) return;
+    const button = event.target.closest('.filter-button[data-filter]');
+    if (!button) return;
+    const technology = button.dataset.filter;
+    document.querySelectorAll('.filter-button').forEach(function (item) {
+      const active = item.dataset.filter === technology;
+      item.classList.toggle('active', active);
+      item.setAttribute('aria-pressed', String(active));
+    });
+    let count = 0;
+    document.querySelectorAll('.project-card[data-tech]').forEach(function (card) {
+      const techs = card.dataset.tech.split('|');
+      const visible = technology === 'All' || techs.includes(technology);
+      card.hidden = !visible;
+      card.style.display = visible ? '' : 'none';
+      if (visible) count++;
+    });
+    document.querySelector('.result-count').textContent =
+      'Showing ' + count + ' ' + (count === 1 ? 'project' : 'projects');
+  });
+
+  // Real React implementation (no in-browser Babel compilation needed).
+  if (!window.React || !window.ReactDOM || !window.ReactDOM.createRoot) return;
+  const e = React.createElement;
+  const useState = React.useState;
+
+  function ProjectCard({ project }) {
+    return e('article', {className: 'project-card'}, [
+      e('div', {key: 'top', className: 'project-card-top'}, [
+        e('h2', {key: 'title'}, project.title),
+        e('p', {key: 'description'}, project.description)
+      ]),
+      e('div', {key: 'tags', className: 'tech-list'}, project.techStack.map(function (tech) {
+        return e('span', {key: tech, className: 'tech-tag'}, tech);
+      })),
+      e('div', {key: 'links', className: 'project-links'}, [
+        e('a', {key: 'github', href: project.githubUrl, target: '_blank', rel: 'noopener noreferrer'}, 'GitHub Code ↗'),
+        e('a', {key: 'demo', href: project.demoUrl, target: '_blank', rel: 'noopener noreferrer'}, 'Live Demo ↗')
+      ])
+    ]);
+  }
+
+  function ProjectList({ projects }) {
+    if (projects.length === 0) {
+      return e('p', {className: 'empty-message'}, 'No projects found for this technology.');
+    }
+    return e('section', {className: 'project-grid', 'aria-label': 'Portfolio projects'},
+      projects.map(function (project) {
+        return e(ProjectCard, {key: project.id, project: project});
+      })
+    );
+  }
+
+  function FilterBar({selectedTechnology, onChange}) {
+    return e('nav', {className: 'filter-bar', 'aria-label': 'Filter projects by technology'},
+      technologies.map(function (technology) {
+        return e('button', {
+          key: technology,
+          type: 'button',
+          className: selectedTechnology === technology ? 'filter-button active' : 'filter-button',
+          'aria-pressed': selectedTechnology === technology,
+          onClick: function () { onChange(technology); }
+        }, technology);
+      })
+    );
+  }
+
+  function App() {
+    const [selectedTechnology, setSelectedTechnology] = useState('All');
+    const visible = projects.filter(function (p) {
+      return selectedTechnology === 'All' || p.techStack.includes(selectedTechnology);
+    });
+    return e('main', {className: 'page'}, [
+      e('div', {key: 'head', className: 'gallery-header'}, [
+        e('a', {key: 'back', className: 'back-link', href: '../../index.html'}, '← Week 11'),
+        e('h1', {key: 'title'}, 'Portfolio Gallery'),
+        e('p', {key: 'intro'}, 'My Web Programming projects. Select a technology to filter the cards.')
+      ]),
+      e(FilterBar, {key: 'filters', selectedTechnology: selectedTechnology, onChange: setSelectedTechnology}),
+      e('p', {key: 'count', className: 'result-count', 'aria-live': 'polite'},
+        'Showing ' + visible.length + ' ' + (visible.length === 1 ? 'project' : 'projects')),
+      e(ProjectList, {key: 'list', projects: visible}),
+      e('footer', {key: 'footer'}, 'Eric · Web Programming · Week 11')
+    ]);
+  }
+
+  try {
+    ReactDOM.createRoot(document.getElementById('root')).render(e(App));
+    window.__galleryReactMounted = true;
+  } catch (error) {
+    console.error('Could not mount React Gallery, keeping the visible HTML fallback.', error);
+  }
+}());
+</script>
 </body>
 </html>
