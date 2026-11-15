@@ -5,18 +5,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Exercise 3 - Reusable Card</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 30px; background: #f5f7fb; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 24px;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f5f7fb;
+      color: #222;
+    }
+    main {
+      width: 100%;
+      max-width: 620px;
+      margin: auto;
+      text-align: center;
+    }
     h1 { color: #2563eb; }
+    #root { width: 100%; display: flex; justify-content: center; }
+    #root > * { max-width: 100%; text-align: left; }
+    @media (max-width: 480px) { body { padding: 16px; } }
     a { color: #2563eb; }
+    #root > div { width: 100%; max-width: 540px; }
   </style>
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 <body>
+  <main>
   <p><a href="index.html">Back to Week 11</a></p>
   <h1>Exercise 3 - Reusable Card</h1>
   <div id="root"></div>
+  </main>
 
   <script type="text/babel">
     // This component can show different content using children.
