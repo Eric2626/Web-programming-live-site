@@ -1,69 +1,49 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Exercise 2 · Notification List</title>
-<style>
-*{box-sizing:border-box}body{margin:0;background:#f5f7fb;color:#1d2b45;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
-main{max-width:800px;margin:auto;padding:38px 22px 70px}.back{font-size:14px;color:#62718b;text-decoration:none}
-.eyebrow{font-size:12px;letter-spacing:.14em;font-weight:800;color:#556da4;text-transform:uppercase;margin:58px 0 10px}
-h1{font-size:clamp(2.2rem,5vw,3.4rem);letter-spacing:-.05em;margin:0 0 9px}.lead{color:#758198;margin:0 0 28px;line-height:1.7}
-.panel{background:#fff;border-radius:22px;border:1px solid #e4e8f0;box-shadow:0 20px 45px #1b35550a;padding:26px}
-.panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;gap:12px}
-.panel-head h2{font-size:19px;letter-spacing:-.02em;margin:0}.count{background:#eef2fc;color:#5070b2;border-radius:30px;padding:6px 12px;font-size:12px;font-weight:800}
-ul{padding:0;margin:0;list-style:none;display:grid;gap:12px}
-.notice{display:flex;align-items:center;gap:15px;padding:17px;border:1px solid #e9edf5;border-radius:15px;background:#fcfdff}
-.icon{flex-shrink:0;width:42px;height:42px;display:grid;place-items:center;border-radius:13px;font-size:20px;background:#edf2f9}
-.notice.success .icon{background:#e1f8ed}.notice.warning .icon{background:#fff3d8}.notice.info .icon{background:#e6f0ff}
-.message{font-weight:650;margin:0 0 5px}.type{font-size:11px;letter-spacing:.08em;font-weight:800;text-transform:uppercase;color:#8090a7}
-.tip{font-size:13px;color:#718198;line-height:1.6;margin-top:22px}
-@media(max-width:550px){.panel{padding:16px}.notice{padding:13px}.eyebrow{margin-top:42px}}
-</style>
-<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-</head><body><main>
-<a class="back" href="index.html">← Week 11 exercises</a>
-<p class="eyebrow">Practice 02 / Lists &amp; Conditions</p>
-<h1>Notification Center</h1><p class="lead">Render notifications from an array. Each type receives a different icon.</p>
-<div id="root"></div>
-</main>
-<script type="text/babel">
-const notifications = [
-  { id: 101, type: 'success', message: 'Your profile was updated successfully.' },
-  { id: 102, type: 'warning', message: 'Your password expires in 3 days.' },
-  { id: 103, type: 'info', message: 'New React lecture notes are available.' },
-  { id: 104, type: 'reminder', message: 'Review your practice exercises before class.' }
-];
-function NotificationItem({ type, message }) {
-  // Conditional rendering with the ternary operator.
-  const icon = type === 'success' ? '✅' : type === 'warning' ? '⚠️' : 'ℹ️';
-  const displayType = type === 'success' ? 'Success' : type === 'warning' ? 'Warning' : 'Information';
-  return (
-    <li className={'notice ' + type}>
-      <span className="icon" aria-hidden="true">{icon}</span>
-      <div><p className="message">{message}</p><span className="type">{displayType}</span></div>
-    </li>
-  );
-}
-function NotificationList({ items }) {
-  return (
-    <section className="panel" aria-labelledby="notification-title">
-      <div className="panel-head"><h2 id="notification-title">Recent activity</h2><span className="count">{items.length} updates</span></div>
-      <ul>
-        {items.map(notification => (
-          <NotificationItem key={notification.id} type={notification.type} message={notification.message} />
-        ))}
-      </ul>
-    </section>
-  );
-}
-function App() {
-  return (
-    <>
-      <NotificationList items={notifications} />
-      <p className="tip">This exercise uses array.map(), a unique key={"{notification.id}"}, and conditional rendering. Unknown types use the default information icon.</p>
-    </>
-  );
-}
-ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-</script>
-</body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Exercise 2 - Notification List</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 30px; background: #f5f7fb; }
+    h1 { color: #2563eb; }
+    a { color: #2563eb; }
+    li { background: white; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 6px; }
+    ul { max-width: 550px; padding-left: 20px; }
+  </style>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+  <p><a href="index.html">Back to Week 11</a></p>
+  <h1>Exercise 2 - Notification List</h1>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const notifications = [
+      { id: 1, type: 'success', message: 'Profile updated successfully' },
+      { id: 2, type: 'warning', message: 'Password expires in 3 days' },
+      { id: 3, type: 'info', message: 'New lecture materials available' }
+    ];
+
+    // Different notification types show different icons.
+    function NotificationItem({ type, message }) {
+      const icon = type === 'success' ? '✅' : type === 'warning' ? '⚠️' : 'ℹ️';
+      return <li>{icon} {message}</li>;
+    }
+
+    function NotificationList() {
+      return (
+        <ul>
+          {notifications.map(n => (
+            <NotificationItem key={n.id} type={n.type} message={n.message} />
+          ))}
+        </ul>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<NotificationList />);
+  </script>
+</body>
+</html>
