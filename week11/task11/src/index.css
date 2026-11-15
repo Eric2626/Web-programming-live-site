@@ -8,7 +8,7 @@
 * { box-sizing: border-box; }
 body { margin: 0; }
 .page {
-  max-width: 1080px;
+  max-width: 1180px;
   min-height: 100vh;
   margin: 0 auto;
   padding: 40px 22px 56px;
@@ -25,7 +25,8 @@ h1 { font-size: clamp(32px, 5vw, 48px); margin: 8px 0; color: #1e3d72; }
 .profiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
 .profile-card {
   background: white;
-  padding: 22px;
+  padding: 26px;
+  min-height: 325px;
   border: 1px solid #cedef2;
   border-radius: 14px;
   box-shadow: 0 5px 14px rgba(27, 66, 118, .06);
@@ -79,5 +80,6 @@ h1 { font-size: clamp(32px, 5vw, 48px); margin: 8px 0; color: #1e3d72; }
   .page { padding-top: 28px; justify-content: flex-start; }
   .profiles { grid-template-columns: 1fr; max-width: 540px; width: 100%; margin: 0 auto; }
   .card-header { min-height: 0; }
+  .profile-card { min-height: 295px; }
   .courses { max-width: 540px; width: 100%; margin-left: auto; margin-right: auto; }
 }
