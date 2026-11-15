@@ -1,4 +1,5 @@
 import StudentProfileCard from './StudentProfileCard';
+import activityScreenshot from '../activity-screenshot.svg';
 
 // Classmate details that were not supplied are left as a dash.
 function App() {
@@ -46,6 +47,18 @@ function App() {
         </ul>
       </section>
       <p className="footnote">All three students are in Year 1 of Computer Engineering.</p>
+      <section className="activity-proof" aria-labelledby="activity-proof-title">
+        <h2 id="activity-proof-title">Week 11 Monday – Activity Screenshot</h2>
+        <p>Activity code: <strong>7684-BBB-6950</strong> · Student ID: 202637684 · 3/3 correct</p>
+        <img
+          src={activityScreenshot}
+          alt="Week 11 Monday activity screenshot showing code 7684-BBB-6950 and 3 out of 3 correct answers"
+          width="1250"
+          height="611"
+          loading="lazy"
+        />
+      </section>
+
     </main>
   );
 }
