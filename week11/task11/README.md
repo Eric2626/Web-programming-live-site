@@ -10,7 +10,7 @@ This is the Week 11 Friday 30-point React task for Web Programming.
 - `live/index.html`: a standalone GitHub Pages preview of the same React UI.
 
 The student's own ID is **202637684**, major **Computer Engineering**, GPA **3.3**.
-Unknown details (school year, and classmates' private academic data) are shown as a dash rather than invented.
+The three students are Year 1 Computer Engineering students: Eric (202637684, GPA 3.3), Abinash Lamichhane (202637724, GPA 4.0), and Sudip Sah (202637610, GPA 4.45).
 
 ## Run the Vite project locally
 1. Install Node.js.
@@ -38,6 +38,5 @@ Repository source:
 https://github.com/Eric2626/Web-programming-live-site/tree/main/week11/task11
 
 ## Before submitting
-- Replace each dash with actual information **only if known and allowed to share**.
 - Confirm the live link and the student ID on the screen.
 - Use the instructor's Self-Check and provide the repo URL, live URL, activity code, and screenshot.
