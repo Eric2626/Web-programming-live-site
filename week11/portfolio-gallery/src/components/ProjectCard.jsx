@@ -12,7 +12,7 @@ function ProjectCard({ project }) {
       </div>
       <div className="project-links">
         <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">GitHub Code ↗</a>
-        <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">Live Demo ↗</a>
+        <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">Open Website ↗</a>
       </div>
     </article>
   );
