@@ -16,8 +16,7 @@ function App() {
     <main className="page">
       <div className="gallery-header">
         <a className="back-link" href="../index.html">← Week 11</a>
-        <h1>Portfolio Gallery</h1>
-        <p>My Web Programming projects. Select a technology to filter the cards.</p>
+
       </div>
 
       <FilterBar
