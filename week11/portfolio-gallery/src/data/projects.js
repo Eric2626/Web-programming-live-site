@@ -5,11 +5,11 @@ const github = 'https://github.com/Eric2626/Web-programming-live-site/';
 const projects = [
   {
     id: 1,
-    title: 'Memory Match — Neon Arcade',
-    description: 'A memory card game made with my team. Players can practice and try timed challenges.',
-    techStack: ['HTML', 'CSS', 'JavaScript'],
-    githubUrl: github + 'tree/main/teamproject',
-    demoUrl: base + 'teamproject/index.html',
+    title: 'Style Your First Heading',
+    description: 'My first CSS heading with a custom color, font size, and centered text.',
+    techStack: ['HTML', 'CSS'],
+    githubUrl: github + 'blob/main/week3/Task1_style%20your%20first%20heading.html',
+    demoUrl: base + 'week3/Task1_style%20your%20first%20heading.html',
   },
   {
     id: 2,
