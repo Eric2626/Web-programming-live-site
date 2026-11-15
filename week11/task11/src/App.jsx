@@ -51,8 +51,8 @@ function App() {
         <img
           src={activityScreenshot}
           alt="Week 11 Monday activity screenshot showing code 7684-BBB-6950 and 3 out of 3 correct answers"
-          width="1250"
-          height="611"
+          width="860"
+          height="390"
           loading="lazy"
         />
       </section>
