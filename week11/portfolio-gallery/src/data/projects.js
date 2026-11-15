@@ -29,11 +29,11 @@ const projects = [
   },
   {
     id: 4,
-    title: 'Student Directory',
-    description: 'A React page that displays three student cards with props and their course information.',
-    techStack: ['React', 'CSS', 'JavaScript'],
-    githubUrl: github + 'tree/main/week11/task11',
-    demoUrl: base + 'week11/task11/live/',
+    title: 'Memory Match — Neon Arcade',
+    description: 'A memory card game made with my team. Players can practice and try timed challenges.',
+    techStack: ['HTML', 'CSS', 'JavaScript'],
+    githubUrl: github + 'tree/main/teamproject',
+    demoUrl: base + 'teamproject/index.html',
   },
 ];
 
