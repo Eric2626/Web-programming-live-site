@@ -1,0 +1,58 @@
+/* Task 11-A: Student Directory (custom CSS) */
+:root {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #22334e;
+  background: #f3f7ff;
+  font-synthesis: none;
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+.page {
+  max-width: 1080px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 40px 22px 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.heading { text-align: center; margin: 0 auto 26px; }
+.back-link { display: inline-block; margin-bottom: 25px; color: #295ba6; text-decoration: none; }
+.back-link:hover { text-decoration: underline; }
+.eyebrow { font-size: 12px; letter-spacing: 2px; color: #3468b4; font-weight: 700; }
+h1 { font-size: clamp(32px, 5vw, 48px); margin: 8px 0; color: #1e3d72; }
+.heading > p:last-child { color: #5f7088; line-height: 1.5; }
+.profiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.profile-card {
+  background: white;
+  padding: 22px;
+  border: 1px solid #cedef2;
+  border-radius: 14px;
+  box-shadow: 0 5px 14px rgba(27, 66, 118, .06);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.profile-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 11px 22px rgba(27, 66, 118, .14);
+}
+.card-header {
+  min-height: 103px;
+  padding-bottom: 16px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid #e4ebf4;
+}
+.student-name { font-size: 21px; line-height: 1.28; margin: 0 0 9px; color: #223e69; }
+.student-id { color: #315c9f; background: #edf4ff; padding: 5px 9px; border-radius: 6px; font-size: 13px; }
+.card-body p { line-height: 1.5; margin: 11px 0; color: #4c5d75; }
+.card-body strong { color: #243a56; }
+.courses { margin-top: 25px; padding: 20px 24px; border: 1px solid #d9e4f2; border-radius: 12px; background: #fff; }
+.courses h2 { font-size: 19px; margin: 0 0 16px; text-align: center; }
+.courses ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 9px; padding: 0; margin: 0; list-style: none; }
+.courses li { background: #eef5ff; border-radius: 20px; padding: 8px 13px; font-size: 13px; }
+.footnote { margin: 13px 0 0; text-align: center; font-size: 12px; color: #718096; }
+@media (max-width: 780px) {
+  .page { padding-top: 28px; justify-content: flex-start; }
+  .profiles { grid-template-columns: 1fr; max-width: 540px; width: 100%; margin: 0 auto; }
+  .card-header { min-height: 0; }
+  .courses { max-width: 540px; width: 100%; margin-left: auto; margin-right: auto; }
+}
