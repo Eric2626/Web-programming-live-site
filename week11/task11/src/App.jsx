@@ -21,10 +21,10 @@ function App() {
         />
         <StudentProfileCard
           name="Abinash Lamichhane"
-          studentId="—"
+          studentId="202637724"
           major="—"
           year="—"
-          gpa="—"
+          gpa={4}
         />
         <StudentProfileCard
           name="Khant Zayar Soe"
