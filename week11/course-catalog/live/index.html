@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Course Catalog</title>
+  <style>:root {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #203553;
+  background: #f3f7fc;
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+.page {
+  max-width: 1100px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 32px 25px 65px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.back { color: #315d9e; text-decoration: none; font-size: 14px; display: inline-block; margin-bottom: 30px; }
+.back:hover { text-decoration: underline; }
+.course-list { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 20px; }
+.course-card {
+  min-height: 290px;
+  background: white;
+  padding: 28px;
+  border: 1px solid #d5e2f0;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(31,72,128,.06);
+  transition: border-color .2s, box-shadow .2s;
+}
+.course-card:hover { border-color: #92b2d8; box-shadow: 0 8px 19px rgba(31,72,128,.12); }
+.badge {
+  display: inline-block;
+  padding: 7px 13px;
+  border-radius: 18px;
+  font-weight: bold;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+.badge.required { background: #ffeded; color: #b72832; border: 1px solid #ffd1d1; }
+.badge.elective { background: #f0f1f3; color: #667080; border: 1px solid #e1e4e8; }
+.course-card h2 { font-size: 23px; margin: 0 0 18px; line-height: 1.3; letter-spacing: -.3px; }
+.instructor { font-size: 16px; color: #536783; margin: 0 0 28px; }
+.credits { font-size: 15px; font-weight: bold; color: #315d9e; margin: 0; }
+@media (max-width: 780px) {
+  .page { justify-content: flex-start; padding: 28px 18px 50px; }
+  .course-list { grid-template-columns: 1fr; max-width: 540px; width: 100%; margin: 0 auto; }
+  .course-card { min-height: 230px; }
+}
+</style>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+</head>
+<body>
+  <div id="root">
+    <main class="page">
+      <a class="back" href="../../index.html">← Week 11</a>
+      <section class="course-list" aria-label="Course catalog">
+        <article class="course-card"><span class="badge required">필수</span><h2>Web Programming</h2><p class="instructor">Dr. Toshpulatov</p><p class="credits">3 credits</p></article>
+        <article class="course-card"><span class="badge required">필수</span><h2>Database Systems</h2><p class="instructor">Dr. Kim</p><p class="credits">3 credits</p></article>
+        <article class="course-card"><span class="badge elective">선택</span><h2>Mobile App Dev</h2><p class="instructor">Dr. Lee</p><p class="credits">2 credits</p></article>
+      </section>
+    </main>
+  </div>
+  <script>
+(function () {
+  // Course data from the instructor's Week 11 Friday practice.
+  const courses = [{"id":1,"title":"Web Programming","instructor":"Dr. Toshpulatov","credits":3,"required":true},{"id":2,"title":"Database Systems","instructor":"Dr. Kim","credits":3,"required":true},{"id":3,"title":"Mobile App Dev","instructor":"Dr. Lee","credits":2,"required":false}];
+  if (!window.React || !window.ReactDOM || !ReactDOM.createRoot) return;
+  const e = React.createElement;
+  function CourseCard({ title, instructor, credits, required }) {
+    return e('article', { className: 'course-card' },
+      e('span', {className: required ? 'badge required' : 'badge elective'}, required ? '필수' : '선택'),
+      e('h2', null, title),
+      e('p', {className: 'instructor'}, instructor),
+      e('p', {className: 'credits'}, credits + (credits === 1 ? ' credit' : ' credits'))
+    );
+  }
+  function CourseCatalog() {
+    return e('section', {className: 'course-list', 'aria-label': 'Course catalog'},
+      courses.map(course => e(CourseCard, {key:course.id, title:course.title,
+        instructor:course.instructor, credits:course.credits, required:course.required}))
+    );
+  }
+  function App() {
+    return e('main', {className: 'page'},
+      e('a', {className: 'back', href: '../../index.html'}, '← Week 11'),
+      e(CourseCatalog)
+    );
+  }
+  try {
+    ReactDOM.createRoot(document.getElementById('root')).render(e(App));
+  } catch (error) {
+    console.error('React could not mount; the HTML course cards remain visible.', error);
+  }
+}());
+</script>
+</body>
+</html>
