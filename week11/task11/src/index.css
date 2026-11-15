@@ -58,12 +58,11 @@ h1 { font-size: clamp(32px, 5vw, 48px); margin: 8px 0; color: #1e3d72; }
   background: white;
   text-align: center;
 }
-.activity-proof h2 { margin: 0 0 8px; font-size: 19px; }
-.activity-proof p { color: #58708e; font-size: 14px; line-height: 1.6; margin: 0 0 17px; }
+.activity-proof .activity-code { color: #234b82; font-size: 19px; line-height: 1.6; margin: 0 0 17px; }
 .activity-proof img {
   display: block;
   width: 100%;
-  max-width: 950px;
+  max-width: 550px;
   height: auto;
   margin: 0 auto;
   border-radius: 9px;
