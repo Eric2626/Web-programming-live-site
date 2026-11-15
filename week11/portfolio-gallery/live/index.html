@@ -94,8 +94,7 @@ footer { text-align: center; margin-top: 36px; font-size: 12px; color: #8593a7; 
     <main class="page">
       <div class="gallery-header">
         <a class="back-link" href="../../index.html">← Week 11</a>
-        <h1>Portfolio Gallery</h1>
-        <p>My Web Programming projects. Select a technology to filter the cards.</p>
+
       </div>
       <nav class="filter-bar" aria-label="Filter projects by technology">
         <button type="button" class="filter-button active" data-filter="All" aria-pressed="true">All</button>
@@ -106,10 +105,10 @@ footer { text-align: center; margin-top: 36px; font-size: 12px; color: #8593a7; 
       </nav>
       <p class="result-count" aria-live="polite">Showing 4 projects</p>
       <section class="project-grid" aria-label="Portfolio projects">
-      <article class="project-card" data-tech="HTML|CSS|JavaScript">
-  <div class="project-card-top"><h2>Memory Match — Neon Arcade</h2><p>A memory card game made with my team. Players can practice and try timed challenges.</p></div>
-  <div class="tech-list"><span class="tech-tag">HTML</span><span class="tech-tag">CSS</span><span class="tech-tag">JavaScript</span></div>
-  <div class="project-links"><a href="https://github.com/Eric2626/Web-programming-live-site/tree/main/teamproject" target="_blank" rel="noopener noreferrer">GitHub Code ↗</a><a href="https://eric2626.github.io/Web-programming-live-site/teamproject/index.html" target="_blank" rel="noopener noreferrer">Live Demo ↗</a></div>
+      <article class="project-card" data-tech="HTML|CSS">
+  <div class="project-card-top"><h2>Style Your First Heading</h2><p>My first CSS heading with a custom color, font size, and centered text.</p></div>
+  <div class="tech-list"><span class="tech-tag">HTML</span><span class="tech-tag">CSS</span></div>
+  <div class="project-links"><a href="https://github.com/Eric2626/Web-programming-live-site/blob/main/week3/Task1_style%20your%20first%20heading.html" target="_blank" rel="noopener noreferrer">GitHub Code ↗</a><a href="https://eric2626.github.io/Web-programming-live-site/week3/Task1_style%20your%20first%20heading.html" target="_blank" rel="noopener noreferrer">Live Demo ↗</a></div>
 </article>
       <article class="project-card" data-tech="HTML|CSS|JavaScript">
   <div class="project-card-top"><h2>Book Search</h2><p>A book search page that shows matching books using a book data API.</p></div>
@@ -136,15 +135,14 @@ footer { text-align: center; margin-top: 36px; font-size: 12px; color: #8593a7; 
   const projects = [
   {
     "id": 1,
-    "title": "Memory Match — Neon Arcade",
-    "description": "A memory card game made with my team. Players can practice and try timed challenges.",
+    "title": "Style Your First Heading",
+    "description": "My first CSS heading with a custom color, font size, and centered text.",
     "techStack": [
       "HTML",
-      "CSS",
-      "JavaScript"
+      "CSS"
     ],
-    "githubUrl": "https://github.com/Eric2626/Web-programming-live-site/tree/main/teamproject",
-    "demoUrl": "https://eric2626.github.io/Web-programming-live-site/teamproject/index.html"
+    "githubUrl": "https://github.com/Eric2626/Web-programming-live-site/blob/main/week3/Task1_style%20your%20first%20heading.html",
+    "demoUrl": "https://eric2626.github.io/Web-programming-live-site/week3/Task1_style%20your%20first%20heading.html"
   },
   {
     "id": 2,
@@ -263,8 +261,7 @@ footer { text-align: center; margin-top: 36px; font-size: 12px; color: #8593a7; 
     return e('main', {className: 'page'}, [
       e('div', {key: 'head', className: 'gallery-header'}, [
         e('a', {key: 'back', className: 'back-link', href: '../../index.html'}, '← Week 11'),
-        e('h1', {key: 'title'}, 'Portfolio Gallery'),
-        e('p', {key: 'intro'}, 'My Web Programming projects. Select a technology to filter the cards.')
+        e('span', {key: 'title', className: 'gallery-label', 'aria-hidden': 'true'}, '')
       ]),
       e(FilterBar, {key: 'filters', selectedTechnology: selectedTechnology, onChange: setSelectedTechnology}),
       e('p', {key: 'count', className: 'result-count', 'aria-live': 'polite'},
