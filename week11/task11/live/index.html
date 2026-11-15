@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f7ff">
+  <title>Task 11-A | Student Directory</title>
+  <link rel="stylesheet" href="../src/index.css">
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- Standalone GitHub Pages preview of the Vite project in ../src/. -->
+  <script type="text/babel">
+    function StudentProfileCard({ name, studentId, major, year, gpa }) {
+      return (
+        <div className="profile-card">
+          <div className="card-header">
+            <h2 className="student-name">{name}</h2>
+            <span className="student-id">ID: {studentId}</span>
+          </div>
+          <div className="card-body">
+            <p><strong>Major:</strong> {major}</p>
+            <p><strong>Year:</strong> {year}</p>
+            <p><strong>GPA:</strong> {gpa}</p>
+          </div>
+        </div>
+      );
+    }
+
+    function App() {
+      return (
+        <main className="page">
+          <header className="heading">
+            <a href="../../index.html" className="back-link">← Week 11</a>
+            <p className="eyebrow">WEB PROGRAMMING · TASK 11-A</p>
+            <h1>Student Directory</h1>
+            <p>Student profiles made with React components and props.</p>
+          </header>
+
+          <section className="profiles" aria-label="Student profiles">
+            <StudentProfileCard
+              name="Eric Munkhtulga Davaasuren"
+              studentId="202637684"
+              major="Computer Engineering"
+              year="—"
+              gpa={3.3}
+            />
+            <StudentProfileCard
+              name="Abinash Lamichhane"
+              studentId="—"
+              major="—"
+              year="—"
+              gpa="—"
+            />
+            <StudentProfileCard
+              name="Khant Zayar Soe"
+              studentId="—"
+              major="—"
+              year="—"
+              gpa="—"
+            />
+          </section>
+
+          <section className="courses" aria-labelledby="courses-title">
+            <h2 id="courses-title">My Current Courses</h2>
+            <ul>
+              <li>Web Programming</li>
+              <li>Database</li>
+              <li>Discrete Mathematics</li>
+              <li>College English 2</li>
+              <li>Operating Systems</li>
+            </ul>
+          </section>
+          <p className="footnote">— means the information has not been provided.</p>
+        </main>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
