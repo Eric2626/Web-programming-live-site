@@ -16,7 +16,7 @@
     .heading { text-align: center; margin-bottom: 27px; }
     h1 { font-size: 34px; color: #1d477b; margin: 0 0 10px; }
     .heading p { color: #63768f; margin: 0; }
-    .products { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; width: 100%; }
+    .products { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; width: 100%; }
     .product-card { background: #fff; border: 1px solid #d5e0ef; border-radius: 14px;
       min-height: 285px; padding: 28px; transition: border-color .2s ease, box-shadow .2s ease; }
     .product-card:hover { border-color: #8faed5; box-shadow: 0 8px 20px rgba(30,69,125,.1); }
@@ -27,7 +27,7 @@
     .stock { display: inline-block; border-radius: 6px; padding: 8px 12px;
       background: #e2f7ec; color: #18764c; font-size: 14px; font-weight: bold; }
     .stock.out { background: #fee8e8; color: #b63e42; }
-    .note { margin: 22px 0 0; text-align: center; color: #718098; font-size: 13px; }
+    @media (max-width: 820px) { .products { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     @media (max-width: 650px) {
       .products { grid-template-columns: 1fr; }
       .product-card { min-height: 0; }
@@ -48,28 +48,35 @@
       </div>
       <section class="products" aria-label="Product cards">
         <article class="product-card">
-          <div class="product-icon" aria-hidden="true">🎧</div>
-          <h2>Wireless Earbuds</h2>
-          <p class="price">89,000원</p><p class="rating">⭐ 4.5 / 5 stars</p>
+          <div class="product-icon" aria-hidden="true">🎮</div>
+          <h2>PlayStation 5 (PS5)</h2>
+          <p class="price">700,000원</p><p class="rating">⭐ 4.8 / 5 stars</p>
           <span class="stock">In Stock</span>
         </article>
         <article class="product-card">
-          <div class="product-icon" aria-hidden="true">⌨️</div>
-          <h2>Gaming Keyboard</h2>
-          <p class="price">59,000원</p><p class="rating">⭐ 4.2 / 5 stars</p>
+          <div class="product-icon" aria-hidden="true">🖥️</div>
+          <h2>RTX 5090 Ti</h2>
+          <p class="price">3,500,000원</p><p class="rating">⭐ 4.9 / 5 stars</p>
           <span class="stock out">Out of Stock</span>
         </article>
+        <article class="product-card">
+          <div class="product-icon" aria-hidden="true">🥻</div>
+          <h2>Mongol Deel</h2>
+          <p class="price">250,000원</p><p class="rating">⭐ 4.7 / 5 stars</p>
+          <span class="stock">In Stock</span>
+        </article>
       </section>
-      <p class="note">Each card uses name, price, rating and inStock props.</p>
     </main>
   </div>
   <script>
   (function () {
     if (!window.React || !window.ReactDOM || !ReactDOM.createRoot) return;
     const e = React.createElement;
+    // Sample products; prices, ratings, and stock status are demo values.
     const products = [
-      { id: 1, name: 'Wireless Earbuds', price: 89000, rating: 4.5, inStock: true, icon: '🎧' },
-      { id: 2, name: 'Gaming Keyboard', price: 59000, rating: 4.2, inStock: false, icon: '⌨️' }
+      { id: 1, name: 'PlayStation 5 (PS5)', price: 700000, rating: 4.8, inStock: true, icon: '🎮' },
+      { id: 2, name: 'RTX 5090 Ti', price: 3500000, rating: 4.9, inStock: false, icon: '🖥️' },
+      { id: 3, name: 'Mongol Deel', price: 250000, rating: 4.7, inStock: true, icon: '🥻' }
     ];
 
     function ProductCard({ name, price, rating, inStock, icon }) {
@@ -90,8 +97,7 @@
         ),
         e('section', { className: 'products', 'aria-label': 'Product cards' },
           products.map(product => e(ProductCard, { key: product.id, ...product }))
-        ),
-        e('p', { className: 'note' }, 'Each card uses name, price, rating and inStock props.')
+        )
       );
     }
     try { ReactDOM.createRoot(document.getElementById('root')).render(e(App)); }
