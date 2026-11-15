@@ -5,13 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Week 11 - React Practice</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 40px auto; padding: 0 20px; max-width: 700px; background: #f4f8fc; color: #222; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 24px;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f5f7fb;
+      color: #222;
+    }
+    main {
+      width: 100%;
+      max-width: 700px;
+      margin: auto;
+      text-align: center;
+    }
     h1 { color: #2563eb; }
+    .exercise { text-align: left; }
     .exercise { background: white; padding: 18px; margin: 15px 0; border: 1px solid #ddd; border-radius: 8px; }
     a { color: #2563eb; }
   </style>
 </head>
 <body>
+  <main>
   <p><a href="../index.html#week11">Back to all homework</a></p>
   <h1>Week 11 - React Components &amp; Props</h1>
   <p>These are my three practice exercises.</p>
@@ -33,5 +52,6 @@
     <p>Use title and props.children to show different content.</p>
     <a href="exercise3-reusable-card.html">Open Exercise 3</a>
   </div>
+  </main>
 </body>
 </html>
