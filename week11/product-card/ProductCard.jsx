@@ -15,4 +15,4 @@ export default function ProductCard({ name, price, rating, inStock }) {
 }
 
 // Example JSX:
-// <ProductCard name="Wireless Earbuds" price={89000} rating={4.5} inStock={true} />
+// <ProductCard name="PlayStation 5 (PS5)" price={700000} rating={4.8} inStock={true} />
