@@ -1,66 +1,62 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Exercise 1 · ProfileCard</title>
-<style>
-*{box-sizing:border-box}body{margin:0;background:#f1f5fc;color:#182b48;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
-main{max-width:930px;margin:auto;padding:38px 22px 70px}
-a.back{color:#526786;text-decoration:none;font-size:14px}.eyebrow{font-size:12px;letter-spacing:.14em;font-weight:800;color:#5171b1;text-transform:uppercase;margin:60px 0 10px}
-h1{font-size:clamp(2.2rem,5vw,3.4rem);letter-spacing:-.05em;margin:0 0 8px}p.lead{color:#687b98;line-height:1.6;margin:0 0 30px}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
-.profile{background:white;border:1px solid #e3eaf5;border-radius:24px;overflow:hidden;box-shadow:0 15px 45px #1e497410}
-.banner{height:86px;background:linear-gradient(110deg,#446ada,#82b3ed)}.profile:nth-child(2) .banner{background:linear-gradient(110deg,#14a3a0,#84d7cb)}
-.content{padding:0 28px 28px}.avatar{display:block;width:94px;height:94px;border-radius:22px;object-fit:cover;background:#eef3fb;border:5px solid white;margin-top:-47px;position:relative}
-.tag{display:inline-block;margin-top:20px;padding:6px 10px;border-radius:20px;background:#eef4ff;font-size:12px;font-weight:700;color:#4770b8}
-.profile h2{font-size:25px;margin:12px 0 6px;letter-spacing:-.04em}.role{color:#6a7b92;margin:0 0 24px}
-.email-label{font-size:11px;font-weight:800;letter-spacing:.09em;color:#8491a6;text-transform:uppercase;margin:0 0 5px}
-.email{color:#315db6;overflow-wrap:anywhere}.note{font-size:13px;color:#70829a;margin-top:24px}
-@media(max-width:680px){.grid{grid-template-columns:1fr}.eyebrow{margin-top:42px}}
-</style>
-<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-</head><body><main>
-<a class="back" href="index.html">← Week 11 exercises</a>
-<p class="eyebrow">Practice 01 / React Props</p>
-<h1>ProfileCard</h1>
-<p class="lead">One component, different people. The avatar is optional because it has a default value.</p>
-<div id="root"></div>
-</main>
-<script type="text/babel">
-const makeAvatar = (initials, background, foreground) => {
-  const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160"><rect width="160" height="160" rx="26" fill="' + background + '"/><text x="80" y="96" text-anchor="middle" font-family="Arial,sans-serif" font-size="55" font-weight="bold" fill="' + foreground + '">' + initials + '</text></svg>';
-  return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
-};
-const defaultAvatar = makeAvatar('?', '#e0eafe', '#4771c5');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Exercise 1 - ProfileCard</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 30px; background: #f5f7fb; }
+    h1 { color: #2563eb; }
+    a { color: #2563eb; }
+  </style>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+  <p><a href="index.html">Back to Week 11</a></p>
+  <h1>Exercise 1 - ProfileCard</h1>
+  <div id="root"></div>
 
-// avatarUrl is optional. If it is not passed, the default picture is used.
-function ProfileCard({ name, role, email, avatarUrl = defaultAvatar, type = 'Student' }) {
-  return (
-    <article className="profile">
-      <div className="banner"></div>
-      <div className="content">
-        <img className="avatar" src={avatarUrl} alt={'Avatar for ' + name} width="94" height="94" />
-        <span className="tag">{type}</span>
-        <h2>{name}</h2>
-        <p className="role">{role}</p>
-        <p className="email-label">Email</p>
-        <a className="email" href={'mailto:' + email}>{email}</a>
-      </div>
-    </article>
-  );
-}
-function App() {
-  return (
-    <>
-      <div className="grid">
-        <ProfileCard name="Eric" role="Computer Science Student" email="eric@example.com" />
-        <ProfileCard name="Jordan Lee" role="Front-end Developer" email="jordan@example.com"
-          avatarUrl={makeAvatar('JL', '#d8f6ed', '#178780')} type="Developer" />
-      </div>
-      <p className="note">Demo email addresses are examples only. The first card uses the default avatar; the second passes a custom avatarUrl prop.</p>
-    </>
-  );
-}
-ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-</script>
-</body></html>
+  <script type="text/babel">
+    // ProfileCard receives data using props.
+    function ProfileCard({
+      name,
+      role,
+      email,
+      avatarUrl = 'https://placehold.co/80x80?text=Photo'
+    }) {
+      return (
+        <div style={{
+          border: '1px solid #ccc',
+          borderRadius: 8,
+          padding: 16,
+          maxWidth: 300,
+          background: 'white'
+        }}>
+          <img
+            src={avatarUrl}
+            alt={name}
+            style={{ borderRadius: '50%', width: 80, height: 80 }}
+          />
+          <h2>{name}</h2>
+          <p>{role}</p>
+          <a href={'mailto:' + email}>{email}</a>
+        </div>
+      );
+    }
+
+    function App() {
+      return (
+        <ProfileCard
+          name="Eric"
+          role="Computer Science Student"
+          email="eric@example.com"
+        />
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
