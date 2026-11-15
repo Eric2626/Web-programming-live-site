@@ -1,5 +1,5 @@
 import StudentProfileCard from './StudentProfileCard';
-import activityScreenshot from '../activity-screenshot.svg';
+import activityScreenshot from '../qwe.png';
 
 // Classmate details that were not supplied are left as a dash.
 function App() {
@@ -48,13 +48,15 @@ function App() {
       </section>
       <section className="activity-proof" aria-label="Activity code screenshot">
         <p className="activity-code"><strong>7684-BBB-6950</strong></p>
-        <img
-          src={activityScreenshot}
-          alt="Week 11 Monday activity screenshot showing code 7684-BBB-6950 and 3 out of 3 correct answers"
-          width="860"
-          height="390"
-          loading="lazy"
-        />
+        <a className="activity-image-frame" href={activityScreenshot} target="_blank" rel="noopener noreferrer" aria-label="Open original full-resolution activity screenshot">
+          <img
+            src={activityScreenshot}
+            alt="Screenshot of the completed Week 11 Monday activity and code 7684-BBB-6950"
+            width="1914"
+            height="936"
+            loading="lazy"
+          />
+        </a>
       </section>
 
     </main>
