@@ -1,66 +1,59 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Exercise 3 · Reusable Card</title>
-<style>
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,#f0f5fc,#fafcff);color:#1e324e;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
-main{max-width:830px;margin:auto;padding:38px 22px 75px}.back{color:#5c7490;text-decoration:none;font-size:14px}
-.eyebrow{font-size:12px;letter-spacing:.14em;font-weight:800;color:#5277ac;text-transform:uppercase;margin:60px 0 10px}
-h1{font-size:clamp(2.2rem,5vw,3.4rem);letter-spacing:-.05em;margin:0 0 10px}.lead{color:#7386a0;line-height:1.7;margin:0 0 30px}
-.layout{display:grid;gap:18px}
-.card{background:white;border:1px solid #dbe8f6;border-radius:20px;padding:24px 29px;box-shadow:0 12px 34px #315a9010}
-.card h2{font-size:20px;letter-spacing:-.03em;margin:0 0 17px;padding-bottom:14px;border-bottom:1px solid #edf1f7}
-.card ul{padding-left:20px;margin:0;line-height:2.1;color:#536780}.card p{line-height:1.8;color:#536780;margin:0 0 16px}
-.pill{display:inline-block;color:#2461a7;background:#e6f1ff;border-radius:999px;padding:7px 12px;font-size:12px;font-weight:800}
-.timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
-.step{border-radius:12px;background:#f1f6fe;padding:13px;font-size:13px;color:#48627f}
-.step strong{display:block;margin-bottom:5px;color:#315b91}.tip{color:#7a8aa0;font-size:13px;margin-top:25px;line-height:1.7}
-@media(max-width:580px){.timeline{grid-template-columns:1fr}.card{padding:20px}.eyebrow{margin-top:42px}}
-</style>
-<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-</head><body><main>
-<a class="back" href="index.html">← Week 11 exercises</a>
-<p class="eyebrow">Practice 03 / Component Composition</p>
-<h1>Reusable Card Layout</h1>
-<p class="lead">Use one Card component for different content with title and props.children.</p>
-<div id="root"></div>
-</main>
-<script type="text/babel">
-function Card({ title, children }) {
-  return (
-    <section className="card">
-      <h2>{title}</h2>
-      <div>{children}</div>
-    </section>
-  );
-}
-function App() {
-  return (
-    <>
-      <div className="layout">
-        <Card title="Lecture Topics">
-          <ul>
-            <li>Functional components and JSX</li>
-            <li>Passing data with props</li>
-            <li>Rendering lists with .map()</li>
-            <li>Conditional rendering and props.children</li>
-          </ul>
-        </Card>
-        <Card title="My Study Plan">
-          <p>This week I will build three small React pages and practice writing reusable components.</p>
-          <div className="timeline">
-            <div className="step"><strong>01 · Learn</strong>Read the guide</div>
-            <div className="step"><strong>02 · Build</strong>Write components</div>
-            <div className="step"><strong>03 · Review</strong>Test each page</div>
-          </div>
-          <p style={{marginTop: '17px', marginBottom: 0}}><span className="pill">Week 11 Friday</span></p>
-        </Card>
-      </div>
-      <p className="tip">The same Card component renders a list in the first section and a paragraph, timeline, and badge in the second. The content between Card tags is passed as children.</p>
-    </>
-  );
-}
-ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-</script>
-</body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Exercise 3 - Reusable Card</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 30px; background: #f5f7fb; }
+    h1 { color: #2563eb; }
+    a { color: #2563eb; }
+  </style>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+  <p><a href="index.html">Back to Week 11</a></p>
+  <h1>Exercise 3 - Reusable Card</h1>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    // This component can show different content using children.
+    function Card({ title, children }) {
+      return (
+        <div style={{
+          border: '1px solid #bae6fd',
+          borderRadius: 10,
+          padding: '16px 20px',
+          marginBottom: 16,
+          background: 'white',
+          maxWidth: 500
+        }}>
+          <h3 style={{ marginBottom: 10 }}>{title}</h3>
+          {children}
+        </div>
+      );
+    }
+
+    function App() {
+      return (
+        <div>
+          <Card title="Lecture Topics">
+            <ul>
+              <li>Components</li>
+              <li>Props</li>
+            </ul>
+          </Card>
+
+          <Card title="Homework">
+            <p>Build a student portfolio component</p>
+          </Card>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
