@@ -1,30 +1,37 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Week 11 · React Practice</title>
-<style>
-:root{font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#15213a}
-*{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(140deg,#edf4ff,#f9fbff 50%,#f0f8fc)}
-main{max-width:1020px;margin:auto;padding:48px 22px 70px}
-a{color:inherit}.back{font-size:14px;color:#576781;text-decoration:none}.eyebrow{color:#3c66be;font-weight:800;letter-spacing:.16em;text-transform:uppercase;margin:55px 0 12px;font-size:12px}
-h1{font-size:clamp(2.5rem,6vw,4.4rem);line-height:1.07;letter-spacing:-.055em;margin:0 0 20px}p{color:#66758e;line-height:1.7}
-.intro{max-width:630px;margin-bottom:32px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
-.card{background:white;border:1px solid #e2e9f3;border-radius:22px;padding:26px;box-shadow:0 15px 35px rgba(44,80,125,.06)}
-.number{font-size:13px;color:#6980a5;font-weight:800}.icon{font-size:2rem;margin:19px 0}.card h2{font-size:22px;letter-spacing:-.03em;margin:0 0 9px}.card p{min-height:79px}
-.card a{display:inline-flex;align-items:center;gap:10px;color:#1955bd;font-weight:750;text-decoration:none}
-footer{margin-top:44px;font-size:13px;color:#72829a}
-@media(max-width:750px){.grid{grid-template-columns:1fr}.card p{min-height:0}main{padding-top:28px}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Week 11 - React Practice</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px auto; padding: 0 20px; max-width: 700px; background: #f4f8fc; color: #222; }
+    h1 { color: #2563eb; }
+    .exercise { background: white; padding: 18px; margin: 15px 0; border: 1px solid #ddd; border-radius: 8px; }
+    a { color: #2563eb; }
+  </style>
 </head>
-<body><main>
-<a class="back" href="../index.html#week11">← Back to all homework</a>
-<p class="eyebrow">Web Programming / Week 11</p>
-<h1>React Components<br>&amp; Props</h1>
-<p class="intro">Three small React practice projects about components, props, lists, conditional rendering, and reusable layouts. Select an exercise to open its working page.</p>
-<section class="grid" aria-label="Practice exercises">
-<article class="card"><span class="number">EXERCISE 01</span><div class="icon">👤</div><h2>ProfileCard</h2><p>A reusable profile component with a default avatar and props for name, role, and email.</p><a href="exercise1-profile-card.html">Open exercise →</a></article>
-<article class="card"><span class="number">EXERCISE 02</span><div class="icon">🔔</div><h2>Notifications</h2><p>Render a list using .map(), unique keys, and different icons for notification types.</p><a href="exercise2-notifications.html">Open exercise →</a></article>
-<article class="card"><span class="number">EXERCISE 03</span><div class="icon">🗂️</div><h2>Reusable Card</h2><p>Use title and props.children to show two different sections with the same component.</p><a href="exercise3-reusable-card.html">Open exercise →</a></article>
-</section><footer>Eric · Web Programming · Week 11 Friday Practice</footer>
-</main></body></html>
+<body>
+  <p><a href="../index.html#week11">Back to all homework</a></p>
+  <h1>Week 11 - React Components &amp; Props</h1>
+  <p>These are my three practice exercises.</p>
+
+  <div class="exercise">
+    <h2>Exercise 1 - ProfileCard</h2>
+    <p>A component that uses name, role, email, and avatarUrl props.</p>
+    <a href="exercise1-profile-card.html">Open Exercise 1</a>
+  </div>
+
+  <div class="exercise">
+    <h2>Exercise 2 - Notification List</h2>
+    <p>Show notifications using .map() and conditional rendering.</p>
+    <a href="exercise2-notifications.html">Open Exercise 2</a>
+  </div>
+
+  <div class="exercise">
+    <h2>Exercise 3 - Reusable Card</h2>
+    <p>Use title and props.children to show different content.</p>
+    <a href="exercise3-reusable-card.html">Open Exercise 3</a>
+  </div>
+</body>
+</html>
