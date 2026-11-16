@@ -1,0 +1,79 @@
+/* React Featured Projects — scoped so the existing homework UI stays unchanged. */
+.react-showcase {
+  max-width: 1000px;
+  margin: 24px 0 28px;
+  padding: 25px;
+  background: #f9fbff;
+  border: 1px solid #cbd9ef;
+  border-radius: 14px;
+}
+.react-showcase * { box-sizing: border-box; }
+.react-showcase-header { margin-bottom: 20px; }
+.react-showcase-header .eyebrow {
+  color: #3568b2;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  margin: 0 0 9px;
+}
+.react-showcase-header h2 { margin: 0 0 8px; font-size: 25px; color: #163e73; }
+.react-showcase-header p:last-child { margin: 0; line-height: 1.55; color: #607491; }
+.react-toolbar { display: flex; gap: 13px; align-items: flex-start; flex-wrap: wrap; justify-content: space-between; margin: 0 0 13px; }
+.react-filters { display: flex; flex-wrap: wrap; gap: 8px; }
+.react-showcase button.react-filter {
+  background: #fff;
+  border: 1px solid #c7d7ed;
+  color: #294f7b;
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.react-showcase button.react-filter:hover,
+.react-showcase button.react-filter:focus-visible { background: #e9f2ff; border-color: #6491ce; outline-offset: 2px; }
+.react-showcase button.react-filter.active { background: #245fb8; border-color: #245fb8; color: #fff; }
+.react-search {
+  width: min(100%, 245px);
+  padding: 9px 12px;
+  border: 1px solid #bfcee5;
+  border-radius: 8px;
+  background: #fff;
+  color: #1e3554;
+  font: inherit;
+  font-size: 14px;
+}
+.react-search:focus { outline: 2px solid #91b9f4; outline-offset: 2px; }
+.react-summary { font-size: 13px; color: #667c97; margin: 0 0 12px; }
+.react-project-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; }
+.react-project {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid #d7e3f1;
+  border-radius: 10px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+.react-project h3 { font-size: 18px; margin: 0 0 9px; color: #243d61; }
+.react-project p { color: #5a6e88; line-height: 1.55; margin: 0 0 13px; }
+.react-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: auto 0 16px; }
+.react-tags span { background: #ebf3ff; color: #2a5a98; border-radius: 6px; padding: 5px 8px; font-size: 12px; }
+.react-project-links { display: flex; flex-wrap: wrap; gap: 9px; }
+.react-project-links a {
+  background: #2563b5;
+  color: #fff;
+  font-size: 13px;
+  padding: 9px 11px;
+  border-radius: 7px;
+  text-decoration: none;
+  display: inline-block;
+}
+.react-project-links a:last-child { background: #0c8a69; }
+.react-project-links a:hover, .react-project-links a:focus-visible { filter: brightness(.9); }
+.react-no-results { grid-column: 1/-1; padding: 22px; background: #fff; color: #536b88; border: 1px dashed #c4d2e8; border-radius: 9px; }
+@media (max-width: 670px) {
+  .react-showcase { padding: 18px; }
+  .react-project-grid { grid-template-columns: 1fr; }
+  .react-search { width: 100%; }
+}
