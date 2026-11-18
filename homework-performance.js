@@ -104,7 +104,8 @@ var githubURL =
 
     // Week 12 Monday: React State and useState.
     homework[12] = [
-      "week12/counter-with-history/index.html"
+      "week12/counter-with-history/index.html",
+      "week12/shopping-cart.html"
     ];
 
     var currentWeek = 2;
@@ -158,7 +159,8 @@ var githubURL =
         "week11/portfolio-gallery/live/index.html": "Portfolio Gallery",
         "week11/product-card/index.html": "ProductCard",
         "week11/course-catalog/live/index.html": "Course Catalog",
-        "week12/counter-with-history/index.html": "Counter with history"
+        "week12/counter-with-history/index.html": "Counter with history",
+        "week12/shopping-cart.html": "Shopping Cart"
       };
       if (labels[file]) return labels[file];
       var parts = file.split("/");
