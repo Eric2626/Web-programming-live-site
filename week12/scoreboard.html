@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ScoreBoard</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f0f4f8;color:#182234;font:16px/1.5 Arial,sans-serif;min-height:100vh;display:grid;place-items:center;padding:24px}main{width:min(100%,600px)}header{margin-bottom:16px}a{color:#2563eb}.card{background:#fff;border:1px solid #dbe3ec;border-radius:14px;padding:24px;box-shadow:0 8px 24px #1822340d}h2{margin:0 0 16px;font-size:22px}h3{margin:0;font-size:17px}p{margin:12px 0 0}button{font:inherit;background:#2563eb;color:white;padding:10px 16px;border:0;border-radius:7px;cursor:pointer}button:hover:not(:disabled){background:#1e40af}button:disabled{background:#94a3b8;cursor:not-allowed}button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid #0f766e;outline-offset:3px}input{font:inherit;padding:11px;min-width:0;border:1px solid #cbd5e1;border-radius:8px;width:100%}.row{display:flex;gap:10px;align-items:center}.row input{flex:1}.details,.task,.player,.total{background:#f1f5f9;border-radius:9px;padding:16px;margin-top:14px;overflow-wrap:anywhere}.tasks{list-style:none;padding:0;margin:0}.task{display:flex;gap:12px;align-items:center;justify-content:space-between}.task span{min-width:0}.remove{background:#fee2e2;color:#991b1b;padding:6px 12px}.remove:hover:not(:disabled){background:#fecaca}.muted{color:#64748b}.players{display:grid;grid-template-columns:1fr 1fr;gap:12px}.player{text-align:center;margin:0}.score{font-size:44px;font-weight:bold;color:#2563eb;margin:10px 0;font-variant-numeric:tabular-nums}.controls{display:flex;justify-content:center;gap:10px}.total{display:flex;align-items:center;justify-content:space-between;font-weight:bold}.total strong{font-size:30px;color:#2563eb}@media(max-width:390px){body{padding:12px}.card{padding:16px}.players{grid-template-columns:1fr}}
+</style>
+<script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+</head><body><main><header><a href="../index.html#week12">← week12</a></header><div id="root"><p>Loading...</p></div></main>
+<script>
+const h=React.createElement;
+const {useState,useRef}=React;
+function PlayerScore({name,score,onIncrement,onDecrement}){
+  return h('section',{className:'player'},
+    h('h3',null,name),
+    h('div',{className:'score','aria-live':'polite'},score),
+    h('div',{className:'controls'},
+      h('button',{type:'button',onClick:onDecrement,'aria-label':'Decrease '+name+' score'},'−'),
+      h('button',{type:'button',onClick:onIncrement,'aria-label':'Increase '+name+' score'},'+')
+    )
+  );
+}
+function ScoreBoard(){
+  const [p1,setP1]=useState(0);
+  const [p2,setP2]=useState(0);
+  return h('section',{className:'card'},
+    h('div',{className:'players'},
+      h(PlayerScore,{name:'Player 1',score:p1,onIncrement:()=>setP1(p=>p+1),onDecrement:()=>setP1(p=>p-1)}),
+      h(PlayerScore,{name:'Player 2',score:p2,onIncrement:()=>setP2(p=>p+1),onDecrement:()=>setP2(p=>p-1)})
+    ),
+    h('div',{className:'total','aria-live':'polite'},h('span',null,'Total score'),h('strong',null,p1+p2))
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(ScoreBoard));
+</script></body></html>
