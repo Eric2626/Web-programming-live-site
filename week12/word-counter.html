@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Live Word Counter</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f0f4f8;color:#182234;font-family:Arial,sans-serif;min-height:100vh;display:grid;place-items:center;padding:24px}main{width:min(100%,720px)}a{color:#2563eb}header{margin-bottom:18px}.card{background:#fff;border:1px solid #dbe3ec;border-radius:14px;padding:24px;box-shadow:0 8px 24px #1822340d}label{display:block;font-weight:bold;margin-bottom:12px}textarea{display:block;width:100%;min-height:240px;resize:vertical;font:inherit;line-height:1.65;color:#182234;border:1px solid #cbd5e1;background:#fff;padding:16px;border-radius:9px}textarea:focus{outline:2px solid #2563eb;outline-offset:2px}.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:16px}.stat{background:#f0f4f8;border-radius:8px;padding:14px 8px;text-align:center}.number{display:block;font-size:30px;font-weight:bold;color:#2563eb;font-variant-numeric:tabular-nums}.label{display:block;font-size:13px;color:#475569;margin-top:5px}.actions{display:flex;justify-content:flex-end;margin-top:16px}button{font:inherit;background:#2563eb;color:white;border:0;padding:10px 18px;border-radius:7px;cursor:pointer}button:hover:not(:disabled){background:#1e40af}button:disabled{background:#94a3b8;cursor:not-allowed}button:focus-visible,a:focus-visible{outline:3px solid #0f766e;outline-offset:3px}@media(max-width:420px){body{padding:14px}.card{padding:16px}.number{font-size:24px}.label{font-size:12px}}
+</style>
+<script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+</head>
+<body>
+<main>
+<header><a href="../index.html#week12">← week12</a></header>
+<div id="root"><p>Loading...</p></div>
+</main>
+<script>
+const {useState} = React;
+const h = React.createElement;
+function countWords(text){
+  return text.trim() ? text.trim().split(/\s+/u).length : 0;
+}
+function WordCounter(){
+  const [text,setText] = useState('');
+  const words = countWords(text);
+  const characters = Array.from(text).length;
+  const sentences = text.trim().split(/[.!?。！？]+/u).filter(part=>part.trim()).length;
+  function stat(label,value){
+    return h('div',{className:'stat'},h('span',{className:'number'},value),h('span',{className:'label'},label));
+  }
+  return h('section',{className:'card'},
+    h('label',{htmlFor:'text'},'Your text'),
+    h('textarea',{id:'text',value:text,onChange:event=>setText(event.target.value),placeholder:'Type or paste your text here...'}),
+    h('div',{className:'stats','aria-live':'polite','aria-atomic':true},stat('Words',words),stat('Characters',characters),stat('Sentences',sentences)),
+    h('div',{className:'actions'},h('button',{type:'button',disabled:!text,onClick:()=>setText('')},'Clear'))
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(WordCounter));
+</script>
+</body>
+</html>
