@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Counter with History</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:#f0f4f8;color:#182234;font-family:Arial,sans-serif;padding:24px;display:grid;place-items:center}main{width:min(100%,520px)}a{color:#2563eb}header{margin-bottom:20px}h1{margin:10px 0;color:#2563eb;font-size:clamp(26px,5vw,36px)}p{line-height:1.5}.card{border:1px solid #dbe3ec;background:white;border-radius:16px;padding:28px;box-shadow:0 8px 24px #1822340d;text-align:center}.label{color:#475569;font-size:14px}.count{font-size:76px;font-weight:bold;line-height:1.2;margin:8px 0 24px;font-variant-numeric:tabular-nums}.buttons{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}button{font:inherit;font-weight:bold;padding:12px 6px;border:0;border-radius:8px;background:#2563eb;color:white;cursor:pointer}button:hover:not(:disabled){background:#1e40af}button.secondary{background:#e2e8f0;color:#182234}button.secondary:hover:not(:disabled){background:#cbd5e1}button:disabled{opacity:.5;cursor:not-allowed}button:focus-visible,a:focus-visible{outline:3px solid #0f766e;outline-offset:3px}.history{margin-top:24px;border-top:1px solid #e2e8f0;padding-top:16px;text-align:left}.history h2{font-size:17px;margin:0 0 5px}.values{list-style:none;display:flex;gap:8px;flex-wrap:wrap;padding:0;margin:12px 0 0}.values li{padding:9px 15px;border-radius:8px;background:#f1f5f9;font-variant-numeric:tabular-nums}.values li:last-child{background:#dbeafe;color:#1e40af;font-weight:bold}.foot{color:#475569;font-size:13px;text-align:center}
+</style>
+<script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+</head>
+<body>
+<main><header><a href="../../index.html#week12">← Week 12</a><h1>Counter with History</h1><p>Change the count and undo your last action.</p></header><div id="root"></div><p class="foot">Week 12 · React State &amp; useState</p></main>
+<script>
+const {useState} = React;
+const h = React.createElement;
+function Counter(){
+  const [count, setCount] = useState(0);
+  const [history, setHistory] = useState([0]);
+  function change(next){
+    if(next === count) return;
+    setCount(next);
+    setHistory(prev => [...prev, next].slice(-5));
+  }
+  function undo(){
+    if(history.length < 2) return;
+    setCount(history[history.length - 2]);
+    setHistory(prev => prev.slice(0,-1));
+  }
+  return h('section',{className:'card'},
+    h('div',{className:'label'},'Current count'),
+    h('div',{className:'count','aria-live':'polite'},count),
+    h('div',{className:'buttons'},
+      h('button',{onClick:()=>change(count+1)},'+1'),
+      h('button',{onClick:()=>change(count-1)},'−1'),
+      h('button',{className:'secondary',onClick:()=>change(0)},'Reset'),
+      h('button',{className:'secondary',onClick:undo,disabled:history.length<2},'Undo')
+    ),
+    h('div',{className:'history'},
+      h('h2',null,'History'),
+      h('div',{className:'label'},'Last 5 count values'),
+      h('ol',{className:'values','aria-label':'Count history'},history.map((value,index)=>h('li',{key:index},value)))
+    )
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(Counter));
+</script>
+</body>
+</html>
