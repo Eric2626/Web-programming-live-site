@@ -106,7 +106,10 @@ var githubURL =
     homework[12] = [
       "week12/counter-with-history/index.html",
       "week12/shopping-cart.html",
-      "week12/word-counter.html"
+      "week12/word-counter.html",
+      "week12/toggle-visibility.html",
+      "week12/task-list.html",
+      "week12/scoreboard.html"
     ];
 
     var currentWeek = 2;
@@ -162,7 +165,10 @@ var githubURL =
         "week11/course-catalog/live/index.html": "Course Catalog",
         "week12/counter-with-history/index.html": "Counter with history",
         "week12/shopping-cart.html": "Shopping Cart",
-        "week12/word-counter.html": "Live Word Counter"
+        "week12/word-counter.html": "Live Word Counter",
+        "week12/toggle-visibility.html": "Toggle Visibility",
+        "week12/task-list.html": "Add & Remove Items",
+        "week12/scoreboard.html": "ScoreBoard"
       };
       if (labels[file]) return labels[file];
       var parts = file.split("/");
