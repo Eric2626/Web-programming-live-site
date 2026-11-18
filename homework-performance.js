@@ -158,7 +158,7 @@ var githubURL =
         "week11/portfolio-gallery/live/index.html": "Portfolio Gallery",
         "week11/product-card/index.html": "ProductCard",
         "week11/course-catalog/live/index.html": "Course Catalog",
-        "week12/counter-with-history/index.html": "Exercise 1 – Counter with History"
+        "week12/counter-with-history/index.html": "Counter with history"
       };
       if (labels[file]) return labels[file];
       var parts = file.split("/");
