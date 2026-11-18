@@ -115,7 +115,7 @@ var githubURL =
     var weekTabs = [1, 2, 3, 4, 5, 6, 7, 8, 9, "9_2", 10, 11, 12];
     weekTabs.forEach(function (week) {
       var button = document.createElement("button");
-      button.textContent = "Week " + week;
+      button.textContent = (Number(week) === 12 ? "week12" : "Week " + week);
       button.value = week;
       button.onclick = function () {
         var selected = this.value === "9_2" ? "9_2" : Number(this.value);
@@ -184,7 +184,7 @@ var githubURL =
       closeViewer();
 
       document.getElementById("weekTitle").textContent =
-        "Week " + week;
+        (Number(week) === 12 ? "week12" : "Week " + week);
 
       var list = document.getElementById("homeworkList");
       list.innerHTML = "";
