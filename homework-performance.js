@@ -3,7 +3,7 @@ var githubURL =
 
     var homework = [];
 
-    for (var i = 1; i <= 11; i++) {
+    for (var i = 1; i <= 12; i++) {
       homework[i] = [];
     }
 
@@ -102,12 +102,17 @@ var githubURL =
       "week11/course-catalog/live/index.html"
     ];
 
+    // Week 12 Monday: React State and useState.
+    homework[12] = [
+      "week12/counter-with-history/index.html"
+    ];
+
     var currentWeek = 2;
     var currentFile = "";
     var viewNumber = 0;
 
     // Display Week 9_2 between Week 9 and Week 10.
-    var weekTabs = [1, 2, 3, 4, 5, 6, 7, 8, 9, "9_2", 10, 11];
+    var weekTabs = [1, 2, 3, 4, 5, 6, 7, 8, 9, "9_2", 10, 11, 12];
     weekTabs.forEach(function (week) {
       var button = document.createElement("button");
       button.textContent = "Week " + week;
@@ -152,7 +157,8 @@ var githubURL =
         "week11/task11/live/index.html": "StudentProfileCard",
         "week11/portfolio-gallery/live/index.html": "Portfolio Gallery",
         "week11/product-card/index.html": "ProductCard",
-        "week11/course-catalog/live/index.html": "Course Catalog"
+        "week11/course-catalog/live/index.html": "Course Catalog",
+        "week12/counter-with-history/index.html": "Exercise 1 – Counter with History"
       };
       if (labels[file]) return labels[file];
       var parts = file.split("/");
@@ -384,5 +390,5 @@ var githubURL =
       document.getElementById("previewCodeButton").disabled = true;
     }
 
-    var requestedWeek = /^#week(9_2|10|11|[1-9])$/i.exec(window.location.hash);
+    var requestedWeek = /^#week(9_2|10|11|12|[1-9])$/i.exec(window.location.hash);
     showWeek(requestedWeek ? (requestedWeek[1] === "9_2" ? "9_2" : Number(requestedWeek[1])) : 2);
