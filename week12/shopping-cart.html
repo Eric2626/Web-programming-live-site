@@ -14,6 +14,7 @@
 <main>
 <header><h1>Shopping Cart</h1><a href="../index.html#week12">← week12</a></header>
 <div id="root"><p>Loading shopping cart...</p></div>
+<details style="margin-top:24px;color:#64748b;font-size:12px"><summary>Image credits</summary><p>Traditional Mongolian Deel: <a href="https://commons.wikimedia.org/wiki/File:Mongolian_clothing_(deel).jpg" target="_blank" rel="noopener noreferrer">smartneddy, Wikimedia Commons</a> · <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 3.0</a></p></details>
 </main>
 <script>
 const h = React.createElement;
@@ -38,7 +39,6 @@ function ProductCard({product,onAdd}){
     h('img',{src:product.image,alt:product.name,referrerPolicy:'no-referrer',onError:e=>{const img=e.currentTarget;if(product.alternateImage&&!img.dataset.retried){img.dataset.retried='1';img.src=product.alternateImage;}else if(img.src!==product.fallback){img.src=product.fallback;}}}),
     h('h3',null,product.name),
     h('p',{className:'price'},money(product.price)),
-    product.id===3?h('small',{style:{display:'block',marginBottom:'8px'}},h('a',{href:'https://commons.wikimedia.org/wiki/File:Mongolian_clothing_(deel).jpg',target:'_blank',rel:'noopener noreferrer'},'Photo: smartneddy'), ' · ',h('a',{href:'https://creativecommons.org/licenses/by-sa/3.0/',target:'_blank',rel:'noopener noreferrer'},'CC BY-SA 3.0')):null,
     h('button',{onClick:()=>onAdd(product)},'Add to Cart')
   );
 }
