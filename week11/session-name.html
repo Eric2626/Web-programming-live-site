@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Session Name</title>
+<style>*{box-sizing:border-box}body{margin:0;background:#f5f7fb;color:#222;font:16px/1.5 Arial,sans-serif;min-height:100vh;padding:24px;display:grid;place-items:center}main{width:min(100%,700px);margin:auto}header{margin-bottom:14px}a{color:#2563eb}h1{color:#2563eb;font-size:27px;margin:0 0 20px;text-align:center}.card{background:white;padding:24px;border:1px solid #ddd;border-radius:8px}label{display:block;font-weight:bold;margin-bottom:6px}input:not([type=radio]),textarea{font:inherit;width:100%;border:1px solid #cbd5e1;border-radius:6px;padding:12px;color:inherit}textarea{resize:vertical;min-height:200px}button{font:inherit;background:#2563eb;border:0;color:white;padding:10px 16px;border-radius:6px;cursor:pointer}button:hover:not(:disabled){background:#1d4ed8}button:disabled{background:#94a3b8;cursor:not-allowed}button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible{outline:2px solid #2563eb;outline-offset:3px}.field{margin-bottom:16px}.panel{background:#f0f4f8;border:1px solid #e2e8f0;border-radius:8px;padding:16px;margin-top:18px}.panel h2{margin:0;color:#2563eb;font-size:23px}.muted{color:#64748b}.actions{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:14px}.error{color:#b91c1c;font-size:14px;margin:5px 0 0}.success{color:#166534;background:#dcfce7;padding:12px;border-radius:6px}.question{border:1px solid #ddd;border-radius:8px;margin:16px 0;padding:15px;min-width:0}legend{font-weight:bold;padding:0 6px}.option{display:flex;align-items:center;gap:10px;padding:9px;border-radius:5px;font-weight:normal;margin:4px 0;background:#f5f7fb;cursor:pointer}.option input{accent-color:#2563eb;flex-shrink:0}.feedback{margin:12px 0 0;color:#166534}.wrong{color:#b91c1c}.score{font-weight:bold;color:#2563eb}p{overflow-wrap:anywhere}@media(max-width:480px){body{padding:16px}.card{padding:16px}}</style>
+<script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script></head>
+<body><main><header><a href="../index.html#week11">← Week 11</a></header><h1>Session Name</h1><div id="root"></div></main>
+<script>
+const h=React.createElement;
+const {useState,useEffect}=React;
+function SessionName(){
+  const [name,setName]=useState('');
+  return h('section',{className:'card'},
+    h('label',{htmlFor:'name'},'Your name'),
+    h('input',{id:'name',value:name,onChange:e=>setName(e.target.value),placeholder:'Enter your name',maxLength:80}),
+    h('div',{className:'panel','aria-live':'polite'},h('h2',null,'Welcome, '+(name.trim()||'Student')+'!'),h('p',null,'Ready for your study session.')),
+    h('div',{className:'actions'},h('span',{className:'muted'},name.length+' / 80'),h('button',{type:'button',disabled:!name,onClick:()=>setName('')},'Clear'))
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(SessionName));
+</script></body></html>
