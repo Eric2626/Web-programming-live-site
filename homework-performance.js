@@ -102,7 +102,12 @@ var githubURL =
       "week11/course-catalog/live/index.html",
       "week11/session-name.html",
       "week11/profile-validation.html",
-      "week11/personal-notes.html"
+      "week11/personal-notes.html",
+      "week11/counter.html",
+      "week11/study-queue.html",
+      "week11/show-hide-toggle.html",
+      "week11/submission-checklist.html",
+      "week11/component-lab.html"
     ];
 
     // Week 12 Monday: React State and useState.
@@ -169,6 +174,11 @@ var githubURL =
         "week11/session-name.html": "Session Name",
         "week11/profile-validation.html": "Profile Validation",
         "week11/personal-notes.html": "Personal Notes",
+        "week11/counter.html": "Counter",
+        "week11/study-queue.html": "Study Queue",
+        "week11/show-hide-toggle.html": "Show / Hide Toggle",
+        "week11/submission-checklist.html": "Submission Checklist",
+        "week11/component-lab.html": "Component Lab",
         "week12/counter-with-history/index.html": "Counter with history",
         "week12/shopping-cart.html": "Shopping Cart",
         "week12/word-counter.html": "Live Word Counter",

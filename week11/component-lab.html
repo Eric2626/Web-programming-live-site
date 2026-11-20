@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Component Lab</title>
+<style>*{box-sizing:border-box}body{margin:0;background:#f5f7fb;color:#222;font:16px/1.5 Arial,sans-serif;min-height:100vh;padding:24px;display:grid;place-items:center}main{width:min(100%,700px);margin:auto}header{margin-bottom:14px}a{color:#2563eb}h1{color:#2563eb;font-size:27px;text-align:center;margin:0 0 20px}h2{font-size:20px;color:#2563eb;margin:0 0 12px}.card{background:white;padding:24px;border:1px solid #ddd;border-radius:8px;margin-bottom:16px}label{font-weight:bold}input:not([type=checkbox]),select{font:inherit;width:100%;border:1px solid #cbd5e1;border-radius:6px;padding:12px;color:inherit}input[type=checkbox]{accent-color:#2563eb;width:19px;height:19px;flex-shrink:0}button{font:inherit;background:#2563eb;border:0;color:white;padding:10px 16px;border-radius:6px;cursor:pointer}button:hover:not(:disabled){background:#1d4ed8}button:disabled{background:#64748b;cursor:not-allowed}button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid #2563eb;outline-offset:3px}.actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px}.muted{color:#475569}.panel{background:#f0f4f8;border:1px solid #e2e8f0;border-radius:8px;padding:16px;margin-top:18px}.value{font-size:48px;font-weight:bold;text-align:center;color:#2563eb;margin:12px 0}.row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid #e2e8f0;overflow-wrap:anywhere}.row label{display:flex;align-items:center;gap:10px;font-weight:normal}.row button{flex-shrink:0}.list{padding:0;list-style:none}.done{text-decoration:line-through;color:#475569}.selected{background:#163274}.status{font-weight:bold;color:#166534}.warning{color:#92400e}.badge{display:inline-block;padding:3px 10px;background:#dcfce7;color:#166534;border-radius:12px;font-weight:bold}.fail{background:#fee2e2;color:#991b1b}p{overflow-wrap:anywhere}progress{width:100%;height:16px;accent-color:#2563eb}@media(max-width:480px){body{padding:16px}.card{padding:16px}}</style>
+<script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+</head>
+<body>
+<main><header><a href="../index.html#week11">← Week 11</a></header><h1>Component Lab</h1><div id="root"></div></main>
+<script>
+const h=React.createElement;
+const {useState}=React;
+function Card({title,children}){return h('section',{className:'card'},h('h2',null,title),children);}
+function Greeting({name}){return h('p',null,'Hello, '+name+'!');}
+function StudentList({students}){return h('ul',null,...students.map(student=>h('li',{key:student.id},student.name)));}
+function Alert({type,message}){return message?h('p',{className:type==='warning'?'warning':'status'},(type==='warning'?'Warning: ':'Update: ')+message):null;}
+function GradeCard({name,score}){const passed=score>=60;return h('div',{className:'row'},h('span',null,name+' — '+score+'/100'),h('span',{className:'badge'+(passed?'':' fail')},passed?'Pass':'Fail'));}
+function App(){
+ const [show,setShow]=useState(true);
+ const students=[{id:1,name:'Student A'},{id:2,name:'Student B'},{id:3,name:'Student C'}];
+ return h(React.Fragment,null,
+ h(Card,{title:'1. Greeting component'},h(Greeting,{name:'Eric'}),h(Greeting,{name:'Student'})),
+ h(Card,{title:'2. Student list'},h(StudentList,{students})),
+ h(Card,{title:'3. Conditional alert'},h('button',{'aria-pressed':show,onClick:()=>setShow(v=>!v)},show?'Hide alert':'Show alert'),h(Alert,{type:'warning',message:show?'Remember to save your work.':''})),
+ h(Card,{title:'4. Pass or fail'},h('p',{className:'muted'},'Example scores only. Passing score: 60.'),h(GradeCard,{name:'Student A',score:82}),h(GradeCard,{name:'Student B',score:48}),h(GradeCard,{name:'Student C',score:65})));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(App));
+</script>
+</body>
+</html>
