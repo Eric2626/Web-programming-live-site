@@ -122,7 +122,10 @@ var githubURL =
 
     // Week 12 Friday: React Effects and API homework.
     homework["12_1"] = [
-      "week12_1/weather-dashboard.html"
+      "week12_1/weather-dashboard.html",
+      "week12_1/page-title-sync.html",
+      "week12_1/fetch-user.html",
+      "week12_1/stopwatch.html"
     ];
 
     var currentWeek = 2;
@@ -190,7 +193,10 @@ var githubURL =
         "week12/toggle-visibility.html": "Toggle Visibility",
         "week12/task-list.html": "Add & Remove Items",
         "week12/scoreboard.html": "ScoreBoard",
-        "week12_1/weather-dashboard.html": "Homework – Weather Dashboard"
+        "week12_1/weather-dashboard.html": "Weather",
+        "week12_1/page-title-sync.html": "Page Title Sync",
+        "week12_1/fetch-user.html": "Fetch User from API",
+        "week12_1/stopwatch.html": "Stopwatch"
       };
       if (labels[file]) return labels[file];
       var parts = file.split("/");
