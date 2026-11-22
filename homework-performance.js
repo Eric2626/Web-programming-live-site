@@ -125,7 +125,13 @@ var githubURL =
       "week12_1/weather-dashboard.html",
       "week12_1/page-title-sync.html",
       "week12_1/fetch-user.html",
-      "week12_1/stopwatch.html"
+      "week12_1/stopwatch.html",
+      "week12_1/github-user-lookup.html",
+      "week12_1/derived-value.html",
+      "week12_1/live-clock.html",
+      "week12_1/theme-toggle.html",
+      "week12_1/run-once.html",
+      "week12_1/run-on-change.html"
     ];
 
     var currentWeek = 2;
@@ -136,7 +142,7 @@ var githubURL =
     var weekTabs = [1, 2, 3, 4, 5, 6, 7, 8, 9, "9_2", 10, 11, 12, "12_1"];
     weekTabs.forEach(function (week) {
       var button = document.createElement("button");
-      button.textContent = week === "12_1" ? "Week 12_2" : (week === "12_1" ? "Week 12_2" : (Number(week) === 12 ? "week12" : "Week " + week));
+      button.textContent = week === "12_1" ? "Week 12_2" : (Number(week) === 12 ? "week12" : "Week " + week);
       button.value = week;
       button.onclick = function () {
         var selected = this.value.includes("_") ? this.value : Number(this.value);
@@ -196,7 +202,13 @@ var githubURL =
         "week12_1/weather-dashboard.html": "Weather",
         "week12_1/page-title-sync.html": "Page Title Sync",
         "week12_1/fetch-user.html": "Fetch User from API",
-        "week12_1/stopwatch.html": "Stopwatch"
+        "week12_1/stopwatch.html": "Stopwatch",
+        "week12_1/github-user-lookup.html": "GitHub User Lookup",
+        "week12_1/derived-value.html": "Derived Value",
+        "week12_1/live-clock.html": "Live Clock",
+        "week12_1/theme-toggle.html": "Theme Toggle",
+        "week12_1/run-once.html": "useEffect Run Once",
+        "week12_1/run-on-change.html": "useEffect Run on Change"
       };
       if (labels[file]) return labels[file];
       var parts = file.split("/");
