@@ -61,7 +61,6 @@ function UserProfile(){
  },[request]);
  return h('section',{className:'card','aria-busy':loading},
    h('h2',null,'User profile'),
-   h('p',{className:'muted'},'User data comes from JSONPlaceholder API (user ID 1).'),
    loading?h('p',{className:'status',role:'status'},'Loading user...'):null,
    error?h('p',{className:'error',role:'alert'},'Error: '+error):null,
    user&&!loading?h('div',{className:'panel'},
