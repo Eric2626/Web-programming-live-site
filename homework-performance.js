@@ -120,18 +120,23 @@ var githubURL =
       "week12/scoreboard.html"
     ];
 
+    // Week 12 Friday: React Effects and API homework.
+    homework["12_1"] = [
+      "week12_1/weather-dashboard.html"
+    ];
+
     var currentWeek = 2;
     var currentFile = "";
     var viewNumber = 0;
 
     // Display Week 9_2 between Week 9 and Week 10.
-    var weekTabs = [1, 2, 3, 4, 5, 6, 7, 8, 9, "9_2", 10, 11, 12];
+    var weekTabs = [1, 2, 3, 4, 5, 6, 7, 8, 9, "9_2", 10, 11, 12, "12_1"];
     weekTabs.forEach(function (week) {
       var button = document.createElement("button");
       button.textContent = (Number(week) === 12 ? "week12" : "Week " + week);
       button.value = week;
       button.onclick = function () {
-        var selected = this.value === "9_2" ? "9_2" : Number(this.value);
+        var selected = this.value.includes("_") ? this.value : Number(this.value);
         showWeek(selected);
         window.history.replaceState(null, "", "#week" + selected);
       };
@@ -184,7 +189,8 @@ var githubURL =
         "week12/word-counter.html": "Live Word Counter",
         "week12/toggle-visibility.html": "Toggle Visibility",
         "week12/task-list.html": "Add & Remove Items",
-        "week12/scoreboard.html": "ScoreBoard"
+        "week12/scoreboard.html": "ScoreBoard",
+        "week12_1/weather-dashboard.html": "Homework – Weather Dashboard"
       };
       if (labels[file]) return labels[file];
       var parts = file.split("/");
@@ -416,5 +422,5 @@ var githubURL =
       document.getElementById("previewCodeButton").disabled = true;
     }
 
-    var requestedWeek = /^#week(9_2|10|11|12|[1-9])$/i.exec(window.location.hash);
-    showWeek(requestedWeek ? (requestedWeek[1] === "9_2" ? "9_2" : Number(requestedWeek[1])) : 2);
+    var requestedWeek = /^#week(9_2|12_1|10|11|12|[1-9])$/i.exec(window.location.hash);
+    showWeek(requestedWeek ? (requestedWeek[1].includes("_") ? requestedWeek[1] : Number(requestedWeek[1])) : 2);
