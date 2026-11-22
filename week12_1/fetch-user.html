@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fetch User from API | Eric's Homework</title>
+<style>*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:#f0f4f8;color:#182234;font:16px/1.55 Arial,sans-serif;padding:24px}
+main{max-width:720px;margin:auto}header{margin-bottom:16px}a{color:#2563eb}
+h1{font-size:28px;color:#2563eb;margin:0 0 6px}h2{margin:0 0 14px;font-size:21px}
+p{margin:8px 0 15px}.muted{color:#64748b}
+.card{background:#fff;border:1px solid #dbe3ec;border-radius:14px;padding:24px;box-shadow:0 8px 24px #1822340d;margin-bottom:16px}
+label{display:block;font-weight:bold;margin:0 0 10px}
+input{font:inherit;padding:12px;border:1px solid #cbd5e1;border-radius:8px;color:#182234;width:100%}
+button{font:inherit;background:#2563eb;color:#fff;padding:10px 18px;border:0;border-radius:8px;cursor:pointer}
+button:hover:not(:disabled){background:#1e40af}button:disabled{background:#94a3b8;cursor:not-allowed}
+button.secondary{background:#10b981}button.secondary:hover:not(:disabled){background:#047857}
+button.neutral{background:#64748b}button.neutral:hover:not(:disabled){background:#475569}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid #0f766e;outline-offset:3px}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.panel{background:#f0f4f8;border-radius:9px;padding:16px;margin-top:16px}
+.error{color:#991b1b;background:#fee2e2;border-radius:8px;padding:14px}
+.status{color:#1e40af;background:#dbeafe;border-radius:8px;padding:14px}
+@media(max-width:480px){body{padding:14px}.card{padding:17px}h1{font-size:25px}}
+</style>
+<script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+</head>
+<body>
+<main>
+<header><a href="../index.html#week12_1">← Week 12_1</a></header>
+<h1>Fetch User from API</h1>
+<p class="muted">Practice 2 · React useEffect and fetch</p>
+<div id="root"><p>Loading...</p></div>
+</main>
+<script>
+const h=React.createElement;
+const {useState,useEffect}=React;
+
+function UserProfile(){
+ const [user,setUser]=useState(null);
+ const [loading,setLoading]=useState(true);
+ const [error,setError]=useState('');
+ const [request,setRequest]=useState(0);
+ useEffect(()=>{
+   const controller=new AbortController();
+   async function fetchUser(){
+     setLoading(true);setError('');setUser(null);
+     try{
+       const res=await fetch('https://jsonplaceholder.typicode.com/users/1',{signal:controller.signal});
+       if(!res.ok)throw new Error('Could not load user (HTTP '+res.status+').');
+       const data=await res.json();
+       if(!data || !data.name || !data.email)throw new Error('User data is incomplete.');
+       setUser(data);
+     }catch(err){
+       if(err.name!=='AbortError')setError(err.message||'Network error. Please try again.');
+     }finally{
+       if(!controller.signal.aborted)setLoading(false);
+     }
+   }
+   fetchUser();
+   return ()=>controller.abort();
+ },[request]);
+ return h('section',{className:'card','aria-busy':loading},
+   h('h2',null,'User profile'),
+   h('p',{className:'muted'},'User data comes from JSONPlaceholder API (user ID 1).'),
+   loading?h('p',{className:'status',role:'status'},'Loading user...'):null,
+   error?h('p',{className:'error',role:'alert'},'Error: '+error):null,
+   user&&!loading?h('div',{className:'panel'},
+       h('h2',null,user.name),
+       h('p',null,h('strong',null,'Email: '),h('a',{href:'mailto:'+user.email},user.email)),
+       h('p',null,h('strong',null,'Username: '),user.username)
+   ):null,
+   h('div',{className:'row',style:{marginTop:'16px'}},h('button',{type:'button',onClick:()=>setRequest(n=>n+1),disabled:loading},'Reload user'))
+ );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(UserProfile));
+</script>
+</body>
+</html>
