@@ -136,7 +136,7 @@ var githubURL =
     var weekTabs = [1, 2, 3, 4, 5, 6, 7, 8, 9, "9_2", 10, 11, 12, "12_1"];
     weekTabs.forEach(function (week) {
       var button = document.createElement("button");
-      button.textContent = (Number(week) === 12 ? "week12" : "Week " + week);
+      button.textContent = week === "12_1" ? "Week 12_2" : (week === "12_1" ? "Week 12_2" : (Number(week) === 12 ? "week12" : "Week " + week));
       button.value = week;
       button.onclick = function () {
         var selected = this.value.includes("_") ? this.value : Number(this.value);
