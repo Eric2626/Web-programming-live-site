@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Weather Dashboard | Eric's Homework</title>
+<title>Weather | Eric's Homework</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;min-height:100vh;background:#f0f4f8;color:#182234;font:16px/1.55 Arial,sans-serif;padding:24px}
@@ -37,15 +37,67 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid #0f76
 .error{background:#fef2f2;color:#991b1b;border-radius:8px;padding:14px;margin:16px 0 0}
 footer{color:#64748b;font-size:13px}
 @media(max-width:480px){body{padding:14px}.card{padding:17px}.temp{font-size:53px}.stats{grid-template-columns:1fr 1fr}.row button{flex:1}input{flex-basis:100%}}
+
+/* Animated weather scene above the result details */
+.weather-card{padding:0;overflow:hidden}
+.scene{position:relative;isolation:isolate;overflow:hidden;min-height:330px;display:flex;align-items:flex-end;background:linear-gradient(155deg,#358cfa 0%,#80d1fa 70%,#bddff7);color:#fff;transition:background 1s ease}
+.scene--clear{background:linear-gradient(158deg,#1674db 2%,#53b3fa 50%,#b2e6fc 100%)}
+.scene--night{background:linear-gradient(160deg,#081630 0%,#193f75 58%,#315887 100%)}
+.scene--cloudy{background:linear-gradient(160deg,#5c8fb8 0%,#8ab6d8 56%,#c8dce9 100%)}
+.scene--overcast{background:linear-gradient(160deg,#53677d 0%,#7b94ac 59%,#b6c4d1 100%)}
+.scene--rain{background:linear-gradient(145deg,#1e334e 0%,#355977 60%,#537b91 100%)}
+.scene--thunder{background:linear-gradient(145deg,#111d3b 0%,#354363 55%,#4d6078 100%)}
+.scene--snow{background:linear-gradient(155deg,#6088b3 0%,#96b9d5 58%,#c9deed 100%)}
+.scene--fog{background:linear-gradient(150deg,#718ba1 0%,#9caebc 55%,#c1cbd4 100%)}
+.scene:after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(6,25,53,.40),rgba(6,25,53,.10) 70%),linear-gradient(0deg,rgba(5,26,51,.53),transparent 78%);pointer-events:none}
+.sky-art{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.scene-content{position:relative;z-index:2;width:100%;padding:28px 30px;text-shadow:0 2px 7px rgba(0,0,0,.2)}
+.scene-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px}
+.scene .location{font-size:clamp(28px,5.5vw,40px);line-height:1.13;font-weight:750;overflow-wrap:anywhere}
+.scene .country{color:rgba(255,255,255,.90);font-size:15px;margin-top:4px}
+.scene .badge{background:rgba(255,255,255,.23);color:#fff;border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(7px);white-space:nowrap}
+.scene .temp{font-size:clamp(56px,10vw,80px);line-height:1.06;color:#fff;margin:22px 0 0;font-weight:700}
+.scene .description{font-size:20px;color:#fff;margin:3px 0 0}
+.scene-message{margin:24px 0 0;color:#fff}
+.scene-error{background:rgba(90,20,25,.72);color:#fff;border-radius:9px;padding:12px;margin:18px 0 0}
+.weather-details{padding:22px 24px 18px;background:#fff}
+.weather-details .stats{margin-bottom:13px}
+.weather-details .updated{margin:0;font-size:13px}
+.sun{position:absolute;top:38px;right:97px;width:110px;height:110px;border-radius:50%;background:#ffe985;box-shadow:0 0 0 16px rgba(255,244,160,.14),0 0 0 34px rgba(255,242,166,.12),0 0 76px 22px rgba(255,227,122,.58);animation:sun-glow 5s ease-in-out infinite}
+.moon{position:absolute;top:38px;right:110px;width:94px;height:94px;background:#e9f4ff;border-radius:50%;box-shadow:0 0 42px #b6d3ff99;animation:sun-glow 7s ease-in-out infinite}
+.moon:after{content:"";position:absolute;top:-13px;left:24px;width:90px;height:90px;background:#142f5b;border-radius:50%}
+.stars{position:absolute;inset:0;background-image:radial-gradient(#fff 1.5px,transparent 2px),radial-gradient(#fff 1px,transparent 1.5px);background-size:108px 77px,143px 91px;background-position:16px 12px,73px 40px;opacity:.65;animation:twinkle 5s ease-in-out infinite alternate}
+.cloud{position:absolute;width:202px;height:62px;border-radius:90px;background:rgba(255,255,255,.79);filter:drop-shadow(0 7px 16px rgba(4,29,63,.10));animation:cloud-drift 19s ease-in-out infinite alternate}
+.cloud:before,.cloud:after{content:"";position:absolute;border-radius:50%;background:inherit}
+.cloud:before{width:104px;height:104px;left:33px;bottom:20px}
+.cloud:after{width:126px;height:126px;right:12px;bottom:5px}
+.cloud-a{top:66px;right:16%;transform:scale(.95)}
+.cloud-b{top:125px;right:-12%;opacity:.55;animation-duration:26s;animation-delay:-7s;transform:scale(.66)}
+.cloud-c{top:18px;left:-15%;opacity:.50;animation-duration:24s;animation-delay:-12s;transform:scale(.50)}
+.scene--rain .cloud,.scene--thunder .cloud{background:rgba(194,213,229,.71)}
+.scene--overcast .cloud{background:rgba(226,235,242,.78)}
+.scene--fog .cloud{opacity:.7;filter:blur(9px)}
+.raindrop{position:absolute;top:-25%;height:65px;width:2px;border-radius:8px;background:linear-gradient(transparent,rgba(213,237,255,.77));transform:rotate(13deg);animation:rain-fall .88s linear infinite}
+.snowflake{position:absolute;top:-15%;color:#fff;font-size:19px;text-shadow:0 0 5px #fff;animation:snow-fall 5s linear infinite}
+.lightning{position:absolute;right:29%;top:75px;width:80px;height:150px;background:#eaf6ff;clip-path:polygon(55% 0,11% 60%,47% 59%,29% 100%,90% 40%,57% 42%,79% 0);filter:drop-shadow(0 0 24px #fff);opacity:0;animation:lightning-flash 6.3s infinite}
+.fog-layer{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 42px,rgba(238,246,250,.25) 64px,transparent 105px);filter:blur(13px);animation:fog-slide 12s ease-in-out infinite alternate}
+@keyframes sun-glow{50%{transform:scale(1.05);filter:brightness(1.1)}}
+@keyframes cloud-drift{from{translate:-25px 0}to{translate:40px 0}}
+@keyframes rain-fall{to{translate:-55px 530px}}
+@keyframes snow-fall{to{translate:55px 520px;rotate:270deg}}
+@keyframes lightning-flash{0%,84%,87%,90%,100%{opacity:0}85%,88%{opacity:.92}86%,89%{opacity:.1}}
+@keyframes fog-slide{to{translate:35px -14px;opacity:.65}}
+@keyframes twinkle{to{opacity:.35}}
+@media(max-width:480px){.scene{min-height:310px}.scene-content{padding:23px 19px}.sun{right:42px;top:52px;width:84px;height:84px}.moon{right:38px;top:42px}.scene .badge{font-size:11px}.weather-details{padding:16px}.scene .temp{margin-top:24px}}
+@media(prefers-reduced-motion:reduce){.sky-art *,.sky-art,.scene{animation:none!important;transition:none!important}}
+
 </style>
 <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
 </head>
 <body>
 <main>
-<header><a href="../index.html#week12_1">← Week 12_1</a></header>
-<h1>Weather Dashboard</h1>
-<p class="muted">React useEffect · Open-Meteo API</p>
+<header><a href="../index.html#week12_1">← Week 12_2</a></header>
 <div id="root"><p>Loading Weather Dashboard...</p></div>
 <footer>Weather information from Open-Meteo. No API key required.</footer>
 </main>
@@ -66,6 +118,50 @@ function weatherDescription(code){
   if(code>=95&&code<=99)return 'Thunderstorm';
   return 'Current weather';
 }
+
+function weatherScene(code,isDay){
+  if(code>=95&&code<=99)return 'thunder';
+  if(code>=51&&code<=67 || code>=80&&code<=82)return 'rain';
+  if(code>=71&&code<=77 || code>=85&&code<=86)return 'snow';
+  if(code===45||code===48)return 'fog';
+  if(code===3)return 'overcast';
+  if(code===2)return 'cloudy';
+  if(isDay===0)return 'night';
+  return 'clear';
+}
+function SkyArt({type}){
+  const pieces=[];
+  if(type==='night'){
+    pieces.push(h('div',{className:'stars',key:'stars'}));
+    pieces.push(h('div',{className:'moon',key:'moon'}));
+  }
+  if(type==='clear'||type==='cloudy'){
+    pieces.push(h('div',{className:'sun',key:'sun'}));
+  }
+  if(['cloudy','overcast','rain','thunder','snow','fog'].includes(type)){
+    ['a','b','c'].forEach(n=>pieces.push(h('div',{key:'c'+n,className:'cloud cloud-'+n})));
+  }
+  if(type==='rain'||type==='thunder'){
+    for(let i=0;i<32;i++){
+      pieces.push(h('i',{key:'rain'+i,className:'raindrop',style:{
+        left:(i*37+11)%100+'%',animationDelay:'-'+((i*13)%11)/11+'s',
+        animationDuration:(.65+(i%5)*.12)+'s',opacity:.35+(i%4)*.13
+      }}));
+    }
+  }
+  if(type==='snow'){
+    for(let i=0;i<32;i++){
+      pieces.push(h('i',{key:'snow'+i,className:'snowflake',style:{
+        left:(i*29+17)%100+'%',animationDelay:'-'+((i*19)%50)/10+'s',
+        animationDuration:(3.8+(i%7)*.55)+'s',opacity:.45+(i%4)*.12
+      }},i%3===0?'✻':'❄'));
+    }
+  }
+  if(type==='thunder')pieces.push(h('div',{key:'lightning',className:'lightning'}));
+  if(type==='fog')pieces.push(h('div',{key:'fog',className:'fog-layer'}));
+  return h('div',{className:'sky-art','aria-hidden':'true'},...pieces);
+}
+
 function WeatherDashboard(){
   const [city,setCity]=useState('');
   const [place,setPlace]=useState({name:'Seoul',country:'South Korea',lat:37.5665,lon:126.978});
@@ -88,7 +184,7 @@ function WeatherDashboard(){
         }
         const url='https://api.open-meteo.com/v1/forecast?latitude='+encodeURIComponent(place.lat)+
           '&longitude='+encodeURIComponent(place.lon)+
-          '&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&timezone=auto';
+          '&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code,is_day&timezone=auto';
         const response=await fetch(url,{signal:controller.signal});
         if(!response.ok)throw new Error('Weather service is unavailable. Please try again.');
         const data=await response.json();
@@ -147,8 +243,10 @@ function WeatherDashboard(){
   function stat(title,value){
     return h('div',{className:'stat'},h('span',null,title),h('strong',null,value));
   }
+
   const current=weather&&weather.current;
   const units=weather&&weather.current_units||{};
+  const scene=current?weatherScene(current.weather_code,current.is_day):'clear';
   return h(React.Fragment,null,
     h('section',{className:'card'},
       h('form',{onSubmit:searchCity},
@@ -161,22 +259,31 @@ function WeatherDashboard(){
       ),
       searchError?h('p',{className:'error',role:'alert'},searchError):null
     ),
-    h('section',{className:'card','aria-live':'polite','aria-busy':loading},
-      h('div',{className:'result-head'},
-        h('div',null,h('div',{className:'location'},place.name),
-          place.country?h('div',{className:'muted'},place.country):null),
-        h('span',{className:'badge'},'Live weather')
+    h('section',{className:'card weather-card','aria-live':'polite','aria-busy':loading},
+      h('div',{className:'scene scene--'+scene},
+        h(SkyArt,{type:scene}),
+        h('div',{className:'scene-content'},
+          h('div',{className:'scene-head'},
+            h('div',null,
+              h('div',{className:'location'},place.name),
+              place.country?h('div',{className:'country'},place.country):null
+            ),
+            h('span',{className:'badge'},'Current weather')
+          ),
+          loading?h('p',{className:'scene-message',role:'status'},'Loading current weather...'):null,
+          error?h('p',{className:'scene-error',role:'alert'},error):null,
+          current&&!loading?h(React.Fragment,null,
+            h('div',{className:'temp'},Math.round(current.temperature_2m)+(units.temperature_2m||'°C')),
+            h('p',{className:'description'},weatherDescription(current.weather_code))
+          ):null
+        )
       ),
-      loading?h('p',{className:'status',role:'status'},'Loading current weather...'):null,
-      error?h('p',{className:'error',role:'alert'},error):null,
-      current&&!loading?h(React.Fragment,null,
-        h('div',{className:'temp'},Math.round(current.temperature_2m)+(units.temperature_2m||'°C')),
-        h('p',{className:'description'},weatherDescription(current.weather_code)),
+      current&&!loading?h('div',{className:'weather-details'},
         h('div',{className:'stats'},
           stat('Wind speed',current.wind_speed_10m+' '+(units.wind_speed_10m||'km/h')),
           stat('Humidity',current.relative_humidity_2m+' '+(units.relative_humidity_2m||'%'))
         ),
-        h('p',{className:'muted'},'Updated: '+String(current.time||'').replace('T',' ')+' (local time)')
+        h('p',{className:'muted updated'},'Updated: '+String(current.time||'').replace('T',' ')+' (local time)')
       ):null
     )
   );
