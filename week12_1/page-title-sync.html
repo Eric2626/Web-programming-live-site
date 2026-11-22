@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Page Title Sync | Eric's Homework</title>
+<title>123</title>
 <style>*{box-sizing:border-box}
 body{margin:0;min-height:100vh;background:#f0f4f8;color:#182234;font:16px/1.55 Arial,sans-serif;padding:24px}
 main{max-width:720px;margin:auto}header{margin-bottom:16px}a{color:#2563eb}
@@ -38,7 +38,7 @@ const {useState,useEffect}=React;
 function TitleEditor(){
  const [text,setText]=useState('');
  useEffect(()=>{
-   document.title=text.trim()||'WebPro';
+   document.title=text.trim()||'123';
    return ()=>{document.title='WebPro';};
  },[text]);
  return h('section',{className:'card'},
@@ -47,7 +47,7 @@ function TitleEditor(){
    h('input',{id:'titleText',type:'text',value:text,placeholder:'Type to change the browser tab...',onChange:e=>setText(e.target.value)}),
    h('div',{className:'panel',role:'status','aria-live':'polite'},
      h('span',{className:'muted'},'Current tab title'),
-     h('p',{className:'preview'},text.trim()||'WebPro'))
+     h('p',{className:'preview'},text.trim()||'123'))
  );
 }
 function App(){
