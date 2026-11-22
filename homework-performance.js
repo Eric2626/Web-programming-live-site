@@ -288,7 +288,7 @@ var githubURL =
         var siteLink = document.createElement("a");
         siteLink.className = "site-link";
         siteLink.textContent = "Open Website";
-        siteLink.href = getFileURL(homework[week][i]);
+        siteLink.href = getFileURL(homework[week][i]) + (homework[week][i] === "week12_1/stopwatch.html" ? "?v=2" : "");
         siteLink.target = "_blank";
         siteLink.rel = "noopener noreferrer";
         siteLink.setAttribute("aria-label", "Open website for " + getTitle(homework[week][i]));
@@ -337,7 +337,7 @@ var githubURL =
     }
 
     function loadCodeFrom(url) {
-      return fetch(url, { cache: "default" }).then(function (response) {
+      return fetch(url, { cache: "no-store" }).then(function (response) {
         if (!response.ok) {
           throw new Error("HTTP " + response.status);
         }
