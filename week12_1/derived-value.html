@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Derived Value | Eric's Homework</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:#f0f4f8;color:#182234;font:16px/1.55 Arial,sans-serif;padding:24px}
+main{max-width:720px;margin:auto}
+header{margin-bottom:16px}
+a{color:#2563eb}
+h2{margin:0 0 18px;font-size:22px}
+h3{margin:0 0 8px;font-size:19px}
+p{margin:9px 0}
+.card{background:#fff;border:1px solid #dbe3ec;border-radius:14px;padding:24px;box-shadow:0 8px 24px #1822340d;margin-bottom:16px}
+.panel{background:#f0f4f8;border-radius:10px;padding:18px;margin-top:16px;overflow-wrap:anywhere}
+label{display:block;font-weight:700;margin:0 0 9px}
+input{font:inherit;color:inherit;width:100%;min-width:0;border:1px solid #cbd5e1;border-radius:8px;padding:12px}
+button{font:inherit;background:#2563eb;color:#fff;border:0;border-radius:8px;padding:11px 18px;cursor:pointer;min-height:44px}
+button:hover:not(:disabled){background:#1e40af}
+button.secondary{background:#10b981}
+button.secondary:hover:not(:disabled){background:#047857}
+button:disabled{background:#94a3b8;cursor:not-allowed}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid #0f766e;outline-offset:3px}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.row>input{flex:1}
+.number{color:#2563eb;font-size:58px;font-weight:700;line-height:1.2;font-variant-numeric:tabular-nums}
+.muted{color:#64748b}
+.status{background:#eff6ff;color:#1e40af;border-radius:8px;padding:14px;margin:16px 0}
+.error{background:#fef2f2;color:#991b1b;border-radius:8px;padding:14px;margin:16px 0}
+@media(max-width:480px){body{padding:14px}.card{padding:17px}.number{font-size:46px}.row>input{flex-basis:100%}}
+
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.full-name{font-size:30px;color:#2563eb;font-weight:bold;overflow-wrap:anywhere;min-height:42px}
+@media(max-width:440px){.fields{grid-template-columns:1fr}}
+
+</style>
+<script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+</head>
+<body>
+<main>
+<header><a href="../index.html#week12_1">← Week 12_2</a></header>
+<div id="root"><p>Loading...</p></div>
+</main>
+<script>
+const h=React.createElement;
+const {useState,useEffect}=React;
+
+function DerivedValue(){
+ const [first,setFirst]=useState('Ada');
+ const [last,setLast]=useState('Lovelace');
+ const fullName=(first+' '+last).trim();
+ return h('section',{className:'card'},
+   h('h2',null,'Derived Value'),
+   h('div',{className:'fields'},
+     h('div',null,
+       h('label',{htmlFor:'first'},'First name'),
+       h('input',{id:'first',value:first,onChange:e=>setFirst(e.target.value),autoComplete:'off'})
+     ),
+     h('div',null,
+       h('label',{htmlFor:'last'},'Last name'),
+       h('input',{id:'last',value:last,onChange:e=>setLast(e.target.value),autoComplete:'off'})
+     )
+   ),
+   h('div',{className:'panel','aria-live':'polite'},
+     h('label',null,'Full name'),
+     h('div',{className:'full-name'},fullName||'—')
+   )
+ );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(DerivedValue));
+
+</script>
+</body>
+</html>
