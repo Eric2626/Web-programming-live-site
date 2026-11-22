@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Weather Dashboard | Eric's Homework</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:#f0f4f8;color:#182234;font:16px/1.55 Arial,sans-serif;padding:24px}
+main{max-width:760px;margin:0 auto}
+a{color:#2563eb}
+header{margin-bottom:18px}
+h1{font-size:29px;color:#2563eb;margin:0 0 5px}
+h2{margin:0 0 14px;font-size:23px}
+p{margin:7px 0 16px}
+.muted{color:#64748b}
+.card{background:#fff;border:1px solid #dbe3ec;border-radius:14px;padding:24px;margin-bottom:16px;box-shadow:0 8px 24px #1822340d}
+label{display:block;font-weight:bold;margin-bottom:9px}
+.row{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}
+input{font:inherit;flex:1;min-width:170px;border:1px solid #cbd5e1;border-radius:8px;padding:11px 12px;color:#182234}
+button{font:inherit;border:0;background:#2563eb;color:white;padding:11px 17px;border-radius:8px;cursor:pointer}
+button:hover:not(:disabled){background:#1e40af}
+button:disabled{background:#94a3b8;cursor:wait}
+button.secondary{background:#10b981}
+button.secondary:hover:not(:disabled){background:#047857}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid #0f766e;outline-offset:3px}
+.result-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.location{font-size:23px;font-weight:bold}
+.badge{background:#dbeafe;color:#1e40af;padding:5px 11px;border-radius:999px;font-size:13px;font-weight:bold}
+.temp{font-size:66px;line-height:1.15;font-weight:700;color:#2563eb;margin:12px 0 2px}
+.description{font-size:19px;margin:0 0 18px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat{background:#f0f4f8;border-radius:10px;padding:16px}
+.stat span{display:block;color:#475569;font-size:13px}
+.stat strong{display:block;margin-top:4px;font-size:23px;color:#182234}
+.status{background:#eff6ff;color:#1e40af;border-radius:8px;padding:14px;margin:16px 0 0}
+.error{background:#fef2f2;color:#991b1b;border-radius:8px;padding:14px;margin:16px 0 0}
+footer{color:#64748b;font-size:13px}
+@media(max-width:480px){body{padding:14px}.card{padding:17px}.temp{font-size:53px}.stats{grid-template-columns:1fr 1fr}.row button{flex:1}input{flex-basis:100%}}
+</style>
+<script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+</head>
+<body>
+<main>
+<header><a href="../index.html#week12_1">← Week 12_1</a></header>
+<h1>Weather Dashboard</h1>
+<p class="muted">React useEffect · Open-Meteo API</p>
+<div id="root"><p>Loading Weather Dashboard...</p></div>
+<footer>Weather information from Open-Meteo. No API key required.</footer>
+</main>
+<script>
+const h = React.createElement;
+const {useState,useEffect,useRef} = React;
+function weatherDescription(code){
+  if(code===0)return 'Clear sky';
+  if(code===1)return 'Mainly clear';
+  if(code===2)return 'Partly cloudy';
+  if(code===3)return 'Overcast';
+  if(code===45||code===48)return 'Fog';
+  if(code>=51&&code<=57)return 'Drizzle';
+  if(code>=61&&code<=67)return 'Rain';
+  if(code>=71&&code<=77)return 'Snow';
+  if(code>=80&&code<=82)return 'Rain showers';
+  if(code>=85&&code<=86)return 'Snow showers';
+  if(code>=95&&code<=99)return 'Thunderstorm';
+  return 'Current weather';
+}
+function WeatherDashboard(){
+  const [city,setCity]=useState('');
+  const [place,setPlace]=useState({name:'Seoul',country:'South Korea',lat:37.5665,lon:126.978});
+  const [weather,setWeather]=useState(null);
+  const [loading,setLoading]=useState(true);
+  const [error,setError]=useState('');
+  const [searching,setSearching]=useState(false);
+  const [searchError,setSearchError]=useState('');
+  const searchController=useRef(null);
+
+  useEffect(()=>{
+    const controller=new AbortController();
+    async function loadWeather(){
+      setLoading(true);
+      setWeather(null);
+      setError('');
+      try{
+        if(!Number.isFinite(place.lat)||!Number.isFinite(place.lon)||Math.abs(place.lat)>90||Math.abs(place.lon)>180){
+          throw new Error('Invalid coordinates. Please search for a city.');
+        }
+        const url='https://api.open-meteo.com/v1/forecast?latitude='+encodeURIComponent(place.lat)+
+          '&longitude='+encodeURIComponent(place.lon)+
+          '&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&timezone=auto';
+        const response=await fetch(url,{signal:controller.signal});
+        if(!response.ok)throw new Error('Weather service is unavailable. Please try again.');
+        const data=await response.json();
+        if(!data.current)throw new Error('No current weather data for this location.');
+        setWeather(data);
+      }catch(e){
+        if(e.name!=='AbortError')setError(e.message||'Could not load weather.');
+      }finally{
+        if(!controller.signal.aborted)setLoading(false);
+      }
+    }
+    loadWeather();
+    return ()=>controller.abort();
+  },[place.lat,place.lon]);
+
+  useEffect(()=>()=>{if(searchController.current)searchController.current.abort();},[]);
+
+  async function searchCity(event){
+    event.preventDefault();
+    const name=city.trim();
+    if(!name){setSearchError('Enter a city name.');return;}
+    if(searchController.current)searchController.current.abort();
+    const controller=new AbortController();
+    searchController.current=controller;
+    setSearching(true);
+    setSearchError('');
+    try{
+      const url='https://geocoding-api.open-meteo.com/v1/search?name='+encodeURIComponent(name)+'&count=1&language=en&format=json';
+      const response=await fetch(url,{signal:controller.signal});
+      if(!response.ok)throw new Error('City search is unavailable. Please try again.');
+      const data=await response.json();
+      if(!data.results||!data.results.length)throw new Error('City not found. Check the spelling and try again.');
+      const result=data.results[0];
+      setPlace({name:result.name,country:result.country||'',lat:result.latitude,lon:result.longitude});
+    }catch(e){
+      if(e.name!=='AbortError')setSearchError(e.message||'Could not search for this city.');
+    }finally{
+      if(!controller.signal.aborted)setSearching(false);
+    }
+  }
+
+  function useMyLocation(){
+    if(!navigator.geolocation){setSearchError('Your browser does not support location access.');return;}
+    if(searchController.current)searchController.current.abort();
+    setSearching(false);
+    setSearchError('');
+    navigator.geolocation.getCurrentPosition(
+      position=>{
+        setPlace({name:'My location',country:'',lat:position.coords.latitude,lon:position.coords.longitude});
+      },
+      ()=>setSearchError('Could not access your location. Please allow location access or search for a city.'),
+      {enableHighAccuracy:false,timeout:12000,maximumAge:300000}
+    );
+  }
+
+  function stat(title,value){
+    return h('div',{className:'stat'},h('span',null,title),h('strong',null,value));
+  }
+  const current=weather&&weather.current;
+  const units=weather&&weather.current_units||{};
+  return h(React.Fragment,null,
+    h('section',{className:'card'},
+      h('form',{onSubmit:searchCity},
+        h('label',{htmlFor:'city'},'Search by city name'),
+        h('div',{className:'row'},
+          h('input',{id:'city',type:'search',value:city,onChange:e=>setCity(e.target.value),placeholder:'Example: Seoul, Bangkok, Ulaanbaatar',autoComplete:'off',required:true}),
+          h('button',{type:'submit',disabled:searching},searching?'Searching...':'Search'),
+          h('button',{type:'button',className:'secondary',onClick:useMyLocation},'Use my location')
+        )
+      ),
+      searchError?h('p',{className:'error',role:'alert'},searchError):null
+    ),
+    h('section',{className:'card','aria-live':'polite','aria-busy':loading},
+      h('div',{className:'result-head'},
+        h('div',null,h('div',{className:'location'},place.name),
+          place.country?h('div',{className:'muted'},place.country):null),
+        h('span',{className:'badge'},'Live weather')
+      ),
+      loading?h('p',{className:'status',role:'status'},'Loading current weather...'):null,
+      error?h('p',{className:'error',role:'alert'},error):null,
+      current&&!loading?h(React.Fragment,null,
+        h('div',{className:'temp'},Math.round(current.temperature_2m)+(units.temperature_2m||'°C')),
+        h('p',{className:'description'},weatherDescription(current.weather_code)),
+        h('div',{className:'stats'},
+          stat('Wind speed',current.wind_speed_10m+' '+(units.wind_speed_10m||'km/h')),
+          stat('Humidity',current.relative_humidity_2m+' '+(units.relative_humidity_2m||'%'))
+        ),
+        h('p',{className:'muted'},'Updated: '+String(current.time||'').replace('T',' ')+' (local time)')
+      ):null
+    )
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(h(WeatherDashboard));
+</script>
+</body>
+</html>
