@@ -47,15 +47,14 @@ function TitleEditor(){
    h('input',{id:'titleText',type:'text',value:text,placeholder:'Type to change the browser tab...',onChange:e=>setText(e.target.value)}),
    h('div',{className:'panel',role:'status','aria-live':'polite'},
      h('span',{className:'muted'},'Current tab title'),
-     h('p',{className:'preview'},text.trim()||'WebPro')),
-   h('p',{className:'muted'},'Look at the browser tab above. It changes while you type.')
+     h('p',{className:'preview'},text.trim()||'WebPro'))
  );
 }
 function App(){
  const [show,setShow]=useState(true);
  return h(React.Fragment,null,
-   show?h(TitleEditor):h('section',{className:'card'},h('p',{className:'muted'},'The input is hidden. Cleanup reset the tab title to WebPro.')),
-   h('div',{className:'row'},h('button',{type:'button',className:'secondary',onClick:()=>setShow(v=>!v)},show?'Unmount editor':'Show editor'))
+   show?h(TitleEditor):h('section',{className:'card'},h('p',{className:'muted'},'Editor hidden')),
+   h('div',{className:'row'},h('button',{type:'button',className:'secondary',onClick:()=>setShow(v=>!v)},show?'Hide editor':'Show editor'))
  );
 }
 ReactDOM.createRoot(document.getElementById('root')).render(h(App));
