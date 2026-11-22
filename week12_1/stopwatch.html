@@ -52,8 +52,7 @@ function Stopwatch(){
      h('button',{type:'button',className:'secondary',onClick:()=>setRunning(true),disabled:running},'Start'),
      h('button',{type:'button',onClick:()=>setRunning(false),disabled:!running},'Stop'),
      h('button',{type:'button',className:'neutral',onClick:()=>{setRunning(false);setSeconds(0);}},'Reset')
-   ),
-   h('p',{className:'muted',style:{marginTop:'16px'}},'useEffect starts the interval. Cleanup stops it when the timer pauses or the component unmounts.')
+   )
  );
 }
 ReactDOM.createRoot(document.getElementById('root')).render(h(Stopwatch));
