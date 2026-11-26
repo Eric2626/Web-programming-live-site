@@ -1,10 +1,10 @@
 # Memory Match — team project
 Shared team project by Sudip, Sondor, Eric and Abinash. Runs on GitHub Pages with no build or installation.
 
-This copy was integrated from [sudip09-sys/WebProgramming](https://github.com/sudip09-sys/WebProgramming/tree/3254a45eddd9e74ff7ebb789cd14432896c0a520/teamproject), commit `3254a45eddd9e74ff7ebb789cd14432896c0a520`. The code portrait is included from the same repository. Importing the project is not a record of individual development contributions.
+Synced from [the team’s reference copy](https://github.com/sudip09-sys/WebProgramming/tree/6b2fec8ffe711b92dde05a7a726682b8e242e593/teamproject). See the [project report](report.html) for the agreed contribution plan.
 
 ## Play
-Open index.html using a local HTTP server, or open [deployed game](https://eric2626.github.io/Web-programming-live-site/teamproject/index.html).
+Open index.html using a local HTTP server, or open the [deployed game](https://eric2626.github.io/Web-programming-live-site/teamproject/).
 Choose difficulty and mode, then Start. Settings changes apply on restart.
 Easy: 6 pairs / 120 seconds / 3 hints. Medium: 8 / 100 / 2. Hard: 12 / 90 / 1.
 Timed challenge counts down even in background tabs. Practice has no timer.
@@ -15,9 +15,9 @@ A mismatch resets the streak. Peek shows cards for one second and deducts 50 poi
 ## Understand the code
 - index.html: controls, scoreboard, board, and instructions.
 - style.css: responsive layout and card states.
-- assets/sudip-code-face.svg: bundled presentation illustration.
 - engine.mjs: plain game data and rules, independent of the browser.
 - game.mjs: buttons, rendering, and timers.
+- [Blackout](blackout/): a separate three-stage campaign.
 - engine.test.mjs: rule checks. Run node --test teamproject/engine.test.mjs from the repository root.
 
 ### Follow one turn
@@ -34,8 +34,12 @@ The final pair changes phase to won. The timed clock reaching zero changes it to
 Restart cancels both timers before creating a fresh game.
 The shuffle is Fisher–Yates: each remaining position swaps with a random earlier position.
 
-## Agreed responsibilities
-See the [agreed contribution plan](report.html) for each member's planned work and evidence to collect. Confirm actual completion before submission.
+## Suggested four-person division
+Agree these roles with the team; these are proposed responsibilities, not a record of completed contributions.
+1. HTML, instructions, and accessibility.
+2. CSS, mobile layout, and presentation.
+3. Matching, scoring, difficulty, and duel rules.
+4. Timer, hints, integration, and tests.
 
 ## Demo outline
 Show a match, a mismatch, a combo, one hint, then restart in hard mode.
@@ -59,8 +63,8 @@ Team: Sudip, Sondor, Eric, Abinash.
 - [Project report](report.html)
 - [Submission guide and demo checklist](submission.html)
 
-Open these pages through GitHub Pages for the rendered version. The presentation supports arrow keys, fullscreen, and Print / PDF. Documents include Print / Save as PDF. Target duration: approximately 20 minutes, with five minutes each for Abinash (slides 1–3), Sudip (4–6, including the gameplay demonstration), Sondor (7–9), and Eric (10–12). Speaking scripts are kept separately and are not published in this repository. These are browser documents, not PPTX or DOCX files.
+Open these pages through GitHub Pages for the rendered version. The presentation supports arrow keys, fullscreen, and Print / PDF. Documents include Print / Save as PDF. Suggested duration: approximately 20 minutes including a live demo, with about five minutes per speaker. Speaking scripts should be kept separate from the audience slides. These are browser documents, not PPTX or DOCX files.
 
-Speaking assignments are suggestions, not verified implementation contributions. Confirm the agreed contribution plan against actual evidence before submitting.
+Speaking assignments are suggestions, not verified implementation contributions. Complete the report's contribution table before submitting.
 
 Validation on 26 October 2026: all six existing engine tests passed with Node's test runner (zero failures). Browser and manual checks are separate from these engine tests.
