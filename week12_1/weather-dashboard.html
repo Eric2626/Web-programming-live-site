@@ -38,6 +38,12 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid #0f76
 footer{color:#64748b;font-size:13px}
 @media(max-width:480px){body{padding:14px}.card{padding:17px}.temp{font-size:53px}.stats{grid-template-columns:1fr 1fr}.row button{flex:1}input{flex-basis:100%}}
 
+.coordinate-search{margin-top:20px;border-top:1px solid #dbe3ec;padding-top:18px}
+.coordinate-search h2{font-size:18px;margin:0 0 10px}
+.coords-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:12px}
+.coords-grid input{width:100%;min-width:0}
+@media(max-width:480px){.coords-grid{grid-template-columns:1fr}}
+
 /* Animated weather scene above the result details */
 .weather-card{padding:0;overflow:hidden}
 .scene{position:relative;isolation:isolate;overflow:hidden;min-height:330px;display:flex;align-items:flex-end;background:linear-gradient(155deg,#358cfa 0%,#80d1fa 70%,#bddff7);color:#fff;transition:background 1s ease}
@@ -164,6 +170,8 @@ function SkyArt({type}){
 
 function WeatherDashboard(){
   const [city,setCity]=useState('');
+  const [coordLat,setCoordLat]=useState('37.5665');
+  const [coordLon,setCoordLon]=useState('126.978');
   const [place,setPlace]=useState({name:'Seoul',country:'South Korea',lat:37.5665,lon:126.978});
   const [weather,setWeather]=useState(null);
   const [loading,setLoading]=useState(true);
@@ -218,6 +226,8 @@ function WeatherDashboard(){
       const data=await response.json();
       if(!data.results||!data.results.length)throw new Error('City not found. Check the spelling and try again.');
       const result=data.results[0];
+      setCoordLat(String(result.latitude));
+      setCoordLon(String(result.longitude));
       setPlace({name:result.name,country:result.country||'',lat:result.latitude,lon:result.longitude});
     }catch(e){
       if(e.name!=='AbortError')setSearchError(e.message||'Could not search for this city.');
@@ -233,11 +243,31 @@ function WeatherDashboard(){
     setSearchError('');
     navigator.geolocation.getCurrentPosition(
       position=>{
+        setCoordLat(String(position.coords.latitude));
+        setCoordLon(String(position.coords.longitude));
         setPlace({name:'My location',country:'',lat:position.coords.latitude,lon:position.coords.longitude});
       },
       ()=>setSearchError('Could not access your location. Please allow location access or search for a city.'),
       {enableHighAccuracy:false,timeout:12000,maximumAge:300000}
     );
+  }
+
+  function searchCoordinates(event){
+    event.preventDefault();
+    if(!coordLat.trim() || !coordLon.trim()){
+      setSearchError('Enter both latitude and longitude.');
+      return;
+    }
+    const lat=Number(coordLat);
+    const lon=Number(coordLon);
+    if(!Number.isFinite(lat)||!Number.isFinite(lon)||lat < -90||lat > 90||lon < -180||lon > 180){
+      setSearchError('Latitude must be between -90 and 90, and longitude between -180 and 180.');
+      return;
+    }
+    if(searchController.current)searchController.current.abort();
+    setSearching(false);
+    setSearchError('');
+    setPlace({name:'Selected coordinates',country:lat.toFixed(4)+', '+lon.toFixed(4),lat,lon});
   }
 
   function stat(title,value){
@@ -255,6 +285,22 @@ function WeatherDashboard(){
           h('input',{id:'city',type:'search',value:city,onChange:e=>setCity(e.target.value),placeholder:'Example: Seoul, Bangkok, Ulaanbaatar',autoComplete:'off',required:true}),
           h('button',{type:'submit',disabled:searching},searching?'Searching...':'Search'),
           h('button',{type:'button',className:'secondary',onClick:useMyLocation},'Use my location')
+        )
+      ),
+      h('div',{className:'coordinate-search'},
+        h('h2',null,'Search by latitude and longitude'),
+        h('form',{onSubmit:searchCoordinates},
+          h('div',{className:'coords-grid'},
+            h('div',null,
+              h('label',{htmlFor:'latitude'},'Latitude (-90 to 90)'),
+              h('input',{id:'latitude',type:'number',min:'-90',max:'90',step:'any',inputMode:'decimal',value:coordLat,onChange:e=>setCoordLat(e.target.value),required:true,placeholder:'37.5665'})
+            ),
+            h('div',null,
+              h('label',{htmlFor:'longitude'},'Longitude (-180 to 180)'),
+              h('input',{id:'longitude',type:'number',min:'-180',max:'180',step:'any',inputMode:'decimal',value:coordLon,onChange:e=>setCoordLon(e.target.value),required:true,placeholder:'126.978'})
+            )
+          ),
+          h('button',{type:'submit'},'Get weather by coordinates')
         )
       ),
       searchError?h('p',{className:'error',role:'alert'},searchError):null
