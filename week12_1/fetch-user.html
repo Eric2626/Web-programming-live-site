@@ -36,39 +36,72 @@ const h=React.createElement;
 const {useState,useEffect}=React;
 
 function UserProfile(){
+ const [input,setInput]=useState('');
+ const [lookup,setLookup]=useState(null);
  const [user,setUser]=useState(null);
- const [loading,setLoading]=useState(true);
+ const [loading,setLoading]=useState(false);
  const [error,setError]=useState('');
- const [request,setRequest]=useState(0);
+
  useEffect(()=>{
+   if(!lookup)return;
    const controller=new AbortController();
    async function fetchUser(){
-     setLoading(true);setError('');setUser(null);
+     setLoading(true);
+     setError('');
+     setUser(null);
      try{
-       const res=await fetch('https://jsonplaceholder.typicode.com/users/1',{signal:controller.signal});
+       const query=lookup.username;
+       const byId=/^\d+$/.test(query);
+       const url=byId
+         ? 'https://jsonplaceholder.typicode.com/users/'+encodeURIComponent(query)
+         : 'https://jsonplaceholder.typicode.com/users?username='+encodeURIComponent(query);
+       const res=await fetch(url,{signal:controller.signal});
        if(!res.ok)throw new Error('Could not load user (HTTP '+res.status+').');
-       const data=await res.json();
-       if(!data || !data.name || !data.email)throw new Error('User data is incomplete.');
-       setUser(data);
+       const result=await res.json();
+       const data=Array.isArray(result)?result[0]:result;
+       if(!data||!data.name||!data.email)throw new Error('User not found. Try Bret, Antonette, or an ID from 1 to 10.');
+       if(!controller.signal.aborted)setUser(data);
      }catch(err){
-       if(err.name!=='AbortError')setError(err.message||'Network error. Please try again.');
+       if(err.name!=='AbortError'&&!controller.signal.aborted)setError(err.message||'Network error. Please try again.');
      }finally{
        if(!controller.signal.aborted)setLoading(false);
      }
    }
    fetchUser();
    return ()=>controller.abort();
- },[request]);
+ },[lookup]);
+
+ function searchUser(event){
+   event.preventDefault();
+   const username=input.trim();
+   if(!username){setError('Enter a username or user ID.');return;}
+   setLookup({username});
+ }
+
  return h('section',{className:'card','aria-busy':loading},
-   h('h2',null,'User profile'),
+   h('h2',null,'Find a user from an API'),
+   h('p',{className:'muted'},'Type a JSONPlaceholder username (for example, Bret or Antonette) or a user ID (1-10).'),
+   h('form',{onSubmit:searchUser},
+     h('label',{htmlFor:'searchUsername'},'Username or user ID'),
+     h('div',{className:'row'},
+       h('input',{id:'searchUsername',name:'username',value:input,onChange:e=>setInput(e.target.value),placeholder:'e.g. Bret or 1',autoComplete:'off',spellCheck:false,required:true,style:{flex:'1 1 230px'}}),
+       h('button',{type:'submit'},'Search user')
+     )
+   ),
+   !lookup&&!loading?h('p',{className:'muted',role:'status'},'Enter a username and select Search user to request the profile.'):null,
    loading?h('p',{className:'status',role:'status'},'Loading user...'):null,
    error?h('p',{className:'error',role:'alert'},'Error: '+error):null,
    user&&!loading?h('div',{className:'panel'},
-       h('h2',null,user.name),
-       h('p',null,h('strong',null,'Email: '),h('a',{href:'mailto:'+user.email},user.email)),
-       h('p',null,h('strong',null,'Username: '),user.username)
+     h('h2',null,user.name),
+     h('p',null,h('strong',null,'Username: '),user.username),
+     h('p',null,h('strong',null,'Email: '),h('a',{href:'mailto:'+user.email},user.email)),
+     h('p',null,h('strong',null,'User ID: '),String(user.id)),
+     user.phone?h('p',null,h('strong',null,'Phone: '),user.phone):null,
+     user.website?h('p',null,h('strong',null,'Website: '),user.website):null
    ):null,
-   h('div',{className:'row',style:{marginTop:'16px'}},h('button',{type:'button',onClick:()=>setRequest(n=>n+1),disabled:loading},'Reload user'))
+   lookup?h('div',{className:'row',style:{marginTop:'16px'}},
+     h('button',{type:'button',className:'secondary',onClick:()=>setLookup({username:lookup.username})},'Reload user')
+   ):null
  );
 }
 ReactDOM.createRoot(document.getElementById('root')).render(h(UserProfile));
